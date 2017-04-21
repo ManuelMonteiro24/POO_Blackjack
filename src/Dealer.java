@@ -1,36 +1,34 @@
 package src;
 
-import java.util.Scanner;
+public class Dealer{
 
-public class Game{
+  static Deck deck;
 
-  Scanner scanner = new Scanner(System.in);
+  Dealer(){
+    deck = new Deck();
+  }
 
+  void rcvCards(Card[] usedcards){
+    deck.rcvCards(usedcards);
+  }
 
-  String rcvCmd(){
+  Hand dealFullHand(Deck deck){
 
-    String playerInput, aux;
+    Card[] iniCards = new Card[5];
 
-    playerInput =(scanner.nextLine());
+    for(int i = 0; i < 5; i++)
+      iniCards[i] = deck.draw();
 
-    switch(playerInput.charAt(0)){
+    return new Hand(iniCards);
+  }
 
-      case b:
-            break;
-      case $:
-            break;
-      case d:
-            break;
-      case h:
-            break;
-      case a:
-            break;
-      case s:
-            break;
-      default:
-            //Invalid command
-            break;
-    }
+  Card[] dealSecondCards(Deck deck, int nbCards){
+    Card[] iniCards = new Card[nbCards];
+
+    for(int i = 0; i < iniCards.length; i++)
+      iniCards[i] = deck.draw();
+
+    return iniCards;
   }
 
 }

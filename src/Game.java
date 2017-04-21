@@ -5,32 +5,50 @@ import java.util.Scanner;
 public class Game{
 
   Scanner scanner = new Scanner(System.in);
+  static Player player;
+  static Dealer dealer;
+  static int bet;
 
+  Game(int iniBalance){
+    player = new Player(iniBalance);
+    dealer = new Dealer();
+  }
 
-  String rcvCmd(){
+  void initRound(){
 
-    String playerInput, aux;
+  }
 
-    playerInput =(scanner.nextLine());
+  void 
+  private void rcvCmd(){
 
-    switch(playerInput.charAt(0)){
+    String playerInput;
+    boolean valid;
 
-      case b:
-            break;
-      case $:
-            break;
-      case d:
-            break;
-      case h:
-            break;
-      case a:
-            break;
-      case s:
-            break;
-      default:
-            //Invalid command
-            break;
-    }
+    do{
+      valid = true;
+      playerInput = scanner.nextLine();
+
+      switch(playerInput.charAt(0)){
+
+        case 'b':
+              break;
+        case '$':
+              break;
+        case 'd':
+              break;
+        case 'h':
+              break;
+        case 'a':
+              break;
+        case 's':
+              break;
+        default:
+              System.out.println("ERROR: invalid input");
+              valid = false;
+              break;
+      }
+
+    } while(!valid);
   }
 
 }

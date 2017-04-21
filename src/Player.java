@@ -4,42 +4,35 @@ package src;
 //criar class hand??
 public class Player{
 
-  private Card[] hand = new Card[5];
+  private Hand hand;
   private int balance;
 
   Player(int balance){
+    this.hand = new Hand();
     this.balance = balance;
   }
 
-  void setBalance(int newBalance){
-    this.balance = newBalance;
+  void updateBalance(int newBalance){
+    this.balance += newBalance;
   }
 
   int getBalance(){
     return this.balance;
   }
 
-  void getHand(Card[] hand){
-    this.hand = hand;
+  int bet(int amount){
+    if(!this.balance)
+      return 0;
+
+    if(amount > this.balance)
+      amount = this.balance;
+
+    this.balance -= amount;
+    return amount;
+
   }
 
-  void replaceCard(int index, Card newcard){
-    hand[index] = newcard;
+  Card[] hold(int[] indexes,Card[] newCards){
+    return this.hand.renewHand(indexes,newCards);
   }
-
-
-  @Override
-  public String toString(){
-    String aux = "players's hand ";
-    //Condition for empty hand
-    /*if(hand == )
-      return "Empty hand";
-    */
-    for(int i = 0; i < 5; i++)
-      aux += hand[i].toString();
-
-    return aux;
-  }
-
-
 }
