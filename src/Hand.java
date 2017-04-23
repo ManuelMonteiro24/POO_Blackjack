@@ -1,6 +1,8 @@
 package src;
 
-//review visibilidades
+import java.util.Arrays;
+
+
 public class Hand{
 
   //cartas na mao estao sempre ordenadas??
@@ -14,32 +16,33 @@ public class Hand{
   }
 
   Card[] renewHand(int[] indexes, Card[] newcards){
-
-    int aux=0;
+    int aux = 0;
+    boolean found = false;
     Card[] ret = new Card[newcards.length];
+    Arrays.sort(indexes);
 
-    for(int i=0; i < hand.length;i++){
-      for(int j=0; j < indexes.length;j++){
-        if(i!=indexes[j]){
+    for(int i = 0; i < hand.length; i++){
+      for(int j = 0; j < indexes.length; j++)
+        if(indexes[j] == (i + 1)){ //indexes start at 1
+          found = true;
+          break;
+        }
+      if(!found){
           ret[aux] = this.hand[i];
           this.hand[i] = newcards[aux++];
-        }
-      }
+      } else
+          found = false;
     }
     return ret;
   }
 
   @Override
   public String toString(){
-    String aux = "players's hand ";
-    //Condition for empty hand
-    /*if(hand == )
-      return "Empty hand";
-    */
-    for(int i = 0; i < 5; i++)
-      aux += hand[i];
+    String ret = "";
+    for(Card card : this.hand)
+      ret = ret.concat(card.toString() + " ");
 
-    return aux;
+    return ret;
   }
 
   @Override

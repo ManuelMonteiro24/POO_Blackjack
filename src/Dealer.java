@@ -8,12 +8,15 @@ public class Dealer{
     deck = new Deck();
   }
 
-  void rcvCards(Card[] usedcards){
-    deck.rcvCards(usedcards);
+  void receiveCards(Card[] usedcards){
+    deck.receiveCards(usedcards);
   }
 
-  Hand dealFullHand(Deck deck){
+  void shuffleDeck(){
+    deck.shuffle();
+  }
 
+  Hand dealFullHand(){
     Card[] iniCards = new Card[5];
 
     for(int i = 0; i < 5; i++)
@@ -22,7 +25,7 @@ public class Dealer{
     return new Hand(iniCards);
   }
 
-  Card[] dealSecondCards(Deck deck, int nbCards){
+  Card[] dealSecondCards(int nbCards){
     Card[] iniCards = new Card[nbCards];
 
     for(int i = 0; i < iniCards.length; i++)

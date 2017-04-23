@@ -20,19 +20,28 @@ public class Player{
     return this.balance;
   }
 
+  void setHand(Hand hand){
+      this.hand = hand;
+  }
+
+  void showHand(){
+    System.out.println(this.hand.toString());
+  }
+
   int bet(int amount){
-    if(!this.balance)
-      return 0;
 
-    if(amount > this.balance)
-      amount = this.balance;
+      if(this.balance == 0)
+        return 0;
 
-    this.balance -= amount;
-    return amount;
+      if(amount > this.balance)
+        amount = this.balance;
+
+      this.balance -= amount;
+      return amount;
 
   }
 
-  Card[] hold(int[] indexes,Card[] newCards){
-    return this.hand.renewHand(indexes,newCards);
+  Card[] hold(int[] indexes, Card[] newCards){
+    return this.hand.renewHand(indexes, newCards);
   }
 }

@@ -36,26 +36,32 @@ public class Card implements Comparable<Card>{
 
     String aux = "";
 
-    switch(value){
-      case 1: aux += "A" + this.suite;
+    switch(this.value){
+      case 1:
+            aux = aux.concat("A");
             break;
-      case 11: aux += "J" + this.suite;
+      case 11:
+            aux = aux.concat("J");
             break;
-      case 12: aux += "Q" + this.suite;
+      case 12:
+            aux = aux.concat("Q");
             break;
-      case 13 : aux += "K" + this.suite;
+      case 13 :
+            aux = aux.concat("K");
             break;
-      default:  aux += this.value + this.suite;
+      default:
+            aux = aux.concat(Integer.toString(this.value));
             break;
     }
-    return aux;
+
+    return aux.concat(String.valueOf(this.suite));
   }
 
   @Override
   public boolean equals(Object obj){
-    if (this==obj)
+    if(this == obj)
       return true;
-    if (obj==null)
+    if(obj == null)
       return false;
     if(!(obj instanceof Card))
       return false;
