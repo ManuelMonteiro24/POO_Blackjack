@@ -1,0 +1,13 @@
+#!/bin/bash
+
+ARGS=
+FIRST=1
+
+for i in $@
+  do ARGS="$ARGS ${i}"
+
+done
+
+cd bin && java videopoker.Main $ARGS
+
+cd ..

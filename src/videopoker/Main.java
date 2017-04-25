@@ -1,6 +1,9 @@
-package src;
+package videopoker;
+
+import videopoker.game.*;
 
 import java.io.File;
+import java.util.Scanner;
 
 public class Main{
 
@@ -37,7 +40,10 @@ public class Main{
         System.exit(1);
       }
 
-      //call interactive mode...
+      Game igame =  new InteractiveGame(Integer.parseInt(args[1]));
+      igame.betStage();
+      igame.dealStage();
+      igame.holdStage();
 
     }else if(args[0].equals("-d")){
       //debug mode
@@ -53,6 +59,10 @@ public class Main{
       }
 
       //call debug mode...
+       DebugGame igame =  new DebugGame(Integer.parseInt(args[1]), args[2], args[3]);
+        igame.betStage();
+        igame.dealStage();
+        igame.holdStage();
 
     }else if(args[0].equals("-s")){
       //simulation mode

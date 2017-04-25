@@ -1,4 +1,4 @@
-package src;
+package videopoker.game;
 
 public interface Game{
 
@@ -7,4 +7,6 @@ public interface Game{
     public void dealStage();
 
     public void holdStage();
+
+    public void evaluationStage();
 }

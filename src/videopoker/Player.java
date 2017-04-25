@@ -1,34 +1,34 @@
-package src;
+package videopoker;
 
-//review visibilidades
-//criar class hand??
+import videopoker.cards.*;
+
 public class Player{
 
   private Hand hand;
   private int balance;
 
-  Player(int balance){
+  public Player(int balance){
     this.hand = new Hand();
     this.balance = balance;
   }
 
-  void updateBalance(int newBalance){
+  public void updateBalance(int newBalance){
     this.balance += newBalance;
   }
 
-  int getBalance(){
+  public int getBalance(){
     return this.balance;
   }
 
-  void setHand(Hand hand){
+  public void setHand(Hand hand){
       this.hand = hand;
   }
 
-  void showHand(){
+  public void showHand(){
     System.out.println(this.hand.toString());
   }
 
-  int bet(int amount){
+  public int bet(int amount){
 
       if(this.balance == 0)
         return 0;
@@ -41,7 +41,7 @@ public class Player{
 
   }
 
-  Card[] hold(int[] indexes, Card[] newCards){
+  public Card[] hold(int[] indexes, Card[] newCards){
     return this.hand.renewHand(indexes, newCards);
   }
 }

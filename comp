@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd src && javac videopoker/*.java -Xlint:unchecked -d ../bin
+cd ..

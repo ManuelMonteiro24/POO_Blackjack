@@ -1,22 +1,30 @@
-package src;
+package videopoker;
+
+import videopoker.cards.*;
+
+import java.util.ArrayList;
 
 public class Dealer{
 
   static Deck deck;
 
-  Dealer(){
+  public Dealer(){
     deck = new Deck();
   }
 
-  void receiveCards(Card[] usedcards){
+  public Dealer(ArrayList<Card> customDeck){
+      deck = new Deck(customDeck);
+  }
+
+  public void receiveCards(Card[] usedcards){
     deck.receiveCards(usedcards);
   }
 
-  void shuffleDeck(){
+  public void shuffleDeck(){
     deck.shuffle();
   }
 
-  Hand dealFullHand(){
+  public Hand dealFullHand(){
     Card[] iniCards = new Card[5];
 
     for(int i = 0; i < 5; i++)
@@ -25,7 +33,7 @@ public class Dealer{
     return new Hand(iniCards);
   }
 
-  Card[] dealSecondCards(int nbCards){
+  public Card[] dealSecondCards(int nbCards){
     Card[] iniCards = new Card[nbCards];
 
     for(int i = 0; i < iniCards.length; i++)

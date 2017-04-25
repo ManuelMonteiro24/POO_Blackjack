@@ -1,4 +1,4 @@
-package src;
+package videopoker.cards;
 
 import java.util.Arrays;
 
@@ -8,14 +8,14 @@ public class Hand{
   //cartas na mao estao sempre ordenadas??
   private Card[] hand =  new Card[5];
 
-  Hand(){
+  public Hand(){
   }
 
-  Hand(Card[] hand){
+  public Hand(Card[] hand){
     this.hand = hand;
   }
 
-  Card[] renewHand(int[] indexes, Card[] newcards){
+  public Card[] renewHand(int[] indexes, Card[] newcards){
     int aux = 0;
     boolean found = false;
     Card[] ret = new Card[newcards.length];
@@ -27,6 +27,7 @@ public class Hand{
           found = true;
           break;
         }
+
       if(!found){
           ret[aux] = this.hand[i];
           this.hand[i] = newcards[aux++];
@@ -47,14 +48,17 @@ public class Hand{
 
   @Override
   public boolean equals(Object obj){
-    if (this==obj)
+    if(this == obj)
       return true;
-    if (obj==null)
+
+    if(obj == null)
       return false;
+
     if(!(obj instanceof Hand))
       return false;
+
     Hand aux = (Hand) obj;
-    for(int i=0;i<5;i++)
+    for(int i = 0; i < 5; i++)
       if(!(this.hand[i].equals(aux.hand[i])))
         return false;
 

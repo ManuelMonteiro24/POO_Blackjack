@@ -1,4 +1,4 @@
-package src;
+package videopoker.cards;
 
 //review visibilidades
 public class Card implements Comparable<Card>{
@@ -6,16 +6,16 @@ public class Card implements Comparable<Card>{
   private int value; //1 ... 13
   private char suite; //H S J D
 
-  Card(int value, char suite){
+  public Card(int value, char suite){
     this.value = value;
     this.suite = suite;
   }
 
-  char getSuit(){
+  public char getSuit(){
     return this.suite;
   }
 
-  int getValue(){
+  public int getValue(){
     return this.value;
   }
 
