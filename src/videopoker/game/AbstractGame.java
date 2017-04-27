@@ -40,8 +40,6 @@ public class AbstractGame implements Game{
         } while(!valid);
 
         player.bet(betOnTheTable);
-        if(this instanceof InteractiveGame)
-            dealer.shuffleDeck();
 
     }
 
@@ -49,6 +47,9 @@ public class AbstractGame implements Game{
         String userInput;
         int command;
         boolean valid;
+
+        if(this instanceof InteractiveGame)
+            dealer.shuffleDeck();
 
         do{
             userInput = cmdHandler.getCommand(this.getClass());
