@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class Dealer{
 
+  private final static int[] creditPayout = {1,1,3,5,7,10,50,80,160,50,250};
+
   static Deck deck;
 
   public Dealer(){
@@ -40,6 +42,19 @@ public class Dealer{
       iniCards[i] = deck.draw();
 
     return iniCards;
+  }
+
+  //returns money for player consoante a sua mao
+  public int payout(Hand playerHand, int playerbet){
+
+    //caso a bet nao seja 1,2,3,4 ou 5 dar erro fazer verificacao noutro lado
+
+    //player loses bet
+    if(playerHand.getRank() == 0)
+      return 0;
+    else
+      return creditPayout[playerHand.getRank()]*playerbet;
+
   }
 
 }

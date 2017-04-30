@@ -28,6 +28,8 @@ public class Player{
     System.out.println(this.hand.toString());
   }
 
+  //Player can only bet 1,2,3,4 or 5 credits others values are invalid
+  //make this check where the method is called
   public int bet(int amount){
 
       if(this.balance == 0)

@@ -3,7 +3,7 @@ package videopoker.cards;
 //review visibilidades
 public class Card implements Comparable<Card>{
 
-  private int value; //1 ... 13
+  private int value; //2 ... 14, A=14
   private char suite; //H S J D
 
   public Card(int value, char suite){
@@ -19,15 +19,14 @@ public class Card implements Comparable<Card>{
     return this.value;
   }
 
-  //verificar se é necessario
   @Override
   public int compareTo(Card other){
     if (this.getValue() > other.getValue())
-				return 1;
+				return 1;  //other smaller
 		else if (this.getValue() < other.getValue())
-				return -1;
+				return -1; //other greater
 		else
-				return 0;
+				return 0; // same value
 
   }
 
@@ -37,7 +36,7 @@ public class Card implements Comparable<Card>{
     String aux = "";
 
     switch(this.value){
-      case 1:
+      case 14:
             aux = aux.concat("A");
             break;
       case 11:
