@@ -54,7 +54,7 @@ public class Hand{
 
   	//Pairs
   	for(int i = 0; i < 4; i++){
-      if(sortedHand[i].getValue() == sortedHand[i+1].getValue() && sortedHand[i].getValue() >= 11){
+      if(sortedHand[i].getValue() == sortedHand[i+1].getValue() && sortedHand[i].getValue() >= 11 && handRank == 0){
           handRank++; //Jacks or Better
           i++;
       }
