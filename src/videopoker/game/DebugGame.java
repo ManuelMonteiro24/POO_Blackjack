@@ -62,12 +62,6 @@ public class DebugGame extends AbstractGame{
         return deck;
     }
 
-    public void test(){
-
-        System.out.println(cmdHandler.getCommand(this.getClass()) + "end");
-        System.out.println(cmdHandler.getCommand(this.getClass()) + "end");
-        System.out.println(cmdHandler.getCommand(this.getClass()) + "end");
-    }
 
 
 }

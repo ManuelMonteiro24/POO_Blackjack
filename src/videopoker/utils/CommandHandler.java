@@ -42,7 +42,7 @@ public class CommandHandler{
     }
 
     public String getCommand(Class callerClass){
-        String cmd;
+
         if(callerClass.equals(InteractiveGame.class))
             return scanner.nextLine();
         else

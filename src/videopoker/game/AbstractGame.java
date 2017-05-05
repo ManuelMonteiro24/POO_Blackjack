@@ -5,6 +5,9 @@ import videopoker.cards.*;
 import videopoker.Player;
 import videopoker.Dealer;
 import videopoker.utils.CommandHandler;
+import videopoker.utils.HandEvaluator;
+import videopoker.utils.HandRank;
+import videopoker.game.Scoreboard;
 
 import java.util.Scanner;
 import java.util.Arrays;
@@ -20,21 +23,22 @@ public class AbstractGame implements Game{
     protected static int betOnTheTable;
 
     public void betStage(){
-        String userInput;
+        String input;
         int command;
         boolean valid;
         do{
-            userInput = cmdHandler.getCommand(this.getClass());
+            if((input = cmdHandler.getCommand(this.getClass())) == null)
+                return;
             valid = false;
-            if((command = cmdHandler.validateCommand(userInput)) == 2){ //empty bet b; bet same as previous bet, or 5 if no bet was placed before
+            if((command = cmdHandler.validateCommand(input)) == 2){ //empty bet b; bet same as previous bet, or 5 if no bet was placed before
                 if(betOnTheTable == 0)
                     betOnTheTable = 5; //bet 5
                 valid = true;
             } else if(command == 3){
-                betOnTheTable = Integer.parseInt(userInput.split("(\\s{1,}+)")[1]); //get amount from userInput and bet()
+                betOnTheTable = Integer.parseInt(input.split("(\\s{1,}+)")[1]); //get amount from userInput and bet()
                 valid = true;
             } else if(command != 1)
-                System.out.println(userInput + ": illegal command");
+                System.out.println(input + ": illegal command");
             else
                 System.out.println(player.getBalance());
         } while(!valid);
@@ -44,37 +48,41 @@ public class AbstractGame implements Game{
     }
 
     public void dealStage(){
-        String userInput;
+        String input;
         int command;
         boolean valid;
 
+        //@this will be of the same class as its constructor
         if(this instanceof InteractiveGame)
             dealer.shuffleDeck();
 
         do{
-            userInput = cmdHandler.getCommand(this.getClass());
+            if((input = cmdHandler.getCommand(this.getClass())) == null)
+                return;
             valid = false;
-            if((command = cmdHandler.validateCommand(userInput)) == 4){
+            if((command = cmdHandler.validateCommand(input)) == 4){
                 player.setHand(dealer.dealFullHand());
                 System.out.printf("player's hand "); player.showHand();
                 valid = true;
             } else if(command != 1)
-                System.out.println(userInput + ": illegal command");
+                System.out.println(input + ": illegal command");
             else
                 System.out.println(player.getBalance());
         } while(!valid);
     }
 
     public void holdStage(){
-        String userInput;
+        String input;
         int command;
         boolean valid;
 
         do{
-            userInput = cmdHandler.getCommand(this.getClass());
+            if((input = cmdHandler.getCommand(this.getClass())) == null)
+                return;
+
             valid = false;
-            if((command = cmdHandler.validateCommand(userInput)) == 5){
-                String[] buf = userInput.split("(\\s{1,}+)");
+            if((command = cmdHandler.validateCommand(input)) == 5){
+                String[] buf = input.split("(\\s{1,}+)");
                 int[] holdIndexes = new int[buf.length - 1];
                 for(int i = 0; i < holdIndexes.length; i++) //parse indexes to int[]
                     holdIndexes[i] = Integer.parseInt(buf[i+1]);
@@ -84,14 +92,25 @@ public class AbstractGame implements Game{
                 dealer.receiveCards(ret);
                 valid = true;
             } else if(command != 1)
-                System.out.println(userInput + ": illegal command");
+                System.out.println(input + ": illegal command");
             else
                 System.out.println(player.getBalance());
         } while(!valid);
     }
 
     public void evaluationStage(){
+        HandEvaluator evaluator = new HandEvaluator(player.hand);
+        HandRank playerRank;
 
+        if((playerRank = evaluator.evaluate()) != HandRank.NON){
+            System.out.println("player wins with a " + playerRank + " and his credit is C");
+        } else
+            System.out.println("player loses and his credit is " + player.getBalance());
+
+
+        Scoreboard sb = new Scoreboard(20);
+        sb.receiveRoundInfo(playerRank);
+        sb.toString();
     }
 
 

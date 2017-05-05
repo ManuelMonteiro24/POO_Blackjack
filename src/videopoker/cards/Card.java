@@ -36,7 +36,7 @@ public class Card implements Comparable<Card>{
     String aux = "";
 
     switch(this.value){
-      case 14:
+      case 1:
             aux = aux.concat("A");
             break;
       case 11:
