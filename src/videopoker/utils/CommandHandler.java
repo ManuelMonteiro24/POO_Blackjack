@@ -13,7 +13,7 @@ public class CommandHandler{
 
     Scanner scanner;
     private boolean userOrFile;
-    private static final String[] regexs = {"([^\\d]*?)", "(\\$(\\s*?))", "b(\\s*?)", "b(\\s+([0-5]?(\\s*?)))", "d(\\s*?)", "h\\s*?(\\s+([1-5](\\s*?))){0,6}", "a(\\s*?)", "s(\\s*?)"};
+    private static final String[] regexs = {"([^\\d]*?)", "(\\$(\\s*?))", "b(\\s*?)", "b(\\s+([0-5]?(\\s*?)))", "d(\\s*?)", "h\\s*?(\\s+([1-5](\\s*?))){0,6}", "a(\\s*?)", "s(\\s*?)", "q(\\s*?)"};
     private Pattern[] patterns;
     private String command;
 

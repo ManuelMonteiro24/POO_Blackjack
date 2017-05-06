@@ -30,7 +30,10 @@ public class AbstractGame implements Game{
             if((input = cmdHandler.getCommand(this.getClass())) == null)
                 System.exit(0);
             valid = false;
-            if((command = cmdHandler.validateCommand(input)) == 2){ //empty bet b; bet same as previous bet, or 5 if no bet was placed before
+            if((command = cmdHandler.validateCommand(input)) == 8) {
+                System.out.println("player quit the game with credit " + player.getBalance());
+                System.exit(0);
+            } else if(command == 2){ //empty bet b; bet same as previous bet, or 5 if no bet was placed before
                 if(betOnTheTable == 0)
                     betOnTheTable = 5; //bet 5
                 betOnTheTable = player.bet(betOnTheTable);
