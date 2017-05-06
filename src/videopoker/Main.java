@@ -75,10 +75,12 @@ public class Main{
         }
 
         if(game != null) {
-            game.betStage();
-            game.dealStage();
-            game.holdStage();
-            game.evaluationStage();
+            while(true) {
+                game.betStage();
+                game.dealStage();
+                game.holdStage();
+                game.evaluationStage();
+            }
         }
     }
 }

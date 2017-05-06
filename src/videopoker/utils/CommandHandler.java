@@ -68,9 +68,15 @@ public class CommandHandler{
 
     public int validateCommand(String cmd){
         int match = -1;
+        boolean found = false;
         for(Pattern pattern : patterns)
-            if(++match > 0 && pattern.matcher(cmd).matches())
+            if(++match > 0 && pattern.matcher(cmd).matches()){
+                found = true;
                 break;
+            }
+
+        if(!found)
+            return ++match;
 
         return match;
     }

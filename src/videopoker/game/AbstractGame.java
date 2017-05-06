@@ -28,22 +28,31 @@ public class AbstractGame implements Game{
         boolean valid;
         do{
             if((input = cmdHandler.getCommand(this.getClass())) == null)
-                return;
+                System.exit(0);
             valid = false;
             if((command = cmdHandler.validateCommand(input)) == 2){ //empty bet b; bet same as previous bet, or 5 if no bet was placed before
                 if(betOnTheTable == 0)
                     betOnTheTable = 5; //bet 5
+                betOnTheTable = player.bet(betOnTheTable);
+                if(betOnTheTable == 0) {
+                    System.out.println("player has no more funds");
+                    System.exit(0);
+                }
                 valid = true;
             } else if(command == 3){
-                betOnTheTable = Integer.parseInt(input.split("(\\s{1,}+)")[1]); //get amount from userInput and bet()
+                betOnTheTable = player.bet(Integer.parseInt(input.split("(\\s{1,}+)")[1])); //get amount from userInput and bet()
+                if(betOnTheTable == 0) {
+                    System.out.println("player has no more funds");
+                    System.exit(0);
+                }
                 valid = true;
+            } else if(command == 7) {
+                player.statistics();
             } else if(command != 1)
                 System.out.println(input + ": illegal command");
             else
                 System.out.println(player.getBalance());
         } while(!valid);
-
-        player.bet(betOnTheTable);
 
     }
 
@@ -56,14 +65,17 @@ public class AbstractGame implements Game{
         if(this instanceof InteractiveGame)
             dealer.shuffleDeck();
 
-        do{
-            if((input = cmdHandler.getCommand(this.getClass())) == null)
-                return;
+        do {
+            if ((input = cmdHandler.getCommand(this.getClass())) == null)
+                System.exit(0);
             valid = false;
-            if((command = cmdHandler.validateCommand(input)) == 4){
+            if ((command = cmdHandler.validateCommand(input)) == 4) {
                 player.setHand(dealer.dealFullHand());
-                System.out.printf("player's hand "); player.showHand();
+                System.out.printf("player's hand ");
+                player.showHand();
                 valid = true;
+            } else if(command == 7){
+                player.statistics();
             } else if(command != 1)
                 System.out.println(input + ": illegal command");
             else
@@ -78,7 +90,7 @@ public class AbstractGame implements Game{
 
         do{
             if((input = cmdHandler.getCommand(this.getClass())) == null)
-                return;
+                System.exit(0);
 
             valid = false;
             if((command = cmdHandler.validateCommand(input)) == 5){
@@ -91,6 +103,8 @@ public class AbstractGame implements Game{
                 System.out.printf("player's hand "); player.showHand();
                 dealer.receiveCards(ret);
                 valid = true;
+            } else if(command == 7) {
+                player.statistics();
             } else if(command != 1)
                 System.out.println(input + ": illegal command");
             else
@@ -99,18 +113,17 @@ public class AbstractGame implements Game{
     }
 
     public void evaluationStage(){
-        HandEvaluator evaluator = new HandEvaluator(player.hand);
-        HandRank playerRank;
 
-        if((playerRank = evaluator.evaluate()) != HandRank.NON){
-            System.out.println("player wins with a " + playerRank + " and his credit is C");
-        } else
+        dealer.updateEvaluator(player.getHand());
+        HandRank playerRank = dealer.evaluate();
+        player.updateBalance(dealer.payout(betOnTheTable));
+        player.updateScoreboard(playerRank);
+
+        if(playerRank != HandRank.NON && playerRank != HandRank.PAIR)
+            System.out.println("player wins with a " + playerRank + " and his credit is " + player.getBalance());
+        else
             System.out.println("player loses and his credit is " + player.getBalance());
 
-
-        Scoreboard sb = new Scoreboard(20);
-        sb.receiveRoundInfo(playerRank);
-        sb.toString();
     }
 
 

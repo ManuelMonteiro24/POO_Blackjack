@@ -1,31 +1,19 @@
 package videopoker;
 
-        import videopoker.cards.*;
+import videopoker.cards.*;
+import videopoker.game.Scoreboard;
+import videopoker.utils.HandRank;
 
 public class Player{
 
-    public Hand hand;
+    private Hand hand;
     private int balance;
+    public Scoreboard scoreboard;
 
     public Player(int balance){
         this.hand = new Hand();
         this.balance = balance;
-    }
-
-    public void updateBalance(int newBalance){
-        this.balance += newBalance;
-    }
-
-    public int getBalance(){
-        return this.balance;
-    }
-
-    public void setHand(Hand hand){
-        this.hand = hand;
-    }
-
-    public void showHand(){
-        System.out.println(this.hand.toString());
+        this.scoreboard = new Scoreboard(balance);
     }
 
     //Player can only bet 1,2,3,4 or 5 credits others values are invalid
@@ -43,11 +31,36 @@ public class Player{
 
     }
 
+    public int getBalance(){
+        return this.balance;
+    }
+
+    public Hand getHand(){
+        return this.hand;
+    }
+
     public Card[] hold(int[] indexes, Card[] newCards){
         return this.hand.renewHand(indexes, newCards);
     }
 
-    public void getHandRank(){
-
+    public void setHand(Hand hand){
+        this.hand = hand;
     }
+
+    public void showHand(){
+        System.out.println(this.hand.toString());
+    }
+
+    public void statistics(){
+        System.out.println(this.scoreboard.toString());
+    }
+
+    public void updateBalance(int newBalance){
+        this.balance += newBalance;
+    }
+
+    public void updateScoreboard(HandRank rank){
+        this.scoreboard.receiveRoundInfo(rank, this.balance);
+    }
+
 }
