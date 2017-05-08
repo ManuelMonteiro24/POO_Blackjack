@@ -60,7 +60,7 @@ public class HandEvaluator{
         return streak;
     }
 
-    public HandRank evaluate() {
+    public HandRank evaluate(){
         int valueStreak, value;
         HandRank currentRank = HandRank.NON;
 
@@ -112,5 +112,280 @@ public class HandEvaluator{
 
         this.handRank =  currentRank;
         return currentRank;
+    }
+
+    //do only after rank is set
+    //return cards to hold!, if null discard all
+    public Card[] getAdivce(){
+
+      Card[] ret;
+
+      if(this.SF_FoaK_RF())
+        return hand;
+
+      if(ret = this.fourtoRF() != NULL)
+        return ret;
+
+      if(ret = this.threeAces() != NULL)
+        return ret;
+
+      if(ret = this.SF_FH() != NULL)
+        return ret;
+
+      if(ret = this.Toak() != NULL)
+        return ret;
+
+      if(ret = this.fourToSF() != NULL)
+        return ret;
+
+      if(ret = this.twoPair() != NULL)
+        return ret;
+
+      if(ret = this.highPair() != NULL)
+        return ret;
+
+      if(ret = this.fourToFlush() != NULL)
+        return ret;
+
+      if(ret = this.threeToRF() != NULL)
+        return ret;
+
+      if(ret = this.fourToOStraight() != NULL)
+        return ret;
+
+      if(ret = this.lowPair() != NULL)
+        return ret;
+
+      if(ret = this.unsuitedAKQJ() != NULL)
+        return ret;
+
+      if(ret = this.threeToSFtype1() != NULL)
+        return ret;
+
+      if(ret = this.fourToIStraight3HC() != NULL)
+        return ret;
+
+      if(ret = this.suitedQJ() != NULL)
+        return ret;
+
+      if(ret = this.threeToFlush2HC() != NULL)
+        return ret;
+
+      if(ret = this.suited2HC() != NULL)
+        return ret;
+
+      if(ret = this.fourToIStraight2HC() != NULL)
+        return ret;
+
+      if(ret = this.threeToFlush2HCtoSFtype2() != NULL)
+        return ret;
+
+      if(ret = this.fourToIStraight1HC() != NULL)
+        return ret;
+
+      if(ret = this.unsuiedtKQJ() != NULL)
+        return ret;
+
+      if(ret = this.suitedJT() != NULL)
+        return ret;
+
+      if(ret = this.unsuitedQJ() != NULL)
+        return ret;
+
+      if(ret = this.threeToFlush1HC() != NULL)
+        return ret;
+
+      if(ret = this.suitedQT() != NULL)
+        return ret;
+
+      if(ret = this.threeToSFtype3() != NULL)
+        return ret;
+
+      if(ret = this.unsuitedKQKJ() != NULL)
+        return ret;
+
+      if(ret = this.ace() != NULL)
+        return ret;
+
+      if(ret = this.suitedKT() != NULL)
+        return ret;
+
+      if(ret = this.JQK() != NULL)
+        return ret;
+
+      if(ret = this.fourToIStraight() != NULL)
+        return ret;
+
+      if(ret = this.threeToFlush() != NULL)
+        return ret;
+
+      //Discard everything
+      return NULL;
+    }
+
+    private boolean SF_FoaK_RF(){
+      if(this.handRank == HandRank.FOAK_5K || this.handRank == HandRank.FOAK_24 || this.handRank == handRank.FOAK_A
+      || this.handRank == HandRank.STRAIGHT_FLUSH || this.handRank == HandRank.ROYAL_FLUSH)
+        return true;
+      else
+        return false;
+    }
+
+    //return cards to hold! if not return null
+    private Card[] fourToRF(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] threeAces(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] SF_FH(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] Toak(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] fourToSF(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] twoPair(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] highPair(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] fourToFlush(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] threeToRF(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] fourToOStraight(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] lowPair(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] unsuitedAKQJ(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] threeToSFtype1(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] fourToIStraight3HC(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] suitedQJ(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] threeToFlush2HC(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] suited2HC(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] fourToIStraight2HC(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] threeToFlush2HCtoSFtype2(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] fourToIStraight1HC(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] unsuiedtKQJ(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] suitedJT(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] unsuitedQJ(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] threeToFlush1HC(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] suitedQT(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] threeToSFtype3(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] unsuitedKQKJ(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] ace(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] suitedKT(){
+      //to do...
+    }
+
+    //return cards to hold! if not return null
+    private Card[] JQK(){
+      //to do...
+    }
+    //return cards to hold! if not return null
+    private Card[] fourToIStraight(){
+      //to do...
+    }
+    //return cards to hold! if not return null
+    private Card[] threeToFlush(){
+      //to do...
     }
 }
