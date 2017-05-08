@@ -3,7 +3,7 @@ package videopoker.cards;
 //review visibilidades
 public class Card implements Comparable<Card>{
 
-  private int value; //2 ... 14, A=14
+  private int value; //1 ... 14, A=1
   private char suite; //H S J D
 
   public Card(int value, char suite){

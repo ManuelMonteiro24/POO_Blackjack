@@ -114,14 +114,50 @@ public class HandEvaluator{
         return currentRank;
     }
 
-    //do only after rank is set
+    //check if all cards are from same suit
+    private boolean sameSuit(Card[] cards){
+
+      if(cards.length==0 || cards.length=1)
+        return true;
+      else
+        char suit = cards[0].getSuit();
+
+      for(int i=1; i< cards.length;++){
+        if(cards[i].getSuit() != suit)
+          return false;
+      }
+      return true;
+    }
+
+    //return the number of different high cards
+    private int diffHighCards(Card[] cards){
+
+      int ret =0;
+      boolean[] highvalues = new boolean[4]; //J Q K A
+      for(int i=0; i<cards.length;i++){
+        if(cards[0].getValue() == 11) //J
+          highvalues[0] = true;
+        if(cards[i].getValue() == 12) // Q
+          highvalues[1] = true;
+        if(cards[i].getValue() == 13) //K
+          highvalues[2] = true;
+        if(cards[i].getValue() == 1) //A
+          highvalues[3] = true;
+      }
+      for(int i=0;i<4;i++)
+        if(highvalues[i])
+          ret++;
+      return ret;
+    }
+
+    //do only after rank is set, and cards ordered
     //return cards to hold!, if null discard all
     public Card[] getAdivce(){
 
       Card[] ret;
 
       if(this.SF_FoaK_RF())
-        return hand;
+        return this.hand; //check if can do this way??
 
       if(ret = this.fourtoRF() != NULL)
         return ret;
@@ -129,8 +165,8 @@ public class HandEvaluator{
       if(ret = this.threeAces() != NULL)
         return ret;
 
-      if(ret = this.SF_FH() != NULL)
-        return ret;
+      if(this.S_F_FH())
+        return this.hand; //check if can do this way??
 
       if(ret = this.Toak() != NULL)
         return ret;
@@ -231,24 +267,82 @@ public class HandEvaluator{
         return false;
     }
 
+    //check if it is correct
     //return cards to hold! if not return null
     private Card[] fourToRF(){
-      //to do...
+
+      //case for 1 card not in suit
+      Card[] aux = {this.hand[0],this.hand[1],this.hand[2],this.hand[3]};
+      Card[] aux1 = {this.hand[1],this.hand[2],this.hand[3],this.hand[4]};
+      //create new vector?
+
+      // no 10 in hand
+      if(aux.diffHighCards() == 4){
+        if(aux.sameSuit())
+          return aux;
+      }
+
+      //10 in hand
+      if(aux[1].getValue() == 10 || aux[0].getValue() == 10){
+        if(aux.diffHighCards() == 3){
+          if(aux.sameSuit())
+            return aux;
+        }
+      }
+
+      // no 10 in hand
+      if(aux1.diffHighCards() == 4){
+        if(aux1.sameSuit())
+          return aux1;
+      }
+
+      //10 in hand
+      if(aux1[1].getValue() == 10 || aux1[0].getValue() == 10){
+        if(aux1.diffHighCards() == 3){
+          if(aux1.sameSuit())
+            return aux1;
+        }
+      }
+
+        return NULL;
     }
 
+    //check if it is correct
     //return cards to hold! if not return null
     private Card[] threeAces(){
-      //to do...
+      //check if is as toak
+      if(this.handRank == HandRank.Toak){
+        //check if the toak is from aces
+        if(this.hand[0].getValue() == 1 && this.hand[0].getValue() == this.hand[1].getValue()
+        && this.hand[1].getValue() == this.hand[2].getValue()){
+          Card[] ret = {this.hand[0],this.hand[1],this.hand[2]};
+          return ret;
+        }
+      }
+      return NULL;
     }
 
     //return cards to hold! if not return null
-    private Card[] SF_FH(){
-      //to do...
+    private boolean  S_F_FH(){
+      if(this.handRank == HandRank.STRAIGHT || this.handRank == HandRank.FLUSH || this.handRank == handRank.FULLHOUSE)
+        return true;
+      else
+        return false;
     }
 
     //return cards to hold! if not return null
     private Card[] Toak(){
-      //to do...
+      if(this.handRank == HandRank.Toak){
+        //find where the Toak is
+        for(int i=0; i<3;i++){
+          if(this.hand[i].getValue() == this.hand[i+1].getValue()
+          && this.hand[i+1].getValue() == this.hand[i+2].getValue()){
+            Card[] ret = {this.hand[i],this.hand[i+1],this.hand[i+2]};
+            return ret;
+          }
+        }
+      }
+      return NULL;
     }
 
     //return cards to hold! if not return null
