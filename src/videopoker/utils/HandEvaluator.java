@@ -5,6 +5,7 @@ import videopoker.cards.Card;
 import videopoker.cards.Hand;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 
 public class HandEvaluator{
 
@@ -115,33 +116,30 @@ public class HandEvaluator{
     }
 
     //check if all cards are from same suit
-    private boolean sameSuit(Card[] cards){
+    private boolean sameSuit(){
 
-      if(cards.length==0 || cards.length=1)
-        return true;
-      else
-        char suit = cards[0].getSuit();
+      char suit = this.hand[0].getSuit();
 
-      for(int i=1; i< cards.length;++){
-        if(cards[i].getSuit() != suit)
+      for(int i=1; i< this.hand.length;++){
+        if(this.hand[i].getSuit() != suit)
           return false;
       }
       return true;
     }
 
     //return the number of different high cards
-    private int diffHighCards(Card[] cards){
+    private int diffHighCards(){
 
       int ret =0;
       boolean[] highvalues = new boolean[4]; //J Q K A
-      for(int i=0; i<cards.length;i++){
-        if(cards[0].getValue() == 11) //J
+      for(int i=0; i<this.hand.length;i++){
+        if(this.hand[0].getValue() == 11) //J
           highvalues[0] = true;
-        if(cards[i].getValue() == 12) // Q
+        if(this.hand[i].getValue() == 12) // Q
           highvalues[1] = true;
-        if(cards[i].getValue() == 13) //K
+        if(this.hand[i].getValue() == 13) //K
           highvalues[2] = true;
-        if(cards[i].getValue() == 1) //A
+        if(this.hand[i].getValue() == 1) //A
           highvalues[3] = true;
       }
       for(int i=0;i<4;i++)
@@ -150,6 +148,23 @@ public class HandEvaluator{
       return ret;
     }
 
+    private int getIndexCardOutOfSuit(){
+      int index;
+      int flag = 0;
+      Char suit = cards[0].getSuit();
+
+      for(int i=0;i<this.hand.length;i++){
+        if(this.hand[i].getSuit() != suit && flag == 0){
+          flag=1;
+          index = i;
+        }
+        if(this.hand[i].getSuit() != suit && flag != 0){
+          return NULL;
+        }
+      }
+      return index;
+
+    }
     //do only after rank is set, and cards ordered
     //return cards to hold!, if null discard all
     public Card[] getAdivce(){
@@ -267,44 +282,45 @@ public class HandEvaluator{
         return false;
     }
 
-    //check if it is correct
+    //ERROR to corrigi
     //return cards to hold! if not return null
     private Card[] fourToRF(){
-
-      //case for 1 card not in suit
-      Card[] aux = {this.hand[0],this.hand[1],this.hand[2],this.hand[3]};
+      /*
+      //case for 1 card out of suit
+      Card[] aux = this.hand;
       Card[] aux1 = {this.hand[1],this.hand[2],this.hand[3],this.hand[4]};
       //create new vector?
 
       // no 10 in hand
-      if(aux.diffHighCards() == 4){
-        if(aux.sameSuit())
+      if(this.diffHighCards(aux) == 4){
+        if(this.sameSuit(aux))
           return aux;
       }
 
       //10 in hand
       if(aux[1].getValue() == 10 || aux[0].getValue() == 10){
-        if(aux.diffHighCards() == 3){
-          if(aux.sameSuit())
+        if(this.diffHighCards(aux) == 3){
+          if(this.sameSuit(aux))
             return aux;
         }
       }
 
       // no 10 in hand
-      if(aux1.diffHighCards() == 4){
-        if(aux1.sameSuit())
+      if(this.diffHighCards(aux1) == 4){
+        if(this.sameSuit(aux1)
           return aux1;
       }
 
       //10 in hand
       if(aux1[1].getValue() == 10 || aux1[0].getValue() == 10){
-        if(aux1.diffHighCards() == 3){
-          if(aux1.sameSuit())
+        if(this.diffHighCards(aux1) == 3){
+          if(this.sameSuit(aux1))
             return aux1;
         }
       }
 
         return NULL;
+        */
     }
 
     //check if it is correct
@@ -350,14 +366,37 @@ public class HandEvaluator{
       //to do...
     }
 
+    //Check if it is correct
     //return cards to hold! if not return null
     private Card[] twoPair(){
-      //to do...
+      if(this.handRank == HandRank.TWOPAIR){
+        //find where the pairs are
+        List<Card> list = new ArrayList<Card>();
+        for(int i=0; i<4;i++){
+          if(this.hand[i].getValue() == this.hand[i+1].getValue()){
+            list.add(this.hand[i]);
+            list.add(this.hand[i+1]);
+            i++;
+          }
+        }
+        return list.toArray(new Card[list.size()]);
+      }else{
+        return NULL;
+      }
     }
 
     //return cards to hold! if not return null
     private Card[] highPair(){
-      //to do...
+      if(this.handRank == HandRank.JoB){
+        //find where the pair is
+        for(int i=0; i<4;i++){
+          if(this.hand[i].getValue() == this.hand[i+1].getValue()){
+            Card[] ret = {this.hand[i],this.hand[i+1]};
+            return ret;
+          }
+        }
+      }else
+        return NULL;
     }
 
     //return cards to hold! if not return null
@@ -377,12 +416,25 @@ public class HandEvaluator{
 
     //return cards to hold! if not return null
     private Card[] lowPair(){
-      //to do...
+      if(this.handRank == HandRank.PAIR){
+        //find where the pair is
+        for(int i=0; i<4;i++){
+          if(this.hand[i].getValue() == this.hand[i+1].getValue()){
+            Card[] ret = {this.hand[i],this.hand[i+1]};
+            return ret;
+          }
+        }
+      }else
+        return NULL;
     }
 
     //return cards to hold! if not return null
     private Card[] unsuitedAKQJ(){
-      //to do...
+      if(this.diffHighCards() == 4){
+        Card[] ret = {this.hand[0],this.hand[2],this.hand[3],this.hand[4]};
+        return ret;
+      }else
+        return NULL;
     }
 
     //return cards to hold! if not return null
