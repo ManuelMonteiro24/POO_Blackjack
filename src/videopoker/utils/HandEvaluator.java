@@ -449,12 +449,25 @@ public class HandEvaluator{
 
     //return cards to hold! if not return null
     private Card[] suitedQJ(){
-      //to do...
+      //no pairs in this stage
+      for(int i=0;i<4;i++){
+        if(this.hand[i].getValue() == 11 && this.hand[i+1].getValue() = 12
+        && this.hand[i].getSuit() == this.hand[i+1].getSuit()){
+          Card[] ret = {this.hand[i],this.hand[i+1]};
+          return ret;
+        }
+      }
+      return NULL;
     }
 
     //return cards to hold! if not return null
     private Card[] threeToFlush2HC(){
-      //to do...
+      if(this.diffHighCards() == 2){
+          for(int i=0; i<5; i++){
+              //to do
+          }
+      }else
+        return NULL;
     }
 
     //return cards to hold! if not return null
