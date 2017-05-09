@@ -39,7 +39,6 @@ public class Dealer extends HandEvaluator{
         for(int i = 0; i < 5; i++)
             iniCards[i] = deck.draw();
         Hand playersHand = new Hand(iniCards);
-        this.updateEvaluator(playersHand);
         return playersHand;
     }
 
@@ -56,14 +55,9 @@ public class Dealer extends HandEvaluator{
     public int payout(int playerbet){
 
         HandRank[] plays = HandRank.values();
-        for (int i = 0; i < plays.length; i++) {
-            System.out.println(plays[i]);
-            System.out.println(this.handRank);
-            if (this.handRank == plays[i]) {
-                System.out.println("Payout Mult: " + creditPayout[playerbet - 1][i]);
+        for (int i = 0; i < plays.length; i++)
+            if (this.handRank == plays[i])
                 return creditPayout[playerbet-1][i] * playerbet;
-            }
-        }
 
         return 0;
     }

@@ -43,11 +43,11 @@ public class Hand{
 
     @Override
     public String toString(){
-    String ret = "";
-    for(Card card : this.hand)
-    ret = ret.concat(card.toString() + " ");
+        String ret = "";
+        for(Card card : this.hand)
+            ret = ret.concat(card.toString() + " ");
 
-    return ret;
+        return ret;
     }
 
     //vale a pena fazer???

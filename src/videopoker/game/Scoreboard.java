@@ -30,7 +30,6 @@ public class Scoreboard{
         HandRank[] plays = HandRank.values();
         for (int i = 0; i < plays.length; i++) {
             if (rank == plays[i]) {
-                System.out.println(i);
                 if (rank == HandRank.FOAK_24 || rank == HandRank.FOAK_5K || rank == HandRank.FOAK_A)
                     this.playsNb[6]++;
                 else if (rank == HandRank.PAIR || rank == HandRank.NON)

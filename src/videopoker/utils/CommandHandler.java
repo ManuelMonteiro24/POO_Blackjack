@@ -12,14 +12,12 @@ import java.io.FileNotFoundException;
 public class CommandHandler{
 
     Scanner scanner;
-    private boolean userOrFile;
     private static final String[] regexs = {"([^\\d]*?)", "(\\$(\\s*?))", "b(\\s*?)", "b(\\s+([0-5]?(\\s*?)))", "d(\\s*?)", "h\\s*?(\\s+([1-5](\\s*?))){0,6}", "a(\\s*?)", "s(\\s*?)", "q(\\s*?)"};
     private Pattern[] patterns;
     private String command;
 
     public CommandHandler(InputStream input){
         this.scanner = new Scanner(input);
-        this.userOrFile = true; //true if input comes user
 
         patterns = new Pattern[regexs.length];
         for(int i = 0; i < regexs.length; i++)
@@ -30,7 +28,6 @@ public class CommandHandler{
         try {
             this.scanner = new Scanner(cmdFile);
             this.scanner.useDelimiter("\\s+");
-            this.userOrFile = false; //false if input is from a File
         } catch(FileNotFoundException fnfex ){
             fnfex.printStackTrace();
         }

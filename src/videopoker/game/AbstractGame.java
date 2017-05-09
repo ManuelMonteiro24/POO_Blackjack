@@ -74,8 +74,7 @@ public class AbstractGame implements Game{
             valid = false;
             if ((command = cmdHandler.validateCommand(input)) == 4) {
                 player.setHand(dealer.dealFullHand());
-                System.out.printf("player's hand ");
-                player.showHand();
+                System.out.printf("player's hand "); player.showHand();
                 valid = true;
             } else if(command == 7){
                 player.statistics();
@@ -106,6 +105,17 @@ public class AbstractGame implements Game{
                 System.out.printf("player's hand "); player.showHand();
                 dealer.receiveCards(ret);
                 valid = true;
+
+            } else if(command == 6) {
+                dealer.updateEvaluator(player.getHand());
+                int[] advice = dealer.getAdvice();
+                advice = dealer.indexOrderedToUnordered(advice, player.getHand());
+
+                System.out.printf("player should hold cards ");
+                for(int index : advice)
+                    System.out.printf(++index + " ");
+                System.out.printf("\n");
+
             } else if(command == 7) {
                 player.statistics();
             } else if(command != 1)

@@ -6,6 +6,7 @@ import videopoker.cards.Hand;
 
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HandEvaluator{
 
@@ -15,12 +16,12 @@ public class HandEvaluator{
     public HandEvaluator(){}
 
     public HandEvaluator(Hand playersHand){
-        this.hand = playersHand.toCardArray();
+        this.hand = Arrays.copyOf(playersHand.toCardArray(), playersHand.toCardArray().length);
         Arrays.sort(this.hand); //sort array of cards according to Card.compareTo() method from Comparable<T> interface
     }
 
     public void updateEvaluator(Hand playersHand){
-        this.hand = playersHand.toCardArray();
+        this.hand = Arrays.copyOf(playersHand.toCardArray(), playersHand.toCardArray().length);
         Arrays.sort(this.hand);
     }
 
@@ -69,27 +70,26 @@ public class HandEvaluator{
             value = this.hand[i].getValue();
             valueStreak = this.valueStreak(i);
 
-            if (valueStreak == 3) {
+            if(valueStreak == 3) {
                 if (value == 1)
-                    currentRank =  HandRank.FOAK_A;
+                    return (this.handRank =  HandRank.FOAK_A);
                 if (value < 5)
-                    currentRank =  HandRank.FOAK_24;
+                    return (this.handRank =  HandRank.FOAK_24);
                 else
-                    currentRank =  HandRank.FOAK_5K;
+                    return (this.handRank =  HandRank.FOAK_5K);
 
-            } else if (valueStreak == 2) {
+            } else if(valueStreak == 2) {
                 if (currentRank == HandRank.PAIR || currentRank == HandRank.JoB)
-                    currentRank =  HandRank.FULLHOUSE;
+                    return (this.handRank =  HandRank.FULLHOUSE);
                 currentRank = HandRank.TOAK;
 
-            } else if (valueStreak == 1) {
+            } else if(valueStreak == 1) {
+                if(currentRank == HandRank.TOAK)
+                    return (this.handRank =  HandRank.FULLHOUSE);
+                if(currentRank == HandRank.PAIR || currentRank == HandRank.JoB)
+                    return (this.handRank =  HandRank.TWOPAIR);
 
-                if (currentRank == HandRank.TOAK)
-                    currentRank =  HandRank.FULLHOUSE;
-                if (currentRank == HandRank.PAIR || currentRank == HandRank.JoB)
-                    currentRank =  HandRank.TWOPAIR;
-
-                if (value > 10 || value == 1)
+                if(value > 10 || value == 1)
                     currentRank = HandRank.JoB;
                 else
                     currentRank = HandRank.PAIR;
@@ -97,34 +97,21 @@ public class HandEvaluator{
             i += valueStreak;
         }
 
-        if (currentRank == HandRank.NON) { //if @currentRank is different from NON it is impossible for the @hand to be a STRAIGHT or a FLUSH
+        if(currentRank == HandRank.NON){ //if @currentRank is different from NON it is impossible for the @hand to be a STRAIGHT or a FLUSH
             if (this.isStraight()) {
                 if (this.isFlush()) {
                     if (this.hand[hand.length - 1].getValue() == 13)
-                        currentRank =  HandRank.ROYAL_FLUSH;
+                        return (this.handRank =  HandRank.ROYAL_FLUSH);
                     else
-                        currentRank =  HandRank.STRAIGHT_FLUSH;
+                        return (this.handRank =  HandRank.STRAIGHT_FLUSH);
                 } else
-                    currentRank =  HandRank.STRAIGHT;
+                    return (this.handRank =  HandRank.STRAIGHT);
             } else if (this.isFlush())
-                currentRank =  HandRank.FLUSH;
+                return (this.handRank =  HandRank.FLUSH);
         }
-
 
         this.handRank =  currentRank;
         return currentRank;
-    }
-
-    //check if all cards are from same suit
-    private boolean sameSuit(){
-
-      char suit = this.hand[0].getSuit();
-
-      for(int i=1; i< this.hand.length;++){
-        if(this.hand[i].getSuit() != suit)
-          return false;
-      }
-      return true;
     }
 
     //return the number of different high cards
@@ -142,136 +129,151 @@ public class HandEvaluator{
         if(this.hand[i].getValue() == 1) //A
           highvalues[3] = true;
       }
-      for(int i=0;i<4;i++)
+      for(int i = 0; i < 4; i++)
         if(highvalues[i])
           ret++;
       return ret;
     }
 
     private int getIndexCardOutOfSuit(){
-      int index;
+      int index = -1;
       int flag = 0;
-      Char suit = cards[0].getSuit();
+      char suit = this.hand[0].getSuit();
 
-      for(int i=0;i<this.hand.length;i++){
+      for(int i = 1; i < this.hand.length; i++){
         if(this.hand[i].getSuit() != suit && flag == 0){
-          flag=1;
           index = i;
+          break;
         }
-        if(this.hand[i].getSuit() != suit && flag != 0){
-          return NULL;
-        }
+        if(this.hand[i].getSuit() != suit && flag != 0)
+          break;
+
       }
       return index;
 
     }
+
+    public int[] indexOrderedToUnordered(int[] orderedIndexes, Hand unorderedHand){
+        Card[] unorderedCards = unorderedHand.toCardArray();
+        int[] unorderedIndexes = new int[orderedIndexes.length];
+        int j = 0;
+
+        for(int i = 0; i < unorderedCards.length; i++)
+            for(int index : orderedIndexes)
+                if(this.hand[index].getValue() == unorderedCards[i].getValue() && this.hand[index].getSuit() == unorderedCards[i].getSuit())
+                    unorderedIndexes[j++] = i;
+
+        return unorderedIndexes;
+    }
+
     //do only after rank is set, and cards ordered
     //return cards to hold!, if null discard all
-    public Card[] getAdivce(){
+    public int[] getAdvice(){
 
-      Card[] ret;
+      int[] ret, all = {1, 2, 3, 4, 5};
 
+      evaluate();
       if(this.SF_FoaK_RF())
-        return this.hand; //check if can do this way??
+        return all; //check if can do this way??
 
-      if(ret = this.fourtoRF() != NULL)
+      if((ret = this.fourToRF()) != null)
         return ret;
 
-      if(ret = this.threeAces() != NULL)
+      if((ret = this.threeAces()) != null)
         return ret;
 
       if(this.S_F_FH())
-        return this.hand; //check if can do this way??
+        return all; //check if can do this way??
 
-      if(ret = this.Toak() != NULL)
+      if((ret = this.Toak()) != null)
         return ret;
 
-      if(ret = this.fourToSF() != NULL)
+      if((ret = this.fourToSF()) != null)
         return ret;
 
-      if(ret = this.twoPair() != NULL)
+      if((ret = this.twoPair()) != null)
         return ret;
 
-      if(ret = this.highPair() != NULL)
+      if((ret = this.highPair()) != null)
         return ret;
 
-      if(ret = this.fourToFlush() != NULL)
+      if((ret = this.fourToFlush()) != null)
         return ret;
 
-      if(ret = this.threeToRF() != NULL)
+      if((ret = this.threeToRF()) != null)
         return ret;
 
-      if(ret = this.fourToOStraight() != NULL)
+      if((ret = this.fourToOStraight()) != null)
         return ret;
 
-      if(ret = this.lowPair() != NULL)
+      if((ret = this.lowPair()) != null)
         return ret;
 
-      if(ret = this.unsuitedAKQJ() != NULL)
+      if((ret = this.unsuitedAKQJ()) != null)
         return ret;
 
-      if(ret = this.threeToSFtype1() != NULL)
+      if((ret = this.threeToSFtype1()) != null)
         return ret;
 
-      if(ret = this.fourToIStraight3HC() != NULL)
+      if((ret = this.fourToIStraight3HC()) != null)
         return ret;
 
-      if(ret = this.suitedQJ() != NULL)
+      if((ret = this.suitedQJ()) != null)
         return ret;
 
-      if(ret = this.threeToFlush2HC() != NULL)
+      if((ret = this.threeToFlush2HC()) != null)
         return ret;
 
-      if(ret = this.suited2HC() != NULL)
+      if((ret = this.suited2HC()) != null)
         return ret;
 
-      if(ret = this.fourToIStraight2HC() != NULL)
+      if((ret = this.fourToIStraight2HC()) != null)
         return ret;
 
-      if(ret = this.threeToFlush2HCtoSFtype2() != NULL)
+      if((ret = this.threeToFlush2HCtoSFtype2()) != null)
         return ret;
 
-      if(ret = this.fourToIStraight1HC() != NULL)
+      if((ret = this.fourToIStraight1HC()) != null)
         return ret;
 
-      if(ret = this.unsuiedtKQJ() != NULL)
+      if((ret = this.unsuiedtKQJ()) != null)
         return ret;
 
-      if(ret = this.suitedJT() != NULL)
+      if((ret = this.suitedJT()) != null)
         return ret;
 
-      if(ret = this.unsuitedQJ() != NULL)
+      if((ret = this.unsuitedQJ()) != null)
         return ret;
 
-      if(ret = this.threeToFlush1HC() != NULL)
+      if((ret = this.threeToFlush1HC()) != null)
         return ret;
 
-      if(ret = this.suitedQT() != NULL)
+      if((ret = this.suitedQT()) != null)
         return ret;
 
-      if(ret = this.threeToSFtype3() != NULL)
+      if((ret = this.threeToSFtype3()) != null)
         return ret;
 
-      if(ret = this.unsuitedKQKJ() != NULL)
+      if((ret = this.unsuitedKQKJ()) != null)
         return ret;
 
-      if(ret = this.ace() != NULL)
+      if((ret = this.ace()) != null)
         return ret;
 
-      if(ret = this.suitedKT() != NULL)
+      if((ret = this.suitedKT()) != null)
         return ret;
 
-      if(ret = this.JQK() != NULL)
+      if((ret = this.JQK()) != null)
         return ret;
 
-      if(ret = this.fourToIStraight() != NULL)
+      if((ret = this.fourToIStraight()) != null)
         return ret;
 
-      if(ret = this.threeToFlush() != NULL)
+      if((ret = this.threeToFlush()) != null)
         return ret;
 
       //Discard everything
-      return NULL;
+      return null;
     }
 
     private boolean SF_FoaK_RF(){
@@ -284,11 +286,11 @@ public class HandEvaluator{
 
     //ERROR to corrigi
     //return cards to hold! if not return null
-    private Card[] fourToRF(){
+    private int[] fourToRF(){
       /*
       //case for 1 card out of suit
-      Card[] aux = this.hand;
-      Card[] aux1 = {this.hand[1],this.hand[2],this.hand[3],this.hand[4]};
+      int[] aux = this.hand;
+      int[] aux1 = {this.hand[1],this.hand[2],this.hand[3],this.hand[4]};
       //create new vector?
 
       // no 10 in hand
@@ -318,24 +320,23 @@ public class HandEvaluator{
             return aux1;
         }
       }
+*/
+        return null;
 
-        return NULL;
-        */
     }
 
     //check if it is correct
     //return cards to hold! if not return null
-    private Card[] threeAces(){
-      //check if is as toak
-      if(this.handRank == HandRank.Toak){
+    private int[] threeAces(){
+      //check if its a toak
+      if(this.handRank == HandRank.TOAK){
         //check if the toak is from aces
-        if(this.hand[0].getValue() == 1 && this.hand[0].getValue() == this.hand[1].getValue()
-        && this.hand[1].getValue() == this.hand[2].getValue()){
-          Card[] ret = {this.hand[0],this.hand[1],this.hand[2]};
+        if(this.hand[0].getValue() == 1 && this.hand[0].getValue() == this.hand[1].getValue() && this.hand[1].getValue() == this.hand[2].getValue()){
+          int[] ret = {0, 1, 2};
           return ret;
         }
       }
-      return NULL;
+      return null;
     }
 
     //return cards to hold! if not return null
@@ -347,204 +348,226 @@ public class HandEvaluator{
     }
 
     //return cards to hold! if not return null
-    private Card[] Toak(){
-      if(this.handRank == HandRank.Toak){
+    private int[] Toak(){
+      if(this.handRank == HandRank.TOAK){
         //find where the Toak is
-        for(int i=0; i<3;i++){
+        for(int i = 0; i < 3; i++){
           if(this.hand[i].getValue() == this.hand[i+1].getValue()
           && this.hand[i+1].getValue() == this.hand[i+2].getValue()){
-            Card[] ret = {this.hand[i],this.hand[i+1],this.hand[i+2]};
+            int[] ret = {i, i+1, i+2};
             return ret;
           }
         }
       }
-      return NULL;
+      return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] fourToSF(){
+    private int[] fourToSF(){
       //to do...
+        return null;
     }
 
     //Check if it is correct
     //return cards to hold! if not return null
-    private Card[] twoPair(){
+    private int[] twoPair(){
       if(this.handRank == HandRank.TWOPAIR){
         //find where the pairs are
-        List<Card> list = new ArrayList<Card>();
-        for(int i=0; i<4;i++){
+        int[] ret = new int[4];
+        int j = 0;
+        for(int i = 0; i < 4; i++){
           if(this.hand[i].getValue() == this.hand[i+1].getValue()){
-            list.add(this.hand[i]);
-            list.add(this.hand[i+1]);
-            i++;
+            ret[j] = i;
+            ret[j+1] = i+1;
+            i++; j += 2;
           }
         }
-        return list.toArray(new Card[list.size()]);
-      }else{
-        return NULL;
+        return ret;
       }
+      return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] highPair(){
+    private int[] highPair(){
       if(this.handRank == HandRank.JoB){
         //find where the pair is
-        for(int i=0; i<4;i++){
+        for(int i = 0; i < 4; i++){
           if(this.hand[i].getValue() == this.hand[i+1].getValue()){
-            Card[] ret = {this.hand[i],this.hand[i+1]};
+            int[] ret = {i, i+1};
             return ret;
           }
         }
-      }else
-        return NULL;
+      }
+      return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] fourToFlush(){
+    private int[] fourToFlush(){
       //to do...
+      return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] threeToRF(){
+    private int[] threeToRF(){
       //to do...
+      return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] fourToOStraight(){
+    private int[] fourToOStraight(){
       //to do...
+      return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] lowPair(){
+    private int[] lowPair(){
       if(this.handRank == HandRank.PAIR){
         //find where the pair is
-        for(int i=0; i<4;i++){
+        for(int i = 0; i < 4; i++){
           if(this.hand[i].getValue() == this.hand[i+1].getValue()){
-            Card[] ret = {this.hand[i],this.hand[i+1]};
+            int[] ret = {i, i+1};
             return ret;
           }
         }
-      }else
-        return NULL;
+      }
+      return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] unsuitedAKQJ(){
+    private int[] unsuitedAKQJ(){
       if(this.diffHighCards() == 4){
-        Card[] ret = {this.hand[0],this.hand[2],this.hand[3],this.hand[4]};
+        int[] ret = {0, 2, 3, 4};
         return ret;
-      }else
-        return NULL;
+      }
+      return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] threeToSFtype1(){
+    private int[] threeToSFtype1(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] fourToIStraight3HC(){
+    private int[] fourToIStraight3HC(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] suitedQJ(){
+    private int[] suitedQJ(){
       //no pairs in this stage
       for(int i=0;i<4;i++){
-        if(this.hand[i].getValue() == 11 && this.hand[i+1].getValue() = 12
+        if(this.hand[i].getValue() == 11 && this.hand[i+1].getValue() == 12
         && this.hand[i].getSuit() == this.hand[i+1].getSuit()){
-          Card[] ret = {this.hand[i],this.hand[i+1]};
+          int[] ret = { i, i+1 };
           return ret;
         }
       }
-      return NULL;
+      return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] threeToFlush2HC(){
+    private int[] threeToFlush2HC(){
       if(this.diffHighCards() == 2){
-          for(int i=0; i<5; i++){
+          for(int i = 0; i < 5; i++){
               //to do
           }
-      }else
-        return NULL;
+      }
+      return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] suited2HC(){
+    private int[] suited2HC(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] fourToIStraight2HC(){
+    private int[] fourToIStraight2HC(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] threeToFlush2HCtoSFtype2(){
+    private int[] threeToFlush2HCtoSFtype2(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] fourToIStraight1HC(){
+    private int[] fourToIStraight1HC(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] unsuiedtKQJ(){
+    private int[] unsuiedtKQJ(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] suitedJT(){
+    private int[] suitedJT(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] unsuitedQJ(){
+    private int[] unsuitedQJ(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] threeToFlush1HC(){
+    private int[] threeToFlush1HC(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] suitedQT(){
+    private int[] suitedQT(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] threeToSFtype3(){
+    private int[] threeToSFtype3(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] unsuitedKQKJ(){
+    private int[] unsuitedKQKJ(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] ace(){
+    private int[] ace(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] suitedKT(){
+    private int[] suitedKT(){
       //to do...
+        return null;
     }
 
     //return cards to hold! if not return null
-    private Card[] JQK(){
+    private int[] JQK(){
       //to do...
+        return null;
     }
     //return cards to hold! if not return null
-    private Card[] fourToIStraight(){
+    private int[] fourToIStraight(){
       //to do...
+        return null;
     }
     //return cards to hold! if not return null
-    private Card[] threeToFlush(){
+    private int[] threeToFlush(){
       //to do...
+        return null;
     }
 }
