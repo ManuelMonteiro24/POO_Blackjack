@@ -107,14 +107,17 @@ public class AbstractGame implements Game{
                 valid = true;
 
             } else if(command == 6) {
+
                 dealer.updateEvaluator(player.getHand());
                 int[] advice = dealer.getAdvice();
-                advice = dealer.indexOrderedToUnordered(advice, player.getHand());
-
-                System.out.printf("player should hold cards ");
-                for(int index : advice)
-                    System.out.printf(++index + " ");
-                System.out.printf("\n");
+                if(advice != null) {
+                    advice = dealer.indexOrderedToUnordered(advice, player.getHand());
+                    System.out.printf("player should hold cards ");
+                    for(int index : advice)
+                        System.out.printf(++index + " ");
+                    System.out.printf("\n");
+                } else
+                    System.out.println("player should hold no cards ");
 
             } else if(command == 7) {
                 player.statistics();
@@ -136,7 +139,6 @@ public class AbstractGame implements Game{
             System.out.println("player wins with a " + playerRank + " and his credit is " + player.getBalance());
         else
             System.out.println("player loses and his credit is " + player.getBalance());
-
     }
 
 

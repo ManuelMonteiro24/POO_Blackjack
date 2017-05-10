@@ -8,11 +8,7 @@ import java.util.ArrayList;
 
 public class Dealer extends HandEvaluator{
 
-    private final static int[][] creditPayout = { {0, 0, 1, 1, 3, 5, 7, 10, 50, 80, 160, 50, 250}, //one for each element of the HandRank enum
-                                                  {0, 0, 2, 2, 6, 10, 14, 20, 100, 160, 320, 100, 500},
-                                                  {0, 0, 3, 3, 9, 15, 21, 30, 150, 240, 480, 150, 750},
-                                                  {0, 0, 4, 4, 12, 20, 28, 40, 200, 320, 640, 200, 1000},
-                                                  {0, 0, 5, 5, 15, 25, 35, 50, 250, 400, 800, 250, 4000}};
+    private final static int[] creditPayout = {0, 0, 1, 1, 3, 5, 7, 10, 50, 80, 160, 50, 250}; //one for each element of the HandRank enum
     private int rank;
     static Deck deck;
 
@@ -57,7 +53,7 @@ public class Dealer extends HandEvaluator{
         HandRank[] plays = HandRank.values();
         for (int i = 0; i < plays.length; i++)
             if (this.handRank == plays[i])
-                return creditPayout[playerbet-1][i] * playerbet;
+                return creditPayout[i] * playerbet;
 
         return 0;
     }
