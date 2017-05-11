@@ -19,6 +19,8 @@ public class Card implements Comparable<Card>{
     return this.value;
   }
 
+  public boolean isHighCard(){ return (this.value == 1 || this.value > 10) ? true : false; }
+
   @Override
   public int compareTo(Card other){
     if (this.getValue() > other.getValue())
