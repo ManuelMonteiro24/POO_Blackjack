@@ -120,13 +120,13 @@ public class HandEvaluator{
       boolean[] highvalues = new boolean[4]; //J Q K A
 
       for(int i = 0; i < this.hand.length; i++){
-        if(this.hand[i].getValue() == 1) //J
+        if(this.hand[i].getValue() == 1) //A
           highvalues[0] = true;
-        if(this.hand[i].getValue() == 11) // Q
+        if(this.hand[i].getValue() == 11) //J
           highvalues[1] = true;
-        if(this.hand[i].getValue() == 12) //K
+        if(this.hand[i].getValue() == 12) //Q
           highvalues[2] = true;
-        if(this.hand[i].getValue() == 13) //A
+        if(this.hand[i].getValue() == 13) //K
           highvalues[3] = true;
       }
       for(int i = 0; i < 4; i++)
@@ -136,6 +136,7 @@ public class HandEvaluator{
       return ret;
     }
 
+    //CHECK TO DO!!!!!!!!!!!
     private boolean isThreeToStraight(int[] indexes){
         int straight1 = 0, straight2 = 0, straight3 = 0, base = this.hand[indexes[0]].getValue();
         for(int i = 1; i < indexes.length; i++){
@@ -250,7 +251,7 @@ public class HandEvaluator{
       if((ret = this.fourToIStraight2HC()) != null)
         return ret;
 
-      if((ret = this.threeToFlush2HCtoSFtype2()) != null)
+      if((ret = this.threeToSFtype2()) != null)
         return ret;
 
       if((ret = this.fourToIStraight1HC()) != null)
@@ -518,15 +519,21 @@ public class HandEvaluator{
 
     //CHECK
     private int[] threeToRF(){
-        int[] indexes;
+      int[] indexes;
 
-        if((indexes = this.threeToFlush()) == null)
-            return null;
+      //check if it has 3 cards from same suit
+      if((indexes = this.threeToFlush()) == null)
+          return null;
 
-        if(this.hand[indexes[0]].getValue() == 11 || ((this.hand[indexes[0]].getValue() == 1 || this.hand[indexes[0]].getValue() == 10) && this.hand[indexes[1]].getValue() >= 10)){
-            System.out.println("3ToRoyalFlush");
-            return indexes;
-        }
+      //check if it has a pair of 10 in those 3 cards
+      if(this.lowPair() != null)
+          return null;
+
+      //check if those 3 cards with same suit can make RF
+      if(this.hand[indexes[0]].getValue() == 11 || ((this.hand[indexes[0]].getValue() == 1 || this.hand[indexes[0]].getValue() == 10) && this.hand[indexes[1]].getValue() >= 10)){
+          System.out.println("3ToRoyalFlush");
+          return indexes;
+      }
 
       return null;
     }
@@ -592,39 +599,69 @@ public class HandEvaluator{
         int i, jumps = 0, highCards = 0;
         int[] indexes;
 
+        // check 3 cards from same suit
         if((indexes = threeToFlush()) == null)
             return null;
 
+        // check if it is a possibility do a straight
         if(!isThreeToStraight(indexes))
             return null;
+
         /*now we know it's a 3 to a straight flush*/
+        //check if it is type 1
         for(i = 0; i < indexes.length; i++)
-            if (this.hand[indexes[i]].isHighCard()) //do not count aces as high cards; there will
+            if (this.hand[indexes[i]].isHighCard()) // J,Q,K,A
                 highCards++;
 
-        if(this.hand[indexes[0]].getValue() == 1 || (this.hand[indexes[0]].getValue() == 2 && this.hand[indexes[2]].getValue() == 4)) //if its ace low or
+        //ace low or 234 suited, its for the 3 to SF (type 2)
+        if(this.hand[indexes[0]].getValue() == 1 || (this.hand[indexes[0]].getValue() == 2 && this.hand[indexes[2]].getValue() == 4))
             return null;
 
+        //Count Jumps
         if((this.hand[indexes[0]].getValue() + 1) != this.hand[indexes[1]].getValue())
             jumps++;
         if((this.hand[indexes[1]].getValue() + 1) != this.hand[indexes[2]].getValue())
             jumps++;
 
+        //Check type 1 condition
         if(highCards >= jumps)
             System.out.println("3toSF1 jumps "+jumps+" highCards "+highCards);
 
         return highCards >= jumps ? indexes : null;
     }
 
-    //return cards to hold! if not return null
+    //CHECK TO DO!!!!!!!!!!!
     private int[] fourToIStraight3HC(){
 
+      //check if we have 3 HC
+      if(diffHighCards() != 3){
         return null;
+      }
+
+      if(this.hand[0].getValue() == 1 && this.hand[1].getValue() == 2){
+        System.out.println("fourToIStraight3HC");
+        int[] ret = { 0,1,3,4 };
+        return ret;
+      }
+
+      if(this.hand[0].getValue() == 1 && this.hand[1].getValue() == 10){
+        System.out.println("fourToIStraight3HC");
+        int[] ret = { 0,2,3,4 };
+        return ret;
+      }
+
+      if(this.hand[0].getValue() == 2){
+        System.out.println("fourToIStraight3HC");
+        int[] ret = { 0,2,3,4 };
+        return ret;
+      }
+
+      return null;
     }
 
     //CHECK
     private int[] suitedQJ(){
-    //no pairs in this stage
+      //no pairs in this stage
         for(int i = 0; i < 4; i++){
             if(this.hand[i].getValue() == 11 && this.hand[i+1].getValue() == 12
             && this.hand[i].getSuit() == this.hand[i+1].getSuit()){
@@ -633,7 +670,7 @@ public class HandEvaluator{
                 return ret;
             }
         }
-    return null;
+        return null;
     }
 
     //CHECK
@@ -658,7 +695,7 @@ public class HandEvaluator{
         for(int i = 0; i < this.hand.length; i++)
             for(int j = i+1; j < this.hand.length; j++)
                 if(this.hand[i].getSuit() == this.hand[j].getSuit() && this.hand[i].isHighCard() && this.hand[j].isHighCard()){
-            System.out.println("suited2HC");
+                    System.out.println("suited2HC");
                     int ret[] = {i, j};
                     return ret;
                 }
@@ -666,22 +703,91 @@ public class HandEvaluator{
         return null;
     }
 
-    //return cards to hold! if not return null
+    //CHECK TO DO!!!!!!!!!!!!!!!!!!
     private int[] fourToIStraight2HC(){
+
+      int jumpIndex=0, highCards = 0;
+      int[] indexes = new int[4];
+
+      //for this hand we can only afford 1 jump
+      for(int i=0;i<this.hand.length;i++){
+        //Count Jump
+        if((this.hand[i].getValue() + 1) != this.hand[i+1].getValue()){
+          //this condition doesnt comtemplate all cases TO DO::..
+          //Do cases for A and K
+          if(jumpIndex == 0 && ((this.hand[i].getValue() + 2) == this.hand[i+2].getValue())){
+            i++;
+            jumpIndex = i;
+          }else
+            return null;
+        }
+      }
+
+      for(int i = 0; i < this.hand.length; i++){
+        if(i==jumpIndex)
+          continue;
+        if (this.hand[i].isHighCard()) // J,Q,K,A
+          highCards++;
+      }
+      if(highCards != 2)
+        return null;
+      else{
+        int j=0;
+        for(int i=0;i<5;i++){
+          if(i==jumpIndex)
+            continue;
+
+          indexes[j++] = i;
+        }
+        return indexes;
+      }
+
+    }
+
+    //return cards to hold! if not return null
+    private int[] threeToSFtype2(){
       //to do...
         return null;
     }
 
-    //return cards to hold! if not return null
-    private int[] threeToFlush2HCtoSFtype2(){
-      //to do...
-        return null;
-    }
-
-    //return cards to hold! if not return null
+    //CHECK TO DO!!!!!!!!!!!!!!!!!!
     private int[] fourToIStraight1HC(){
-      //to do...
+
+      int jumpIndex=0, highCards = 0;
+      int[] indexes = new int[4];
+
+      //for this hand we can only afford 1 jump
+      for(int i=0;i<this.hand.length;i++){
+        //Count Jump
+        if((this.hand[i].getValue() + 1) != this.hand[i+1].getValue()){
+          //this condition doesnt comtemplate all cases TO DO::..
+          //Do cases for A and K
+          if(jumpIndex == 0 && ((this.hand[i].getValue() + 2) == this.hand[i+2].getValue())){
+            i++;
+            jumpIndex = i;
+          }else
+            return null;
+        }
+      }
+
+      for(int i = 0; i < this.hand.length; i++){
+        if(i==jumpIndex)
+          continue;
+        if (this.hand[i].isHighCard()) // J,Q,K,A
+          highCards++;
+      }
+      if(highCards != 1)
         return null;
+      else{
+        int j=0;
+          for(int i=0;i<5;i++){
+            if(i==jumpIndex)
+              continue;
+            indexes[j++] = i;
+          }
+        return indexes;
+      }
+
     }
 
     //CHECK
@@ -722,10 +828,28 @@ public class HandEvaluator{
         return null;
     }
 
-    //return cards to hold! if not return null
+    //CHECK TO DO!!!!!!!!!!
     private int[] threeToFlush1HC(){
-      //to do...
+
+      int highCards =0;
+      int[] indexes;
+
+      // check 3 cards from same suit
+      if((indexes = threeToFlush()) == null)
+          return null;
+
+      //Check for 1 HC
+      for(int i = 0; i < indexes.length; i++)
+        if (this.hand[indexes[i]].isHighCard()) // J,Q,K,A
+          highCards++;
+
+      if(highCards != 1)
         return null;
+      else{
+        return indexes;
+      }
+
+
     }
 
     //CHECK
@@ -760,7 +884,7 @@ public class HandEvaluator{
     private int[] unsuitedKQKJ(){
         if(this.hand[hand.length - 1].getValue() == 13 && (this.hand[hand.length - 2].getValue() == 12 || this.hand[hand.length - 2].getValue() == 11)){
             System.out.println("unsuitedKQKJ");
-            int[] ret = {hand.length - 1, hand.length - 2};
+            int[] ret = {hand.length - 2, hand.length - 1};
             return ret;
         }
 
@@ -821,8 +945,7 @@ public class HandEvaluator{
         int[] indexes2 = new int[3], indexes3 = new int[3], indexes1 = {0, -1, -1};
         char suit2 = '\0', suit3 = '\0', suit1 = this.hand[0].getSuit();
 
-        if(this.handRank == HandRank.FLUSH || this.handRank == HandRank.STRAIGHT_FLUSH)
-            return null;
+        //MANEL REMOVI UM IF AQUI QUE ACHO QUE NAO ERA NECESSARIO, mas fazer check
 
         for(int i = 1; i < this.hand.length; i++)
             if(this.hand[i].getSuit() == suit1) {
