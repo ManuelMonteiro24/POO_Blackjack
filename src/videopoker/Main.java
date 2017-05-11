@@ -4,6 +4,7 @@ import videopoker.game.*;
 
 import java.io.File;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main{
 
@@ -35,6 +36,10 @@ public class Main{
         }
 
         Game game = null;
+        /*Only used for simulation mode*/
+        int nbDeals = 0;
+        int roundCounter = 0;
+
         if(args[0].equals("-i")){
             //interactive mode
             if(args.length != 2 || !(isInteger(args[1]))){
@@ -60,26 +65,40 @@ public class Main{
             //call debug mode...
             game =  new DebugGame(Integer.parseInt(args[1]), args[2], args[3]);
 
-        }else if(args[0].equals("-s")){
+        } else if(args[0].equals("-s")){
             //simulation mode
             if(args.length != 4 || !(isInteger(args[1])) || !(isInteger(args[2])) || !(isInteger(args[3]))){
                 System.out.println("Simulation mode usage: -s credit<num> bet<num> nbdeals<num>");
                 System.exit(1);
             }
 
-            //call simulation mode...
+            int bet = Integer.parseInt(args[2]);
+            if(bet < 1 || bet > 5){
+                System.out.println("invalid betting amount\nexiting..");
+                System.exit(-1);
+            }
 
-        }else{
+            nbDeals = Integer.parseInt(args[3]);
+            game = new SimulationGame(Integer.parseInt(args[1]), bet, nbDeals);
+            roundCounter = 0;
+
+        } else{
             System.out.println("Usage: -mode -parameters\nAvailable modes: interactive -i debug -d simulation -s");
             System.exit(1);
         }
 
+
         if(game != null) {
             while(true) {
+                if(game instanceof SimulationGame && roundCounter++ == nbDeals){
+                    System.out.println("round " + roundCounter);
+                    break;
+                }
                 game.betStage();
                 game.dealStage();
                 game.holdStage();
                 game.evaluationStage();
+
             }
         }
     }

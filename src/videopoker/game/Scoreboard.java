@@ -60,7 +60,7 @@ public class Scoreboard{
         sb.append("----------------------\n");
         sb.append(String.format("Total                %d\n", this.dealsNb));
         sb.append("----------------------\n");
-        double gainPercentage = (this.currentBalance/this.initialBalance)*100;
+        double gainPercentage = ((this.currentBalance - this.initialBalance)/this.initialBalance)*100;
         sb.append(String.format("Credit        %.0f (%.1f%s)\n", this.currentBalance, gainPercentage, "%"));
 
         return sb.toString();

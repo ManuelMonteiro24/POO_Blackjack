@@ -235,7 +235,7 @@ public class HandEvaluator{
 
       if((ret = this.threeToSFtype1()) != null)
         return ret;
-    System.out.println("sdasdad");
+
       if((ret = this.fourToIStraight3HC()) != null)
         return ret;
 
@@ -292,7 +292,6 @@ public class HandEvaluator{
 
       if((ret = this.threeToFlush()) != null)
         return ret;
-        System.out.println("AFTER");
       //Discard everything
       return null;
     }
@@ -831,23 +830,24 @@ public class HandEvaluator{
     //CHECK TO DO!!!!!!!!!!
     private int[] threeToFlush1HC(){
 
-      int highCards =0;
-      int[] indexes;
+        int highCards =0;
+        int[] indexes;
 
-      // check 3 cards from same suit
-      if((indexes = threeToFlush()) == null)
-          return null;
+        // check 3 cards from same suit
+        if((indexes = threeToFlush()) == null)
+            return null;
 
-      //Check for 1 HC
-      for(int i = 0; i < indexes.length; i++)
-        if (this.hand[indexes[i]].isHighCard()) // J,Q,K,A
-          highCards++;
+        //Check for 1 HC
+        for(int i = 0; i < indexes.length; i++)
+            if (this.hand[indexes[i]].isHighCard()) // J,Q,K,A
+                highCards++;
 
-      if(highCards != 1)
-        return null;
-      else{
-        return indexes;
-      }
+        if(highCards != 1)
+            return null;
+
+        System.out.println("3toF1HC");
+            return indexes;
+
 
 
     }

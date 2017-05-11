@@ -7,7 +7,7 @@ import java.util.Arrays;
 //review visibilidades
 public class Deck{
 
-  private ArrayList<Card> deck;
+  public ArrayList<Card> deck;
   private static final char[] suits = {'C','D','H','S'};
 
   public Deck(){
@@ -27,16 +27,17 @@ public class Deck{
   }
 
   //remove card from top of deck
-  public Card draw(){
-    Card aux = this.deck.get(0);
-    this.deck.remove(0);
-    return aux;
-  }
+    public Card draw(){
+        Card aux = this.deck.get(0);
+        this.deck.remove(0);
+        return aux;
+    }
 
   //return played cards to the deck
   public void receiveCards(Card[] cards){
     for(int i = 0; i < cards.length; i++)
       this.deck.add(cards[i]);
+    System.out.printf("");
   }
 
 }

@@ -10,7 +10,7 @@ public class Dealer extends HandEvaluator{
 
     private final static int[] creditPayout = {0, 0, 1, 1, 3, 5, 7, 10, 50, 80, 160, 50, 250}; //one for each element of the HandRank enum
     private int rank;
-    static Deck deck;
+    public static Deck deck;
 
     public Dealer(){
         super();

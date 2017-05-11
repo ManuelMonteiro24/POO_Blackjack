@@ -27,7 +27,7 @@ public class CommandHandler{
     public CommandHandler(File cmdFile){
         try {
             this.scanner = new Scanner(cmdFile);
-            this.scanner.useDelimiter("\\s+");
+            this.scanner.useDelimiter("(\\s+)");
         } catch(FileNotFoundException fnfex ){
             fnfex.printStackTrace();
         }
@@ -42,25 +42,27 @@ public class CommandHandler{
 
         if(callerClass.equals(InteractiveGame.class))
             return scanner.nextLine();
-        else
-            try{
-                String buf;
-                StringBuilder sb = new StringBuilder("");
-
-                while(true){
+        else {
+            String buf = new String("");
+            StringBuilder sb = new StringBuilder("");
+            try {
+                while (true) {
+                    //if(scanner.hasNext(Pattern.compile("")))
                     buf = scanner.next();
                     sb.append(buf);
                     sb.append(" ");
-                    if(scanner.hasNext(patterns[0]))
+                    if (scanner.hasNext(patterns[0])) {
                         break;
+                    }
                 }
 
                 System.out.println("-cmd " + sb.toString());
                 return sb.toString();
-            } catch(NoSuchElementException nseex) {
-                return null;
+            } catch (NoSuchElementException nseex) {
+                return sb.toString().equals("") ? null : sb.toString();
             }
 
+        }
     }
 
     public int validateCommand(String cmd){

@@ -4,6 +4,8 @@ import videopoker.cards.*;
 import videopoker.game.Scoreboard;
 import videopoker.utils.HandRank;
 
+import java.util.Arrays;
+
 public class Player{
 
     private Hand hand;
@@ -45,6 +47,10 @@ public class Player{
 
     public void setHand(Hand hand){
         this.hand = hand;
+    }
+
+    public Card[] releaseHand(){
+        return this.hand.toCardArray();
     }
 
     public void showHand(){
