@@ -8,6 +8,7 @@ import videopoker.utils.CommandHandler;
 import videopoker.utils.HandEvaluator;
 import videopoker.utils.HandRank;
 import videopoker.game.Scoreboard;
+import videopoker.evaluators.Evaluator;
 
 public class SimulationGame implements Game{
 
@@ -18,8 +19,8 @@ public class SimulationGame implements Game{
     private Dealer dealer;
 
     public SimulationGame(int initialBalance, int bet, int nbDeals ){
-        player = new Player(initialBalance);
-        dealer = new Dealer();
+        this.player = new Player(initialBalance);
+        this.dealer = new Dealer();
         this.betOnTheTable = bet;
         this.nbDeals = nbDeals;
         this.roundCounter = 0;
@@ -27,44 +28,46 @@ public class SimulationGame implements Game{
 
     public void betStage(){
 
-        if(player.bet(this.betOnTheTable) != this.betOnTheTable) {
-            System.out.println("player has no more funds");
+        if(this.player.bet(this.betOnTheTable) != this.betOnTheTable) {
+            System.out.println("this.player has no more funds");
             System.exit(0);
         }
         this.roundCounter++;
     }
 
     public void dealStage(){
-        dealer.shuffleDeck();
-        player.setHand(dealer.dealFullHand());
+        this.dealer.shuffleDeck();
+        this.player.setHand(this.dealer.dealFullHand());
     }
 
     public void holdStage() {
         int[] decision;
         int[] holdIndexes = {};
 
-        dealer.updateEvaluator(player.getHand());
         player.showHand();
-        if ((decision = dealer.getAdvice()) != null){
-            holdIndexes = dealer.indexOrderedToUnordered(decision, player.getHand());
+        this.dealer.updateEvaluator(this.player.getHand());
+        this.dealer.getHandRank(); //set Evaluator's static variable @handRank
+        if ((decision = this.dealer.getAdvice()) != null){
+            holdIndexes = this.dealer.indexOrderedToUnordered(decision, this.player.getHand());
             for(int i = 0; i < holdIndexes.length; i++)
-                holdIndexes[i]++; //increment indexes because player.hold() uses indexes starting at 1
+                holdIndexes[i]++; //increment indexes because this.player.hold() uses indexes starting at 1
         }
 
-        Card[] ret = player.hold(holdIndexes, dealer.dealSecondCards(5 - holdIndexes.length));
-        dealer.receiveCards(ret);
+        Card[] ret = this.player.hold(holdIndexes, this.dealer.dealSecondCards(5 - holdIndexes.length));
+        this.dealer.receiveCards(ret);
+        player.showHand();
     }
 
     public void evaluationStage(){
 
-        dealer.updateEvaluator(player.getHand());
-        HandRank playerRank = dealer.evaluate();
-        player.updateBalance(dealer.payout(this.betOnTheTable));
-        player.updateScoreboard(playerRank);
-        dealer.receiveCards(player.releaseHand());
+        Evaluator.updateEvaluator(this.player.getHand());
+        HandRank playerRank = this.dealer.getHandRank();
+        this.player.updateBalance(this.dealer.payout(this.betOnTheTable));
+        this.player.updateScoreboard(playerRank);
+        this.dealer.receiveCards(this.player.releaseHand());
 
         if(this.roundCounter == this.nbDeals)
-            player.statistics();
+            this.player.statistics();
 
     }
       

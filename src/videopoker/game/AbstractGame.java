@@ -8,6 +8,7 @@ import videopoker.utils.CommandHandler;
 import videopoker.utils.HandEvaluator;
 import videopoker.utils.HandRank;
 import videopoker.game.Scoreboard;
+import videopoker.evaluators.Evaluator;
 
 import java.util.Scanner;
 import java.util.Arrays;
@@ -103,11 +104,13 @@ public abstract class AbstractGame implements Game{
 
                 Card[] ret = this.player.hold(holdIndexes, this.dealer.dealSecondCards(5 - holdIndexes.length));
                 this.dealer.receiveCards(ret);
+                System.out.printf("player's hand "); this.player.showHand();
                 valid = true;
 
             } else if(command == 6) {
 
-                this.dealer.updateEvaluator(this.player.getHand());
+                Evaluator.updateEvaluator(this.player.getHand());
+                dealer.getHandRank(); //update Evaluator static variable @handRank
                 int[] advice = this.dealer.getAdvice();
                 if(advice != null) {
                     advice = this.dealer.indexOrderedToUnordered(advice, this.player.getHand());
@@ -129,8 +132,8 @@ public abstract class AbstractGame implements Game{
 
     public void evaluationStage(){
 
-        this.dealer.updateEvaluator(this.player.getHand());
-        HandRank playerRank = this.dealer.evaluate();
+        Evaluator.updateEvaluator(this.player.getHand());
+        HandRank playerRank = this.dealer.getHandRank();
         this.player.updateBalance(this.dealer.payout(this.betOnTheTable));
         this.player.updateScoreboard(playerRank);
         this.dealer.receiveCards(this.player.releaseHand()); //return players cards to deck

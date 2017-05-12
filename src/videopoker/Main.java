@@ -109,10 +109,9 @@ public class Main{
 
         if(game != null) {
             while(true) {
-                if(game instanceof SimulationGame && roundCounter++ == nbDeals){
-                    System.out.println("round " + roundCounter);
+                if(game instanceof SimulationGame && roundCounter++ == nbDeals)
                     break;
-                }
+
                 game.betStage();
                 game.dealStage();
                 game.holdStage();
