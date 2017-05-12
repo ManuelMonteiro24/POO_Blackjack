@@ -41,6 +41,9 @@ public class Card implements Comparable<Card>{
       case 1:
             aux = aux.concat("A");
             break;
+      case 10:
+            aux = aux.concat("T");
+            break;
       case 11:
             aux = aux.concat("J");
             break;

@@ -36,6 +36,9 @@ public class DebugGame extends AbstractGame{
                     case 'A':
                         cardNum = 1;
                         break;
+                    case 'T':
+                        cardNum = 10;
+                        break;
                     case 'J':
                         cardNum = 11;
                         break;
@@ -50,10 +53,7 @@ public class DebugGame extends AbstractGame{
                         break;
                 }
 
-                if(buf.length == 3) //case card number is 10; buf will have size 3
-                    deck.add(new Card(10, buf[2]));
-                else
-                    deck.add(new Card(cardNum, buf[1]));
+                deck.add(new Card(cardNum, buf[1]));
             }
         }catch(FileNotFoundException fnfex){
             fnfex.printStackTrace();
