@@ -618,10 +618,10 @@ public class HandEvaluator{
       int highCards =0;
       int[] indexes;
 
-      if(indexes = fourToIStraight() == null)
+      if((indexes = fourToIStraight()) == null)
         return null;
 
-      for(i = 0; i < indexes.length; i++)
+      for(int i = 0; i < indexes.length; i++)
         if (this.hand[indexes[i]].isHighCard()) // J,Q,K,A
           highCards++;
 
@@ -681,10 +681,10 @@ public class HandEvaluator{
       int highCards =0;
       int[] indexes;
 
-      if(indexes = fourToIStraight() == null)
+      if((indexes = fourToIStraight()) == null)
         return null;
 
-      for(i = 0; i < indexes.length; i++)
+      for(int i = 0; i < indexes.length; i++)
         if (this.hand[indexes[i]].isHighCard()) // J,Q,K,A
           highCards++;
 
@@ -744,10 +744,10 @@ public class HandEvaluator{
       int highCards =0;
       int[] indexes;
 
-      if(indexes = fourToIStraight() == null)
+      if((indexes = fourToIStraight()) == null)
         return null;
 
-      for(i = 0; i < indexes.length; i++)
+      for(int i = 0; i < indexes.length; i++)
         if (this.hand[indexes[i]].isHighCard()) // J,Q,K,A
           highCards++;
 
