@@ -153,24 +153,6 @@ public class HandEvaluator{
         return true;
     }
 
-    private int getIndexCardOutOfSuit(){
-      int index = -1;
-      int flag = 0;
-      char suit = this.hand[0].getSuit();
-
-      for(int i = 1; i < this.hand.length; i++){
-        if(this.hand[i].getSuit() != suit && flag == 0){
-          index = i;
-          break;
-        }
-        if(this.hand[i].getSuit() != suit && flag != 0)
-          break;
-
-      }
-      return index;
-
-    }
-
     public int[] indexOrderedToUnordered(int[] orderedIndexes, Hand unorderedHand){
         Card[] unorderedCards = unorderedHand.toCardArray();
         int[] unorderedIndexes = new int[orderedIndexes.length];
@@ -911,16 +893,16 @@ public class HandEvaluator{
         return null;
     }
 
-    //CHECK TO DO!!!!!!!!!!!!!
+    //CHECK
     private int[] fourToIStraight() {
 
-      //A123 case
-      if ((this.hand[0].getValue() == 1) && (this.hand[3].getValue() == 4) && (this.hand[4].getValue() > 5)) {
+      //A234 case
+      if ((this.hand[0].getValue() == 1) && (this.hand[3].getValue() == 4)) {
         int[] ret = {0, 1, 2, 3};
         return ret;
       }
 
-      //AJQK case
+      //AJQK case, why this have the (this.hand[1].getValue() < 10) condition??????
       if ((this.hand[0].getValue() == 1) && (this.hand[2].getValue() == 11) && (this.hand[1].getValue() < 10)) {
         int[] ret = {0, 2, 3, 4};
         return ret;
