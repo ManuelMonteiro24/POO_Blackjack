@@ -975,8 +975,8 @@ public class HandEvaluator{
         return null;
     }
 
-    //CHECK TO DO
-    private int[] fourToIStraight(){
+    //Paulino: acho que isto assim dá merda. vector vai de 0 a 4 e quando i=4 tenta aceder a 5 e 6.
+    /*private int[] fourToIStraight(){
       int jumpIndex=0, highCards = 0;
       int[] indexes = new int[4];
 
@@ -995,12 +995,47 @@ public class HandEvaluator{
       }
 
       int j=0;
-      for(int i=0;i<5;i++){
+      for(int i = 0; i < this.hand.length; i++){
         if(i==jumpIndex)
           continue;
         indexes[j++] = i;
       }
       return indexes;
+    }*/
+
+    //CHECK
+    private int[] fourToIStraight() {
+
+      //A123 case
+      if ((this.hand[0].getValue() == 1) && (this.hand[3].getValue() == 4) && (this.hand[4].getValue() > 5)) {
+        int[] ret = {0, 1, 2, 3};
+        return ret;
+      }
+
+      //AJQK case
+      if ((this.hand[0].getValue() == 1) && (this.hand[2].getValue() == 11) && (this.hand[1].getValue() < 10)) {
+        int[] ret = {0, 2, 3, 4};
+        return ret;
+      }
+
+      //ATJQ, ATJK, ATQK cases
+      if ((this.hand[0].getValue() == 1) && (this.hand[2].getValue() == 10)) {
+        int[] ret = {0, 2, 3, 4};
+        return ret;
+      }
+
+      //other cases (start with 1...4 to check higher 4TIS first)
+      if ((this.hand[4].getValue() - this.hand[1].getValue()) == 4) {
+        int[] ret = {1, 2, 3, 4};
+        return ret;
+      }
+
+      if ((this.hand[3].getValue() - this.hand[0].getValue()) == 4) {
+        int[] ret = {0, 1, 2, 3};
+        return ret;
+      }
+
+      return null;
     }
 
     //CHECK
