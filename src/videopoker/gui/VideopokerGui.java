@@ -84,17 +84,16 @@ public class VideopokerGui extends JFrame implements ActionListener {
 
 			try {
 				credit = Integer.parseInt(creditText.getText());
-
+				
 				if (credit > 0) {
-
 					EventQueue.invokeLater(new GraphicGame(credit));
 					dispose();
 					
-
 				} else {
 					JOptionPane.showMessageDialog(null, "Invalid credit");
 				}
 			} catch (Exception notInt) {
+				System.out.println("exception de nao conseguir");
 				JOptionPane.showMessageDialog(null, "Invalid credit");
 			}
 		}
