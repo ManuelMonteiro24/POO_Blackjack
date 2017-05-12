@@ -50,7 +50,7 @@ public class Hand{
         return ret;
     }
 
-    //vale a pena fazer???
+    //not using
     @Override
     public boolean equals(Object obj){
     if(this == obj)
@@ -70,7 +70,7 @@ public class Hand{
     return true;
     }
 
-    //vale a pena fazer??? passar para um primo mais alto???
+    //not using
     @Override
     public int hashCode(){
     final int prime = 31;

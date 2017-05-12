@@ -58,6 +58,7 @@ public class Card implements Comparable<Card>{
     return aux.concat(String.valueOf(this.suite));
   }
 
+  //not using
   @Override
   public boolean equals(Object obj){
     if(this == obj)
@@ -75,7 +76,7 @@ public class Card implements Comparable<Card>{
     return true;
   }
 
-//check if it is correct
+  //not using
   @Override
   public int hashCode(){
     final int prime = 31;
