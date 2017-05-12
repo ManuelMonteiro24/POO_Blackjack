@@ -1,10 +1,14 @@
 package videopoker;
 
 import videopoker.game.*;
+import videopoker.gui.VideopokerGui;
 
 import java.io.File;
 import java.util.Scanner;
 import java.util.ArrayList;
+
+import java.awt.EventQueue;
+import java.awt.Window;
 
 public class Main{
 
@@ -40,7 +44,22 @@ public class Main{
         int nbDeals = 0;
         int roundCounter = 0;
 
-        if(args[0].equals("-i")){
+        if (args[0].equals("-g")) {
+            //Graphic interactive mode
+            if (args.length != 1) {
+                System.out.println("Graphic Interactive mode usage: -g");
+                System.exit(1);
+            }
+
+            EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    //check exception???
+                    VideopokerGui frame = new VideopokerGui();
+                    frame.setVisible(true);
+                }
+            });
+
+        } else if(args[0].equals("-i")){
             //interactive mode
             if(args.length != 2 || !(isInteger(args[1]))){
                 System.out.println("Interactive mode usage: -i credit<num>");
