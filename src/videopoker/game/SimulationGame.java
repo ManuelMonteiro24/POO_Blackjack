@@ -29,7 +29,7 @@ public class SimulationGame implements Game{
     public void betStage(){
 
         if(this.player.bet(this.betOnTheTable) != this.betOnTheTable) {
-            System.out.println("this.player has no more funds");
+            System.out.println("player has no more funds");
             System.exit(0);
         }
         this.roundCounter++;

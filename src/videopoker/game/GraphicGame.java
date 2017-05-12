@@ -203,7 +203,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 	private void evaluationStage() {
 		
 		this.dealer.updateEvaluator(this.player.getHand());
-        HandRank playerRank = this.dealer.evaluate();
+        HandRank playerRank = this.dealer.getHandRank();
         this.player.updateBalance(this.dealer.payout(this.betOnTheTable));
         this.player.updateScoreboard(playerRank);
         this.dealer.receiveCards(this.player.releaseHand()); //return players cards to deck
