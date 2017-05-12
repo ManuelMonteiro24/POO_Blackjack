@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JSlider;
 import javax.swing.JOptionPane;
+import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -25,20 +26,29 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Dialog.ModalityType;
+//import java.awt.Point;
 
 public class GraphicGame extends JFrame implements Runnable, ActionListener {
 	
 	private JLabel creditLabel, betLabel;
-	private JLabel[] cards = new JLabel[5];//firstCard, secondCard, thirdCard, fourthCard, fifthCard;
+	private JLabel[] cards = new JLabel[5];
 	private JPanel topPanel, centerPanel, rightPanel, downPanel;
-	private JPanel[] cardsPanel = new JPanel[5];//firstCardPanel, secondCardPanel, thirdCardPanel, fourthCardPanel, fifthCardPanel;
+	private JPanel[] cardsPanel = new JPanel[5];
 	private JTextArea textArea;
-	private JCheckBox[] cardsCB = new JCheckBox[5];//firstCB, secondCB, thirdCB, fourthCB, fifthCB;
-	private JButton[] buttons = new JButton[6];//quitBtn, statsBtn, adviceBtn, holdBtn, dealBtn, betBtn;
+	private JCheckBox[] cardsCB = new JCheckBox[5];
+	private JButton[] buttons = new JButton[6];
 	private JSlider betSlider;
+	private JDialog statsDialog;
+	private JPanel statsBtnPanel, statsLabelsPanel;
+	private JButton statsBtn;
+	private JLabel statsLabels;
 
 	public static final int W_G = 1200;
 	public static final int H_G = W_G * 3 / 4;
+	public static final int W_STATS = W_G / 2;
+	public static final int H_STATS = W_STATS * 3 / 4;
+
 	public static final int QUITBTN = 0;
 	public static final int STATSBTN = 1;
 	public static final int ADVICEBTN = 2;
@@ -165,7 +175,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 		//pack(); //NAO FAZ NADA??
 
 
-
+		buttons[STATSBTN].addActionListener(this);
 	}
 
 	public void run() {
@@ -323,6 +333,23 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 			buttons[HOLDBTN].removeActionListener(this);
 
 			evaluationStage();
+
+		} else if (e.getSource() == buttons[STATSBTN]) {
+			statsDialog = new JDialog(this, "Statistics", ModalityType.DOCUMENT_MODAL);
+			statsDialog.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			Dimension statsSize = new Dimension(W_STATS, H_STATS);
+			statsDialog.setPreferredSize(statsSize);
+			statsDialog.setMinimumSize(statsSize);
+
+			//Point loc = this.getLocation();
+			//statsDialog.setLocation(loc.x + W_G, loc.y);
+			statsDialog.setLocationRelativeTo(this);
+
+
+			Container statsCont = statsDialog.getContentPane();
+
+			
+			statsDialog.setVisible(true);
 		}
 	}
 }

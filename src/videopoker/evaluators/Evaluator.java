@@ -77,8 +77,8 @@ public abstract class Evaluator{
             return ret;
         }
 
-        //AJQK case, why this have the (this.hand[1].getValue() < 10) condition??????
-        if ((this.hand[0].getValue() == 1) && (this.hand[2].getValue() == 11) && (this.hand[1].getValue() < 10)) {
+        //AJQK case
+        if ((this.hand[0].getValue() == 1) && (this.hand[2].getValue() == 11)) {
             int[] ret = {0, 2, 3, 4};
             return ret;
         }
