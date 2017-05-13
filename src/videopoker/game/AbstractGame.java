@@ -146,15 +146,26 @@ public abstract class AbstractGame implements Game{
 
             valid = false;
             if((command = this.cmdHandler.validateCommand(input)) == 5){
+
                 String[] buf = input.split("(\\s{1,}+)");
                 int[] holdIndexes = new int[buf.length - 1];
+
                 for(int i = 0; i < holdIndexes.length; i++) //parse indexes to int[]
                     holdIndexes[i] = Integer.parseInt(buf[i+1]);
+
+                if(this instanceof DebugGame) { //check if there are more cards in deck in debug mode
+            		if(this.dealer.cardsLeftCount() < (5 - holdIndexes.length)) {  //if so terminate program
+                		System.out.println("deck only has " + this.dealer.cardsLeftCount() + " cards left");
+            			continue;
+            		}
+        		}
 
                 Card[] ret = this.player.hold(holdIndexes, this.dealer.dealSecondCards(5 - holdIndexes.length));
                 this.dealer.receiveCards(ret);
                 System.out.printf("player's hand "); this.player.showHand();
                 valid = true;
+
+
 
             } else if(command == 6) {
 
@@ -198,7 +209,7 @@ public abstract class AbstractGame implements Game{
             System.out.println("player loses and his credit is " + this.player.getBalance());
 
         if(this instanceof DebugGame) { //check if there are more cards in deck in debug mode
-            if(this.dealer.checkEmptyDeck()) {  //if so terminate program
+            if(this.dealer.cardsLeftCount() < 5) {  //if so terminate program
                 System.out.println("no more cards to play the commands");
                 System.exit(0);
             }

@@ -61,14 +61,13 @@ public class Deck{
             this.deck.add(cards[i]);
     }
 
+
+    /// a,sd,as,d,MMMMMMMMMMMMMMMMASDFASFSAFLASLFASLLFAS
   /**
    * Check's if the deck has enough cards to play the next hand
    * @return a boolean that represents if this condition is true or false
    */
-    public boolean isEmpty(){
-        if(deck.size() < 5)
-            return true;
-        else
-            return false;
+    public int getRemainingCardsCount(){
+        return this.deck.size();
     }
 }

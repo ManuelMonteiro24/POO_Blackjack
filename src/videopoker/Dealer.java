@@ -112,14 +112,14 @@ public class Dealer extends HandEvaluator {
 
         return 0;
     }
-
+          ///7sdfasfas
     /**
      * Checks if the @deck Card array is empty.
      *
      * @return true if condition holds, false otherwise
      */
-    public boolean checkEmptyDeck() {
-        return this.deck.isEmpty();
+    public int cardsLeftCount() {
+        return this.deck.getRemainingCardsCount();
     }
 
 }
