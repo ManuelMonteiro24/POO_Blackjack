@@ -10,7 +10,7 @@ class FourToFlush extends Evaluator{
                 int[] indexes2 = new int[4], indexes1 = {0, -1, -1, -1};
                 char suit2 = '\0', suit1 = hand[0].getSuit();
 
-                for(int i = 1; i < hand.length; i++)
+                for(int i = 1; i < hand.length; i++) {
                         if(hand[i].getSuit() == suit1) {
                                 indexes1[j1++] = i;
                         } else if(hand[i].getSuit() == suit2) {
@@ -19,6 +19,7 @@ class FourToFlush extends Evaluator{
                                 suit2 = hand[i].getSuit();
                                 indexes2[j2++] = i;
                         }
+                }
 
                 System.out.println("4toFlush");
                 if(j1 == 4)

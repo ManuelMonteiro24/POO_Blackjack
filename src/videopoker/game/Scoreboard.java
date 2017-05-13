@@ -20,6 +20,7 @@ public class Scoreboard{
     public Scoreboard(int initialBalance){
 
         this.initialBalance = initialBalance;
+        this.currentBalance = initialBalance;
         this.dealsNb = 0;
         for(int i = 0; i < this.playsNb.length; i++)
             this.playsNb[i] = 0;
@@ -64,5 +65,21 @@ public class Scoreboard{
         sb.append(String.format("Credit        %.0f (%.1f%s)\n", this.currentBalance, gainPercentage, "%"));
 
         return sb.toString();
+    }
+
+    public double getInitialBalance() {
+        return this.initialBalance;
+    }
+
+    public double getCurrentBalance() {
+        return this.currentBalance;
+    }
+
+    public int getDealsNb() {
+        return this.dealsNb;
+    }
+
+    public int[] getPlaysNb() {
+        return this.playsNb;
     }
 }

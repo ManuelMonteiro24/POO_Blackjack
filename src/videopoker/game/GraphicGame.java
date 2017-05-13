@@ -1,11 +1,13 @@
 package videopoker.game;
 
 import java.util.Hashtable;
+import java.util.Arrays;
 
 import videopoker.Player;
 import videopoker.Dealer;
 import videopoker.cards.*;
 import videopoker.utils.HandRank;
+import videopoker.evaluators.Evaluator;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JSlider;
 import javax.swing.JOptionPane;
+import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -25,26 +28,23 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Dialog.ModalityType;
+//import java.awt.Point;
 
 public class GraphicGame extends JFrame implements Runnable, ActionListener {
 	
-	private JLabel creditLabel, betLabel;
-	private JLabel[] cards = new JLabel[5];//firstCard, secondCard, thirdCard, fourthCard, fifthCard;
-	private JPanel topPanel, centerPanel, rightPanel, downPanel;
-	private JPanel[] cardsPanel = new JPanel[5];//firstCardPanel, secondCardPanel, thirdCardPanel, fourthCardPanel, fifthCardPanel;
-	private JTextArea textArea;
-	private JCheckBox[] cardsCB = new JCheckBox[5];//firstCB, secondCB, thirdCB, fourthCB, fifthCB;
-	private JButton[] buttons = new JButton[6];//quitBtn, statsBtn, adviceBtn, holdBtn, dealBtn, betBtn;
-	private JSlider betSlider;
-
 	public static final int W_G = 1200;
 	public static final int H_G = W_G * 3 / 4;
+	public static final int W_STATS = W_G / 2;
+	public static final int H_STATS = W_STATS * 3 / 4;
+
 	public static final int QUITBTN = 0;
 	public static final int STATSBTN = 1;
 	public static final int ADVICEBTN = 2;
 	public static final int HOLDBTN = 3;
 	public static final int DEALBTN = 4;
 	public static final int BETBTN = 5;
+	protected boolean quitBtnFlag, adviceBtnFlag, holdBtnFlag, dealBtnFlag, betBtnFlag;
 
 	protected Color backgroundColor = new Color(7, 99, 36);
 	protected Color textColor = Color.WHITE;
@@ -52,9 +52,23 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 	protected String imagesPath = "videopoker/icons/";
 	protected String imagesExtension = ".png";
 	protected String[] buttonsText = {"Quit", "Statistics", "Advice", "Hold", "Deal", "Bet"};
+	protected String[] statsTitlesText = {"Hand", "Jacks or Better", "Two Pair", "Three of a Kind", "Straight", "Flush", "Full House", "Four of a Kind", "Straight Flush", "Royal Flush", "Others", "Total", "Credit", "Number of Bets"};
 	protected int betOnTheTable = 0;
 	protected Player player;
 	protected Dealer dealer;
+
+	private JLabel creditLabel, betLabel;
+	private JLabel[] cards = new JLabel[5];
+	private JPanel topPanel, centerPanel, rightPanel, downPanel;
+	private JPanel[] cardsPanel = new JPanel[5];
+	private JTextArea textArea;
+	private JCheckBox[] cardsCB = new JCheckBox[5];
+	private JButton[] buttons = new JButton[buttonsText.length];
+	private JSlider betSlider;
+	private JDialog statsDialog;
+	protected JPanel statsTitlesPanel, statsNumPanel;
+	protected JLabel[] statsTitlesLabels = new JLabel[statsTitlesText.length - 1];
+	protected JLabel[] statsNumLabels = new JLabel[statsTitlesText.length - 1];
 
 
 	public GraphicGame(int iniBalance) {
@@ -165,7 +179,18 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 		//pack(); //NAO FAZ NADA??
 
 
+		buttons[STATSBTN].addActionListener(this);
+		buttons[BETBTN].addActionListener(this);
+		buttons[QUITBTN].addActionListener(this);
+		buttons[DEALBTN].addActionListener(this);
+		buttons[HOLDBTN].addActionListener(this);
+		buttons[ADVICEBTN].addActionListener(this);
 
+		quitBtnFlag = false;
+		adviceBtnFlag = false;
+		holdBtnFlag = false;
+		dealBtnFlag = false;
+		betBtnFlag = false;
 	}
 
 	public void run() {
@@ -179,15 +204,18 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 
 		betSlider.setEnabled(true);
 
-		buttons[BETBTN].addActionListener(this);
-		buttons[QUITBTN].addActionListener(this);
+		betBtnFlag = true;
+		quitBtnFlag = true;
+		//buttons[BETBTN].addActionListener(this);
+		//buttons[QUITBTN].addActionListener(this);
 
 	}
 
 	private void dealStage() {
 		textArea.setText("Press deal to receive hand");
 
-		buttons[DEALBTN].addActionListener(this);
+		dealBtnFlag = true;
+		//buttons[DEALBTN].addActionListener(this);
 	}
 
 	private void holdStage() {
@@ -196,7 +224,10 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 		for (int i = 0; i < 5; i++)
 			cardsCB[i].setEnabled(true);
 
-		buttons[HOLDBTN].addActionListener(this);
+		holdBtnFlag = true;
+		adviceBtnFlag = true;
+		//buttons[HOLDBTN].addActionListener(this);
+		//buttons[ADVICEBTN].addActionListener(this);
 			
 	}
 
@@ -234,95 +265,199 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == buttons[QUITBTN]) {
-			JOptionPane.showMessageDialog(null, "Player will leave the game with credit: " + this.player.getBalance());
-			dispose();
-			System.exit(0);
+
+			if (quitBtnFlag) {
+				JOptionPane.showMessageDialog(null, "Player will leave the game with credit: " + this.player.getBalance());
+				dispose();
+				System.exit(0);
+			} else
+				JOptionPane.showMessageDialog(null, "Invalid! Player can only quit in the beggining of each round!");
 
 		} else if (e.getSource() == buttons[BETBTN]) {
 
-			buttons[QUITBTN].removeActionListener(this);
+			if (betBtnFlag) {
 
-			betSlider.setEnabled(false);
+				quitBtnFlag = false;
+				//buttons[QUITBTN].removeActionListener(this);
+				betBtnFlag = false;
+				//buttons[BETBTN].removeActionListener(this);
 
-			int betChose = betSlider.getValue();
-			if (betChose == 0) {
-				if (this.betOnTheTable == 0) {
-					JOptionPane.showMessageDialog(null, "No previous bet\nUser will bet 5 credits");
-					betChose = 5;
+				betSlider.setEnabled(false);
+
+				int betChose = betSlider.getValue();
+				if (betChose == 0) {
+					if (this.betOnTheTable == 0) {
+						JOptionPane.showMessageDialog(null, "No previous bet\nUser will bet 5 credits");
+						betChose = 5;
+					}
+					else
+						betChose = this.betOnTheTable;
 				}
-				else
-					betChose = this.betOnTheTable;
-			}
 
-			this.betOnTheTable = this.player.bet(betChose);
-			if (this.betOnTheTable == 0) {
-				JOptionPane.showMessageDialog(null, "Player has no more funds.\nGame will terminate");
-				dispose();
-				System.exit(0);
-			}
-			if (betChose > this.betOnTheTable)
-				JOptionPane.showMessageDialog(null, "Player only has " + this.betOnTheTable + " credits\nBetted all!");
+				this.betOnTheTable = this.player.bet(betChose);
+				if (this.betOnTheTable == 0) {
+					JOptionPane.showMessageDialog(null, "Player has no more funds.\nGame will terminate");
+					dispose();
+					System.exit(0);
+				}
+				if (betChose > this.betOnTheTable)
+					JOptionPane.showMessageDialog(null, "Player only has " + this.betOnTheTable + " credits\nBetted all!");
 
-			betLabel.setText("Bet: " + this.betOnTheTable);
-			creditLabel.setText("Credit: " + this.player.getBalance());
+				betLabel.setText("Bet: " + this.betOnTheTable);
+				creditLabel.setText("Credit: " + this.player.getBalance());
 
-			buttons[BETBTN].removeActionListener(this);
+				dealStage();
 
-			dealStage();
+			} else
+				JOptionPane.showMessageDialog(null, "Invalid! Player can only bet in the beggining of a round!");
 		
 		} else if (e.getSource() == buttons[DEALBTN]) {
 
-			this.dealer.shuffleDeck();
-			this.player.setHand(this.dealer.dealFullHand());
+			if (dealBtnFlag) {
 
-			Card[] hand = this.player.getHand().toCardArray();
+				dealBtnFlag = false;
+				//buttons[DEALBTN].removeActionListener(this);
+				
+				this.dealer.shuffleDeck();
+				this.player.setHand(this.dealer.dealFullHand());
 
-			for (int i = 0; i < 5; i++) {
-				cards[i].setIcon(new ImageIcon(imagesPath + hand[i].toString() + imagesExtension));
-				cards[i].setVisible(true);
-				cardsCB[i].setVisible(true);
-			}
+				Card[] hand = this.player.getHand().toCardArray();
 
-			buttons[DEALBTN].removeActionListener(this);
+				for (int i = 0; i < 5; i++) {
+					cards[i].setIcon(new ImageIcon(imagesPath + hand[i].toString() + imagesExtension));
+					cards[i].setVisible(true);
+					cardsCB[i].setVisible(true);
+				}
 
+				holdStage();
 
-			holdStage();
+			} else
+				JOptionPane.showMessageDialog(null, "Invalid! Player can only deal after a bet");
+
 
 		} else if (e.getSource() == buttons[HOLDBTN]) {
 
-			boolean[] indexes = new boolean[5];
-			int nToHold = 0;
+			if (holdBtnFlag) {
 
-			for (int i = 0; i < 5; i++) {
-				cardsCB[i].setEnabled(false);
-				if (cardsCB[i].isSelected()) {
-					nToHold++;
-					indexes[i] = true;
-				} else
-					indexes[i] = false;
-			}
+				adviceBtnFlag = false;
+				//buttons[ADVICEBTN].removeActionListener(this);
+				holdBtnFlag = false;
+				//buttons[HOLDBTN].removeActionListener(this);
 
-			int[] holdIndexes = new int[nToHold];
+				boolean[] indexes = new boolean[5];
+				int nToHold = 0;
 
-			int k = 0;
-			for (int i = 0; i < 5; i++) {
-				if (indexes[i]) {
-					holdIndexes[k] = (i + 1);
-					k++;
+				for (int i = 0; i < 5; i++) {
+					cardsCB[i].setEnabled(false);
+					if (cardsCB[i].isSelected()) {
+						nToHold++;
+						indexes[i] = true;
+					} else
+						indexes[i] = false;
 				}
+
+				int[] holdIndexes = new int[nToHold];
+
+				int k = 0;
+				for (int i = 0; i < 5; i++) {
+					if (indexes[i]) {
+						holdIndexes[k] = (i + 1);
+						k++;
+					}
+				}
+
+				Card[] ret = this.player.hold(holdIndexes, this.dealer.dealSecondCards(5 - holdIndexes.length));
+				dealer.receiveCards(ret);
+
+				Card[] hand = this.player.getHand().toCardArray();
+
+				for (int i = 0; i < 5; i++)
+					cards[i].setIcon(new ImageIcon(imagesPath + hand[i].toString() + imagesExtension));
+
+				
+
+				evaluationStage();
+
+			} else
+				JOptionPane.showMessageDialog(null, "Invalid! Player can only hold after a deal");
+
+		} else if (e.getSource() == buttons[STATSBTN]) {
+
+			statsDialog = new JDialog(this, "Statistics", ModalityType.DOCUMENT_MODAL);
+			statsDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			Dimension statsSize = new Dimension(W_STATS, H_STATS);
+			statsDialog.setPreferredSize(statsSize);
+			statsDialog.setMinimumSize(statsSize);
+			statsDialog.setLocationRelativeTo(this);
+
+			statsTitlesPanel = new JPanel();
+			statsTitlesPanel.setLayout(new GridLayout((statsTitlesText.length - 1), 1));
+			for (int i = 0; i < (statsTitlesText.length - 1); i++) {
+				statsTitlesLabels[i] = new JLabel(statsTitlesText[i]);
+				statsTitlesLabels[i].setOpaque(false);
+				statsTitlesPanel.add(statsTitlesLabels[i]);
 			}
+			statsTitlesPanel.setOpaque(false);
 
-			Card[] ret = this.player.hold(holdIndexes, this.dealer.dealSecondCards(5 - holdIndexes.length));
-			dealer.receiveCards(ret);
+			statsNumPanel = new JPanel();
+			statsNumPanel.setLayout(new GridLayout((statsTitlesText.length - 1), 1));
+			statsNumLabels[0] = new JLabel(statsTitlesText[(statsTitlesText.length - 1)]);
+			statsNumLabels[0].setOpaque(false);
+			statsNumPanel.add(statsNumLabels[0]);
+			for (int i = 1; i < (statsTitlesText.length - 3); i++) {
+				statsNumLabels[i] = new JLabel("" + this.player.scoreboard.getPlaysNb()[i-1]);
+				statsNumLabels[i].setOpaque(false);
+				statsNumPanel.add(statsNumLabels[i]);
+			}
+			statsNumLabels[statsTitlesText.length - 3] = new JLabel("" + this.player.scoreboard.getDealsNb());
+			statsNumLabels[statsTitlesText.length - 3].setOpaque(false);
+			statsNumPanel.add(statsNumLabels[statsTitlesText.length - 3]);
+			double gainPercentage = (this.player.scoreboard.getCurrentBalance() - this.player.scoreboard.getInitialBalance())*100/this.player.scoreboard.getInitialBalance();
+			statsNumLabels[statsTitlesText.length - 2] = new JLabel(this.player.scoreboard.getCurrentBalance() + " (" + gainPercentage + "%)");
+			statsNumLabels[statsTitlesText.length - 2].setOpaque(false);
+			statsNumPanel.add(statsNumLabels[statsTitlesText.length - 2]);
 
-			Card[] hand = this.player.getHand().toCardArray();
+			statsDialog.getContentPane().setLayout(new GridLayout(1, 2));
+			statsDialog.getContentPane().add(statsTitlesPanel);
+			statsDialog.getContentPane().add(statsNumPanel);
+			
+			statsDialog.setVisible(true);
+		
+		} else if (e.getSource() == buttons[ADVICEBTN]) {
 
-			for (int i = 0; i < 5; i++)
-				cards[i].setIcon(new ImageIcon(imagesPath + hand[i].toString() + imagesExtension));
+			if (adviceBtnFlag) {
+			
+				int[] decision;
+				int[] holdIndexes = {};
 
-			buttons[HOLDBTN].removeActionListener(this);
+				this.dealer.updateEvaluator(this.player.getHand());
+				this.dealer.getHandRank();
+				if ((decision = this.dealer.getAdvice()) != null) {
+					holdIndexes = this.dealer.indexOrderedToUnordered(decision, this.player.getHand());
+					
+					System.out.print("holdIndexes: ");
+	                for (int i = 0; i < holdIndexes.length; i++)
+	                    System.out.print(holdIndexes[i] + " ");
+	                System.out.println();
 
-			evaluationStage();
+					for (int i = 0, k = 0; (i < 5) && (k < holdIndexes.length); i++) {
+						if (holdIndexes[k] == i) {
+							cardsCB[i].setSelected(true);
+							k++;
+						} else
+							cardsCB[i].setSelected(false);
+					}
+					
+					JOptionPane.showMessageDialog(null, "Player should hold checked cards");
+				} else {
+					for (int i = 0; i < 5; i++)
+						cardsCB[i].setSelected(false);
+					JOptionPane.showMessageDialog(null, "Player should hold no cards");
+				}
+
+			} else
+				JOptionPane.showMessageDialog(null, "Invalid! Player can only get advice after a deal");
+
 		}
 	}
 }

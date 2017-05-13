@@ -39,6 +39,7 @@ public class Dealer extends HandEvaluator{
 
         for(int i = 0; i < 5; i++)
             iniCards[i] = deck.draw();
+
         Hand playersHand = new Hand(iniCards);
         return playersHand;
     }
@@ -66,5 +67,14 @@ public class Dealer extends HandEvaluator{
 
         return 0;
     }
+
+    //check if deck is empty (DebugGame termination)
+    public boolean checkEmptyDeck(){
+      return this.deck.isEmpty();
+    }
+
+    /*public String printDeck() {
+        return this.deck.toString();
+    }*/
 
 }

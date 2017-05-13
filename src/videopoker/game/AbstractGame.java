@@ -35,20 +35,31 @@ public abstract class AbstractGame implements Game{
                 System.out.println("player quit the game with credit " + this.player.getBalance());
                 System.exit(0);
             } else if(command == 2){ //empty bet b; bet same as previous bet, or 5 if no bet was placed before
+                int bet;
                 if(this.betOnTheTable == 0)
-                    this.betOnTheTable = 5; //bet 5
-                this.betOnTheTable = this.player.bet(this.betOnTheTable);
+                    bet = 5;
+                else
+                    bet = this.betOnTheTable;
+
+                this.betOnTheTable = this.player.bet(bet);
+
                 if(this.betOnTheTable == 0) {
                     System.out.println("player has no more funds");
                     System.exit(0);
                 }
+                if (bet > this.betOnTheTable)
+                    System.out.println("player only has " + this.betOnTheTable + " credits, betted all");
+
                 valid = true;
             } else if(command == 3){
-                this.betOnTheTable = this.player.bet(Integer.parseInt(input.split("(\\s{1,}+)")[1])); //get amount from userInput and bet()
+                int bet = Integer.parseInt(input.split("(\\s{1,}+)")[1]);
+                this.betOnTheTable = this.player.bet(bet); //get amount from userInput and bet()
                 if(this.betOnTheTable == 0) {
                     System.out.println("player has no more funds");
                     System.exit(0);
                 }
+                if (bet > this.betOnTheTable)
+                    System.out.println("player only has " + this.betOnTheTable + " credits, betted all");
                 valid = true;
             } else if(command == 7) {
                 this.player.statistics();
@@ -109,15 +120,18 @@ public abstract class AbstractGame implements Game{
 
             } else if(command == 6) {
 
-                Evaluator.updateEvaluator(this.player.getHand());
-                dealer.getHandRank(); //update Evaluator static variable @handRank
-                int[] advice = this.dealer.getAdvice();
-                if(advice != null) {
-                    advice = this.dealer.indexOrderedToUnordered(advice, this.player.getHand());
-                    System.out.printf("player should hold cards ");
-                    for(int index : advice)
-                        System.out.printf(++index + " ");
-                    System.out.printf("\n");
+                int[] decision;
+                int[] holdIndexes = {};
+
+                this.dealer.updateEvaluator(this.player.getHand());
+                this.dealer.getHandRank();
+
+                if ((decision = this.dealer.getAdvice()) != null) {
+                    holdIndexes = this.dealer.indexOrderedToUnordered(decision, this.player.getHand());
+                    System.out.print("player should hold cards ");
+                    for (int i = 0; i < holdIndexes.length; i++)
+                        System.out.print(++holdIndexes[i] + " ");
+                    System.out.println();
                 } else
                     System.out.println("player should hold no cards ");
 
@@ -136,12 +150,21 @@ public abstract class AbstractGame implements Game{
         HandRank playerRank = this.dealer.getHandRank();
         this.player.updateBalance(this.dealer.payout(this.betOnTheTable));
         this.player.updateScoreboard(playerRank);
-        this.dealer.receiveCards(this.player.releaseHand()); //return players cards to deck
+
+        if(this instanceof InteractiveGame) //Debug mode doesnt return cards played to deck
+          this.dealer.receiveCards(this.player.releaseHand()); //return players cards to deck
 
         if(playerRank != HandRank.NON && playerRank != HandRank.PAIR)
             System.out.println("player wins with a " + playerRank + " and his credit is " + this.player.getBalance());
         else
             System.out.println("player loses and his credit is " + this.player.getBalance());
+
+        if(this instanceof DebugGame) { //check if there are more cards in deck in debug mode
+            if(this.dealer.checkEmptyDeck()) {  //if so terminate program
+                System.out.println("no more cards to play the commands");
+                System.exit(0);
+            }
+        }
 
     }
 

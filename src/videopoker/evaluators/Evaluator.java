@@ -38,7 +38,7 @@ public abstract class Evaluator{
 
         //MANEL REMOVI UM IF AQUI QUE ACHO QUE NAO ERA NECESSARIO, mas fazer check
 
-        for(int i = 1; i < hand.length; i++)
+        for(int i = 1; i < hand.length; i++) {
             if(hand[i].getSuit() == suit1) {
                 indexes1[j1++] = i;
             } else if(hand[i].getSuit() == suit2) {
@@ -52,6 +52,7 @@ public abstract class Evaluator{
                 suit3 = hand[i].getSuit();
                 indexes3[j3++] = i;
             }
+        }
 
         System.out.println("3toFlush ");
         if(j1 == 3)
@@ -77,8 +78,8 @@ public abstract class Evaluator{
             return ret;
         }
 
-        //AJQK case, why this have the (this.hand[1].getValue() < 10) condition??????
-        if ((this.hand[0].getValue() == 1) && (this.hand[2].getValue() == 11) && (this.hand[1].getValue() < 10)) {
+        //AJQK case
+        if ((this.hand[0].getValue() == 1) && (this.hand[2].getValue() == 11)) {
             int[] ret = {0, 2, 3, 4};
             return ret;
         }
