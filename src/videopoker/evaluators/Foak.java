@@ -8,7 +8,7 @@ class Foak extends Evaluator{
 
     @Override
     public int[] evaluate(){
-        if(handRank == HandRank.FOAK_5K || handRank == HandRank.FOAK_24 || handRank == handRank.FOAK_A) {
+        if(handRank == HandRank.FOAK_5K || handRank == HandRank.FOAK_24 || handRank == HandRank.FOAK_A) {
             if (valueStreak(0) == 3) {
                 int[] ret = {0, 1, 2, 3};
                 return ret;
