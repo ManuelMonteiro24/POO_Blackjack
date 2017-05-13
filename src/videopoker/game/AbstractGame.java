@@ -214,8 +214,5 @@ public abstract class AbstractGame implements Game{
         System.exit(0);
       }
     }
-
   }
-
-
 }
