@@ -35,20 +35,31 @@ public abstract class AbstractGame implements Game{
                 System.out.println("player quit the game with credit " + this.player.getBalance());
                 System.exit(0);
             } else if(command == 2){ //empty bet b; bet same as previous bet, or 5 if no bet was placed before
+                int bet;
                 if(this.betOnTheTable == 0)
-                    this.betOnTheTable = 5; //bet 5
-                this.betOnTheTable = this.player.bet(this.betOnTheTable);
+                    bet = 5;
+                else
+                    bet = this.betOnTheTable;
+
+                this.betOnTheTable = this.player.bet(bet);
+
                 if(this.betOnTheTable == 0) {
                     System.out.println("player has no more funds");
                     System.exit(0);
                 }
+                if (bet > this.betOnTheTable)
+                    System.out.println("player only has " + this.betOnTheTable + " credits, betted all");
+
                 valid = true;
             } else if(command == 3){
-                this.betOnTheTable = this.player.bet(Integer.parseInt(input.split("(\\s{1,}+)")[1])); //get amount from userInput and bet()
+                int bet = Integer.parseInt(input.split("(\\s{1,}+)")[1]);
+                this.betOnTheTable = this.player.bet(bet); //get amount from userInput and bet()
                 if(this.betOnTheTable == 0) {
                     System.out.println("player has no more funds");
                     System.exit(0);
                 }
+                if (bet > this.betOnTheTable)
+                    System.out.println("player only has " + this.betOnTheTable + " credits, betted all");
                 valid = true;
             } else if(command == 7) {
                 this.player.statistics();
