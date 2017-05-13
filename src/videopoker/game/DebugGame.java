@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
 public class DebugGame extends AbstractGame{
 
     public DebugGame(int iniBalance, String cmdFile, String cardsFile){
-        player = new Player(iniBalance);
-        dealer = new Dealer(getCardsFromFile(new File(cardsFile)));
-        cmdHandler = new CommandHandler(new File(cmdFile));
+        this.player = new Player(iniBalance);
+        this.dealer = new Dealer(getCardsFromFile(new File(cardsFile)));
+        this.cmdHandler = new CommandHandler(new File(cmdFile));
     }
 
     private ArrayList<Card> getCardsFromFile(File cards){

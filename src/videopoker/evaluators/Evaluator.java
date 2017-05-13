@@ -126,8 +126,8 @@ public abstract class Evaluator{
 
     /**
      * Counts how many times a given card value repeats itself in the @hand.
-     * @param searchIndex : index of the card to compare for streak
-     * @return : the amount of times the value of the card given by @searchIndex repeates itself
+     * @param searchIndex  index of the card to compare for streak
+     * @return  the amount of times the value of the card given by @searchIndex repeates itself
      */
     protected int valueStreak(int searchIndex){
         int streak = 0;

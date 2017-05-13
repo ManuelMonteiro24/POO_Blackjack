@@ -9,16 +9,22 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class which contains methods and tools for testing and
+ * finding a player's hand rank.
+ *
+ * This classe can be used as an instanciated object or as super
+ * class for other classes that could use this class's functionalities.
+ */
 public class HandEvaluator extends Evaluator {
 
 
-    public HandEvaluator() {
-    }
+    public HandEvaluator() {}
 
     /**
      * Checks current value @hand for any of the plays listed for videopoker double bonus 10/7.
      *
-     * @return
+     * @return HandRank value of @hand
      */
     public HandRank getHandRank() {
         int valueStreak, value;
@@ -104,7 +110,14 @@ public class HandEvaluator extends Evaluator {
         return true;
     }
 
-
+    /**
+     * Used to translate transform the indexes referencing cards from an ordered array
+     * into indexes that reference those same cards in the player's original unordered array.
+     *
+     * @param orderedIndexes indexes referencing the cards in an ordered array.
+     * @param unorderedHand the player's original ordered cards.
+     * @return
+     */
     public int[] indexOrderedToUnordered(int[] orderedIndexes, Hand unorderedHand) {
         Card[] unorderedCards = unorderedHand.toCardArray();
         int[] unorderedIndexes = new int[orderedIndexes.length];

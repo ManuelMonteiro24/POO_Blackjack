@@ -11,7 +11,7 @@ public class Dealer extends HandEvaluator{
 
     private final static int[] creditPayout = {0, 0, 1, 1, 3, 5, 7, 10, 50, 80, 160, 50, 250}; //one for each element of the HandRank enum
     private int rank;
-    private Adviser adviser;
+    public Adviser adviser;
     public static Deck deck;
 
     public Dealer(){
@@ -23,6 +23,7 @@ public class Dealer extends HandEvaluator{
     public Dealer(ArrayList<Card> customDeck){
         super();
         deck = new Deck(customDeck);
+        this.adviser = new Adviser();
     }
 
     public void receiveCards(Card[] usedcards){

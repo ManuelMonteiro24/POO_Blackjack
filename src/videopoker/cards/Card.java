@@ -1,6 +1,9 @@
 package videopoker.cards;
 
-//review visibilidades
+/**
+ * Card class represents a card and implements it's related methods.
+ * Instances of this class represent a card with a unique value/suit combination.
+ */
 public class Card implements Comparable<Card>{
 
   private int value; //1 ... 14, A=1
@@ -11,14 +14,26 @@ public class Card implements Comparable<Card>{
     this.suite = suite;
   }
 
+    /**
+     * Method to retrieve this Card instance's suit.
+     * @return card's suit
+     */
   public char getSuit(){
     return this.suite;
   }
 
+    /**
+     * Method to retrieve this Card instance's value.
+     * @return card's value
+     */
   public int getValue(){
     return this.value;
   }
 
+    /**
+     * Method to verify if this Card instance is a high card {J, Q, K, A}.
+     * @return true if the card is a high card, false otherwise
+     */
   public boolean isHighCard(){ return (this.value == 1 || this.value > 10) ? true : false; }
 
   @Override
