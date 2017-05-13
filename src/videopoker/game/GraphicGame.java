@@ -1,11 +1,13 @@
 package videopoker.game;
 
 import java.util.Hashtable;
+import java.util.Arrays;
 
 import videopoker.Player;
 import videopoker.Dealer;
 import videopoker.cards.*;
 import videopoker.utils.HandRank;
+import videopoker.evaluators.Evaluator;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -369,7 +371,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 			statsNumLabels[statsTitlesText.length - 3].setOpaque(false);
 			statsNumPanel.add(statsNumLabels[statsTitlesText.length - 3]);
 			double gainPercentage = (this.player.scoreboard.getCurrentBalance() - this.player.scoreboard.getInitialBalance())*100/this.player.scoreboard.getInitialBalance();
-			statsNumLabels[statsTitlesText.length - 2] = new JLabel(this.player.getBalance() + " (" + gainPercentage + "%)");
+			statsNumLabels[statsTitlesText.length - 2] = new JLabel(this.player.scoreboard.getCurrentBalance() + " (" + gainPercentage + "%)");
 			statsNumLabels[statsTitlesText.length - 2].setOpaque(false);
 			statsNumPanel.add(statsNumLabels[statsTitlesText.length - 2]);
 
@@ -380,7 +382,37 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 			statsDialog.setVisible(true);
 		
 		} else if (e.getSource() == buttons[ADVICEBTN]) {
-			System.out.println("implement advice");
+			
+			int[] decision;
+			int[] holdIndexes = {};
+
+			this.dealer.updateEvaluator(this.player.getHand());
+			this.dealer.getHandRank();
+			if ((decision = this.dealer.getAdvice()) != null) {
+				holdIndexes = this.dealer.indexOrderedToUnordered(decision, this.player.getHand());
+				
+				System.out.print("holdIndexes: ");
+                for (int i = 0; i < holdIndexes.length; i++)
+                    System.out.print(holdIndexes[i] + " ");
+                System.out.println();
+
+				for (int i = 0, k = 0; (i < 5) && (k < holdIndexes.length); i++) {
+					if (holdIndexes[k] == i) {
+						cardsCB[i].setSelected(true);
+						k++;
+					} else
+						cardsCB[i].setSelected(false);
+				}
+				
+				JOptionPane.showMessageDialog(null, "Player should hold checked cards");
+			} else {
+				for (int i = 0; i < 5; i++)
+					cardsCB[i].setSelected(false);
+				JOptionPane.showMessageDialog(null, "Player should hold no cards");
+			}
+
+			
+
 		}
 	}
 }

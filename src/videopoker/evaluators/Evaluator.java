@@ -38,7 +38,7 @@ public abstract class Evaluator{
 
         //MANEL REMOVI UM IF AQUI QUE ACHO QUE NAO ERA NECESSARIO, mas fazer check
 
-        for(int i = 1; i < hand.length; i++)
+        for(int i = 1; i < hand.length; i++) {
             if(hand[i].getSuit() == suit1) {
                 indexes1[j1++] = i;
             } else if(hand[i].getSuit() == suit2) {
@@ -52,6 +52,7 @@ public abstract class Evaluator{
                 suit3 = hand[i].getSuit();
                 indexes3[j3++] = i;
             }
+        }
 
         System.out.println("3toFlush ");
         if(j1 == 3)

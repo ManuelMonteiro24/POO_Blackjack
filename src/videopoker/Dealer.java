@@ -23,6 +23,7 @@ public class Dealer extends HandEvaluator{
     public Dealer(ArrayList<Card> customDeck){
         super();
         deck = new Deck(customDeck);
+        this.adviser = new Adviser();
     }
 
     public void receiveCards(Card[] usedcards){

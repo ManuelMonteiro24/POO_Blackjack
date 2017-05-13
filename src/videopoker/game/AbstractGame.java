@@ -120,15 +120,18 @@ public abstract class AbstractGame implements Game{
 
             } else if(command == 6) {
 
-                Evaluator.updateEvaluator(this.player.getHand());
-                dealer.getHandRank(); //update Evaluator static variable @handRank
-                int[] advice = this.dealer.getAdvice();
-                if(advice != null) {
-                    advice = this.dealer.indexOrderedToUnordered(advice, this.player.getHand());
-                    System.out.printf("player should hold cards ");
-                    for(int index : advice)
-                        System.out.printf(++index + " ");
-                    System.out.printf("\n");
+                int[] decision;
+                int[] holdIndexes = {};
+
+                this.dealer.updateEvaluator(this.player.getHand());
+                this.dealer.getHandRank();
+
+                if ((decision = this.dealer.getAdvice()) != null) {
+                    holdIndexes = this.dealer.indexOrderedToUnordered(decision, this.player.getHand());
+                    System.out.print("player should hold cards ");
+                    for (int i = 0; i < holdIndexes.length; i++)
+                        System.out.print(++holdIndexes[i] + " ");
+                    System.out.println();
                 } else
                     System.out.println("player should hold no cards ");
 

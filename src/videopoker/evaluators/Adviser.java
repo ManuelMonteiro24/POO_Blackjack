@@ -53,9 +53,10 @@ public class Adviser{
      */
     public int[] getAdvice(){
         int[] indexes;
-        for(Evaluator evaluator : this.evaluators)
+        for(Evaluator evaluator : this.evaluators) {
             if((indexes = evaluator.evaluate()) != null)
                 return indexes;
+        }
 
         return null;
     }
