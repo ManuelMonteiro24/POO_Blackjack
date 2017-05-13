@@ -31,19 +31,6 @@ import java.awt.Dialog.ModalityType;
 
 public class GraphicGame extends JFrame implements Runnable, ActionListener {
 	
-	private JLabel creditLabel, betLabel;
-	private JLabel[] cards = new JLabel[5];
-	private JPanel topPanel, centerPanel, rightPanel, downPanel;
-	private JPanel[] cardsPanel = new JPanel[5];
-	private JTextArea textArea;
-	private JCheckBox[] cardsCB = new JCheckBox[5];
-	private JButton[] buttons = new JButton[6];
-	private JSlider betSlider;
-	private JDialog statsDialog;
-	private JPanel statsBtnPanel, statsLabelsPanel;
-	private JButton statsBtn;
-	private JLabel statsLabels;
-
 	public static final int W_G = 1200;
 	public static final int H_G = W_G * 3 / 4;
 	public static final int W_STATS = W_G / 2;
@@ -62,9 +49,23 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 	protected String imagesPath = "videopoker/icons/";
 	protected String imagesExtension = ".png";
 	protected String[] buttonsText = {"Quit", "Statistics", "Advice", "Hold", "Deal", "Bet"};
+	protected String[] statsTitlesText = {"Hand", "Jacks or Better", "Two Pair", "Three of a Kind", "Straight", "Flush", "Full House", "Four of a Kind", "Straight Flush", "Royal Flush", "Others", "Total", "Credit", "Number of Bets"};
 	protected int betOnTheTable = 0;
 	protected Player player;
 	protected Dealer dealer;
+
+	private JLabel creditLabel, betLabel;
+	private JLabel[] cards = new JLabel[5];
+	private JPanel topPanel, centerPanel, rightPanel, downPanel;
+	private JPanel[] cardsPanel = new JPanel[5];
+	private JTextArea textArea;
+	private JCheckBox[] cardsCB = new JCheckBox[5];
+	private JButton[] buttons = new JButton[buttonsText.length];
+	private JSlider betSlider;
+	private JDialog statsDialog;
+	protected JPanel statsTitlesPanel, statsNumPanel;
+	protected JLabel[] statsTitlesLabels = new JLabel[statsTitlesText.length - 1];
+	protected JLabel[] statsNumLabels = new JLabel[statsTitlesText.length - 1];
 
 
 	public GraphicGame(int iniBalance) {
@@ -207,6 +208,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 			cardsCB[i].setEnabled(true);
 
 		buttons[HOLDBTN].addActionListener(this);
+		buttons[ADVICEBTN].addActionListener(this);
 			
 	}
 
@@ -300,6 +302,8 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 
 		} else if (e.getSource() == buttons[HOLDBTN]) {
 
+			buttons[ADVICEBTN].removeActionListener(this);
+
 			boolean[] indexes = new boolean[5];
 			int nToHold = 0;
 
@@ -336,20 +340,47 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 
 		} else if (e.getSource() == buttons[STATSBTN]) {
 			statsDialog = new JDialog(this, "Statistics", ModalityType.DOCUMENT_MODAL);
-			statsDialog.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			statsDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			Dimension statsSize = new Dimension(W_STATS, H_STATS);
 			statsDialog.setPreferredSize(statsSize);
 			statsDialog.setMinimumSize(statsSize);
-
-			//Point loc = this.getLocation();
-			//statsDialog.setLocation(loc.x + W_G, loc.y);
 			statsDialog.setLocationRelativeTo(this);
 
+			statsTitlesPanel = new JPanel();
+			statsTitlesPanel.setLayout(new GridLayout((statsTitlesText.length - 1), 1));
+			for (int i = 0; i < (statsTitlesText.length - 1); i++) {
+				statsTitlesLabels[i] = new JLabel(statsTitlesText[i]);
+				statsTitlesLabels[i].setOpaque(false);
+				statsTitlesPanel.add(statsTitlesLabels[i]);
+			}
+			statsTitlesPanel.setOpaque(false);
 
-			Container statsCont = statsDialog.getContentPane();
+			statsNumPanel = new JPanel();
+			statsNumPanel.setLayout(new GridLayout((statsTitlesText.length - 1), 1));
+			statsNumLabels[0] = new JLabel(statsTitlesText[(statsTitlesText.length - 1)]);
+			statsNumLabels[0].setOpaque(false);
+			statsNumPanel.add(statsNumLabels[0]);
+			for (int i = 1; i < (statsTitlesText.length - 3); i++) {
+				statsNumLabels[i] = new JLabel("" + this.player.scoreboard.getPlaysNb()[i-1]);
+				statsNumLabels[i].setOpaque(false);
+				statsNumPanel.add(statsNumLabels[i]);
+			}
+			statsNumLabels[statsTitlesText.length - 3] = new JLabel("" + this.player.scoreboard.getDealsNb());
+			statsNumLabels[statsTitlesText.length - 3].setOpaque(false);
+			statsNumPanel.add(statsNumLabels[statsTitlesText.length - 3]);
+			double gainPercentage = (this.player.scoreboard.getCurrentBalance() - this.player.scoreboard.getInitialBalance())*100/this.player.scoreboard.getInitialBalance();
+			statsNumLabels[statsTitlesText.length - 2] = new JLabel(this.player.getBalance() + " (" + gainPercentage + "%)");
+			statsNumLabels[statsTitlesText.length - 2].setOpaque(false);
+			statsNumPanel.add(statsNumLabels[statsTitlesText.length - 2]);
 
+			statsDialog.getContentPane().setLayout(new GridLayout(1, 2));
+			statsDialog.getContentPane().add(statsTitlesPanel);
+			statsDialog.getContentPane().add(statsNumPanel);
 			
 			statsDialog.setVisible(true);
+		
+		} else if (e.getSource() == buttons[ADVICEBTN]) {
+			System.out.println("implement advice");
 		}
 	}
 }
