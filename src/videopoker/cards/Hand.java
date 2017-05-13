@@ -72,38 +72,4 @@ public class Hand{
 
         return ret;
     }
-
-    //not using
-    @Override
-    public boolean equals(Object obj){
-    if(this == obj)
-    return true;
-
-    if(obj == null)
-    return false;
-
-    if(!(obj instanceof Hand))
-    return false;
-
-    Hand aux = (Hand) obj;
-    for(int i = 0; i < 5; i++)
-    if(!(this.hand[i].equals(aux.hand[i])))
-    return false;
-
-    return true;
-    }
-
-    //not using
-    @Override
-    public int hashCode(){
-    final int prime = 31;
-    int result = 1;
-
-    for(int i =0; i< 5; i++)
-    result += prime * result + hand[i].hashCode();
-
-    return result;
-    }
-
-
 }

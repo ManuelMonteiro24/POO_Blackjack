@@ -75,32 +75,4 @@ public class Card implements Comparable<Card>{
 
     return aux.concat(String.valueOf(this.suite));
   }
-
-  //not using
-  @Override
-  public boolean equals(Object obj){
-    if(this == obj)
-      return true;
-    if(obj == null)
-      return false;
-    if(!(obj instanceof Card))
-      return false;
-    Card aux = (Card) obj;
-    if(this.value != aux.value)
-      return false;
-    if(this.suite != aux.suite)
-      return false;
-
-    return true;
-  }
-
-  //not using
-  @Override
-  public int hashCode(){
-    final int prime = 31;
-		int result = 1;
-		result = prime * result + this.value + this.suite;
-		return result;
-  }
-
 }

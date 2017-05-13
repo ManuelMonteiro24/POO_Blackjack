@@ -69,16 +69,4 @@ public class Deck{
         else
             return false;
     }
-
-
-  //Debug function
-    @Override
-    public String toString(){
-        String listString = "";
-        for (Card s : deck)
-            listString += s + " ";
-
-        return listString;
-    }
-
 }
