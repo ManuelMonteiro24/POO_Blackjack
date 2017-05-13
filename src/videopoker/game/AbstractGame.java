@@ -159,9 +159,12 @@ public abstract class AbstractGame implements Game{
         else
             System.out.println("player loses and his credit is " + this.player.getBalance());
 
-        if(this instanceof DebugGame) //check if there are more cards in deck in debug mode
-          if(this.dealer.checkEmptyDeck())  //if so terminate program
-            System.exit(0); //Correct??
+        if(this instanceof DebugGame) { //check if there are more cards in deck in debug mode
+            if(this.dealer.checkEmptyDeck()) {  //if so terminate program
+                System.out.println("no more cards to play the commands");
+                System.exit(0);
+            }
+        }
 
     }
 

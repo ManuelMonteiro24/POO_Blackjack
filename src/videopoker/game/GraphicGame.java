@@ -44,6 +44,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 	public static final int HOLDBTN = 3;
 	public static final int DEALBTN = 4;
 	public static final int BETBTN = 5;
+	protected boolean quitBtnFlag, adviceBtnFlag, holdBtnFlag, dealBtnFlag, betBtnFlag;
 
 	protected Color backgroundColor = new Color(7, 99, 36);
 	protected Color textColor = Color.WHITE;
@@ -179,6 +180,17 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 
 
 		buttons[STATSBTN].addActionListener(this);
+		buttons[BETBTN].addActionListener(this);
+		buttons[QUITBTN].addActionListener(this);
+		buttons[DEALBTN].addActionListener(this);
+		buttons[HOLDBTN].addActionListener(this);
+		buttons[ADVICEBTN].addActionListener(this);
+
+		quitBtnFlag = false;
+		adviceBtnFlag = false;
+		holdBtnFlag = false;
+		dealBtnFlag = false;
+		betBtnFlag = false;
 	}
 
 	public void run() {
@@ -192,15 +204,18 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 
 		betSlider.setEnabled(true);
 
-		buttons[BETBTN].addActionListener(this);
-		buttons[QUITBTN].addActionListener(this);
+		betBtnFlag = true;
+		quitBtnFlag = true;
+		//buttons[BETBTN].addActionListener(this);
+		//buttons[QUITBTN].addActionListener(this);
 
 	}
 
 	private void dealStage() {
 		textArea.setText("Press deal to receive hand");
 
-		buttons[DEALBTN].addActionListener(this);
+		dealBtnFlag = true;
+		//buttons[DEALBTN].addActionListener(this);
 	}
 
 	private void holdStage() {
@@ -209,8 +224,10 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 		for (int i = 0; i < 5; i++)
 			cardsCB[i].setEnabled(true);
 
-		buttons[HOLDBTN].addActionListener(this);
-		buttons[ADVICEBTN].addActionListener(this);
+		holdBtnFlag = true;
+		adviceBtnFlag = true;
+		//buttons[HOLDBTN].addActionListener(this);
+		//buttons[ADVICEBTN].addActionListener(this);
 			
 	}
 
@@ -248,99 +265,124 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == buttons[QUITBTN]) {
-			JOptionPane.showMessageDialog(null, "Player will leave the game with credit: " + this.player.getBalance());
-			dispose();
-			System.exit(0);
+
+			if (quitBtnFlag) {
+				JOptionPane.showMessageDialog(null, "Player will leave the game with credit: " + this.player.getBalance());
+				dispose();
+				System.exit(0);
+			} else
+				JOptionPane.showMessageDialog(null, "Invalid! Player can only quit in the beggining of each round!");
 
 		} else if (e.getSource() == buttons[BETBTN]) {
 
-			buttons[QUITBTN].removeActionListener(this);
+			if (betBtnFlag) {
 
-			betSlider.setEnabled(false);
+				quitBtnFlag = false;
+				//buttons[QUITBTN].removeActionListener(this);
+				betBtnFlag = false;
+				//buttons[BETBTN].removeActionListener(this);
 
-			int betChose = betSlider.getValue();
-			if (betChose == 0) {
-				if (this.betOnTheTable == 0) {
-					JOptionPane.showMessageDialog(null, "No previous bet\nUser will bet 5 credits");
-					betChose = 5;
+				betSlider.setEnabled(false);
+
+				int betChose = betSlider.getValue();
+				if (betChose == 0) {
+					if (this.betOnTheTable == 0) {
+						JOptionPane.showMessageDialog(null, "No previous bet\nUser will bet 5 credits");
+						betChose = 5;
+					}
+					else
+						betChose = this.betOnTheTable;
 				}
-				else
-					betChose = this.betOnTheTable;
-			}
 
-			this.betOnTheTable = this.player.bet(betChose);
-			if (this.betOnTheTable == 0) {
-				JOptionPane.showMessageDialog(null, "Player has no more funds.\nGame will terminate");
-				dispose();
-				System.exit(0);
-			}
-			if (betChose > this.betOnTheTable)
-				JOptionPane.showMessageDialog(null, "Player only has " + this.betOnTheTable + " credits\nBetted all!");
+				this.betOnTheTable = this.player.bet(betChose);
+				if (this.betOnTheTable == 0) {
+					JOptionPane.showMessageDialog(null, "Player has no more funds.\nGame will terminate");
+					dispose();
+					System.exit(0);
+				}
+				if (betChose > this.betOnTheTable)
+					JOptionPane.showMessageDialog(null, "Player only has " + this.betOnTheTable + " credits\nBetted all!");
 
-			betLabel.setText("Bet: " + this.betOnTheTable);
-			creditLabel.setText("Credit: " + this.player.getBalance());
+				betLabel.setText("Bet: " + this.betOnTheTable);
+				creditLabel.setText("Credit: " + this.player.getBalance());
 
-			buttons[BETBTN].removeActionListener(this);
+				dealStage();
 
-			dealStage();
+			} else
+				JOptionPane.showMessageDialog(null, "Invalid! Player can only bet in the beggining of a round!");
 		
 		} else if (e.getSource() == buttons[DEALBTN]) {
 
-			this.dealer.shuffleDeck();
-			this.player.setHand(this.dealer.dealFullHand());
+			if (dealBtnFlag) {
 
-			Card[] hand = this.player.getHand().toCardArray();
+				dealBtnFlag = false;
+				//buttons[DEALBTN].removeActionListener(this);
+				
+				this.dealer.shuffleDeck();
+				this.player.setHand(this.dealer.dealFullHand());
 
-			for (int i = 0; i < 5; i++) {
-				cards[i].setIcon(new ImageIcon(imagesPath + hand[i].toString() + imagesExtension));
-				cards[i].setVisible(true);
-				cardsCB[i].setVisible(true);
-			}
+				Card[] hand = this.player.getHand().toCardArray();
 
-			buttons[DEALBTN].removeActionListener(this);
+				for (int i = 0; i < 5; i++) {
+					cards[i].setIcon(new ImageIcon(imagesPath + hand[i].toString() + imagesExtension));
+					cards[i].setVisible(true);
+					cardsCB[i].setVisible(true);
+				}
 
+				holdStage();
 
-			holdStage();
+			} else
+				JOptionPane.showMessageDialog(null, "Invalid! Player can only deal after a bet");
+
 
 		} else if (e.getSource() == buttons[HOLDBTN]) {
 
-			buttons[ADVICEBTN].removeActionListener(this);
+			if (holdBtnFlag) {
 
-			boolean[] indexes = new boolean[5];
-			int nToHold = 0;
+				adviceBtnFlag = false;
+				//buttons[ADVICEBTN].removeActionListener(this);
+				holdBtnFlag = false;
+				//buttons[HOLDBTN].removeActionListener(this);
 
-			for (int i = 0; i < 5; i++) {
-				cardsCB[i].setEnabled(false);
-				if (cardsCB[i].isSelected()) {
-					nToHold++;
-					indexes[i] = true;
-				} else
-					indexes[i] = false;
-			}
+				boolean[] indexes = new boolean[5];
+				int nToHold = 0;
 
-			int[] holdIndexes = new int[nToHold];
-
-			int k = 0;
-			for (int i = 0; i < 5; i++) {
-				if (indexes[i]) {
-					holdIndexes[k] = (i + 1);
-					k++;
+				for (int i = 0; i < 5; i++) {
+					cardsCB[i].setEnabled(false);
+					if (cardsCB[i].isSelected()) {
+						nToHold++;
+						indexes[i] = true;
+					} else
+						indexes[i] = false;
 				}
-			}
 
-			Card[] ret = this.player.hold(holdIndexes, this.dealer.dealSecondCards(5 - holdIndexes.length));
-			dealer.receiveCards(ret);
+				int[] holdIndexes = new int[nToHold];
 
-			Card[] hand = this.player.getHand().toCardArray();
+				int k = 0;
+				for (int i = 0; i < 5; i++) {
+					if (indexes[i]) {
+						holdIndexes[k] = (i + 1);
+						k++;
+					}
+				}
 
-			for (int i = 0; i < 5; i++)
-				cards[i].setIcon(new ImageIcon(imagesPath + hand[i].toString() + imagesExtension));
+				Card[] ret = this.player.hold(holdIndexes, this.dealer.dealSecondCards(5 - holdIndexes.length));
+				dealer.receiveCards(ret);
 
-			buttons[HOLDBTN].removeActionListener(this);
+				Card[] hand = this.player.getHand().toCardArray();
 
-			evaluationStage();
+				for (int i = 0; i < 5; i++)
+					cards[i].setIcon(new ImageIcon(imagesPath + hand[i].toString() + imagesExtension));
+
+				
+
+				evaluationStage();
+
+			} else
+				JOptionPane.showMessageDialog(null, "Invalid! Player can only hold after a deal");
 
 		} else if (e.getSource() == buttons[STATSBTN]) {
+
 			statsDialog = new JDialog(this, "Statistics", ModalityType.DOCUMENT_MODAL);
 			statsDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 			Dimension statsSize = new Dimension(W_STATS, H_STATS);
@@ -382,36 +424,39 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 			statsDialog.setVisible(true);
 		
 		} else if (e.getSource() == buttons[ADVICEBTN]) {
+
+			if (adviceBtnFlag) {
 			
-			int[] decision;
-			int[] holdIndexes = {};
+				int[] decision;
+				int[] holdIndexes = {};
 
-			this.dealer.updateEvaluator(this.player.getHand());
-			this.dealer.getHandRank();
-			if ((decision = this.dealer.getAdvice()) != null) {
-				holdIndexes = this.dealer.indexOrderedToUnordered(decision, this.player.getHand());
-				
-				System.out.print("holdIndexes: ");
-                for (int i = 0; i < holdIndexes.length; i++)
-                    System.out.print(holdIndexes[i] + " ");
-                System.out.println();
+				this.dealer.updateEvaluator(this.player.getHand());
+				this.dealer.getHandRank();
+				if ((decision = this.dealer.getAdvice()) != null) {
+					holdIndexes = this.dealer.indexOrderedToUnordered(decision, this.player.getHand());
+					
+					System.out.print("holdIndexes: ");
+	                for (int i = 0; i < holdIndexes.length; i++)
+	                    System.out.print(holdIndexes[i] + " ");
+	                System.out.println();
 
-				for (int i = 0, k = 0; (i < 5) && (k < holdIndexes.length); i++) {
-					if (holdIndexes[k] == i) {
-						cardsCB[i].setSelected(true);
-						k++;
-					} else
+					for (int i = 0, k = 0; (i < 5) && (k < holdIndexes.length); i++) {
+						if (holdIndexes[k] == i) {
+							cardsCB[i].setSelected(true);
+							k++;
+						} else
+							cardsCB[i].setSelected(false);
+					}
+					
+					JOptionPane.showMessageDialog(null, "Player should hold checked cards");
+				} else {
+					for (int i = 0; i < 5; i++)
 						cardsCB[i].setSelected(false);
+					JOptionPane.showMessageDialog(null, "Player should hold no cards");
 				}
-				
-				JOptionPane.showMessageDialog(null, "Player should hold checked cards");
-			} else {
-				for (int i = 0; i < 5; i++)
-					cardsCB[i].setSelected(false);
-				JOptionPane.showMessageDialog(null, "Player should hold no cards");
-			}
 
-			
+			} else
+				JOptionPane.showMessageDialog(null, "Invalid! Player can only get advice after a deal");
 
 		}
 	}

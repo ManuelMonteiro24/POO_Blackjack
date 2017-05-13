@@ -43,10 +43,22 @@ public class Deck{
   //check if deck is empty (debug mode termination),
   //or less that 5 cards -> error in cards.txt format
   public boolean isEmpty(){
-    if(deck.size() == 0)
-      return false;
-    else
+    if(deck.size() < 5)
       return true;
+    else
+      return false;
+  }
+
+
+  //Debug function
+  @Override
+  public String toString(){
+    String listString = "";
+    for (Card s : deck) {
+      listString += s + " ";
+    }
+
+    return listString;
   }
 
 }
