@@ -43,7 +43,7 @@ public class Deck{
   //check if deck is empty (debug mode termination),
   //or less that 5 cards -> error in cards.txt format
   public boolean isEmpty(){
-    if(deck.size() < 5)
+    if(deck.size() == 0)
       return false;
     else
       return true;
