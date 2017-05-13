@@ -12,63 +12,71 @@ import videopoker.evaluators.Evaluator;
 
 public class SimulationGame implements Game{
 
-    private final int betOnTheTable;
-    private final int nbDeals;
-    private int roundCounter;
-    private Player player;
-    private Dealer dealer;
+  private final int betOnTheTable;
+  private final int nbDeals;
+  private int roundCounter;
+  private Player player;
+  private Dealer dealer;
 
-    public SimulationGame(int initialBalance, int bet, int nbDeals ){
-        this.player = new Player(initialBalance);
-        this.dealer = new Dealer();
-        this.betOnTheTable = bet;
-        this.nbDeals = nbDeals;
-        this.roundCounter = 0;
+  /**
+  * SimulationGame constructor that instanciates an automatic Player that
+  * in order to make bests play will follow a pre-defined strategy
+  * @param  int initialBalance player inicial balance
+  * @param  int bet            player bet constant bet
+  * @param  int nbDeals        number of deals that the game will have
+  * @return the instance of the class SimulationGame created
+  */
+  public SimulationGame(int initialBalance, int bet, int nbDeals ){
+    this.player = new Player(initialBalance);
+    this.dealer = new Dealer();
+    this.betOnTheTable = bet;
+    this.nbDeals = nbDeals;
+    this.roundCounter = 0;
+  }
+
+  public void betStage(){
+
+    if(this.player.bet(this.betOnTheTable) != this.betOnTheTable) {
+      System.out.println("player has no more funds");
+      System.exit(0);
+    }
+    this.roundCounter++;
+  }
+
+  public void dealStage(){
+    this.dealer.shuffleDeck();
+    this.player.setHand(this.dealer.dealFullHand());
+  }
+
+  public void holdStage() {
+    int[] decision;
+    int[] holdIndexes = {};
+
+    player.showHand();
+    this.dealer.updateEvaluator(this.player.getHand());
+    this.dealer.getHandRank(); //set Evaluator's static variable @handRank
+    if ((decision = this.dealer.getAdvice()) != null){
+      holdIndexes = this.dealer.indexOrderedToUnordered(decision, this.player.getHand());
+      for(int i = 0; i < holdIndexes.length; i++)
+      holdIndexes[i]++; //increment indexes because this.player.hold() uses indexes starting at 1
     }
 
-    public void betStage(){
+    Card[] ret = this.player.hold(holdIndexes, this.dealer.dealSecondCards(5 - holdIndexes.length));
+    this.dealer.receiveCards(ret);
+    player.showHand();
+  }
 
-        if(this.player.bet(this.betOnTheTable) != this.betOnTheTable) {
-            System.out.println("player has no more funds");
-            System.exit(0);
-        }
-        this.roundCounter++;
-    }
+  public void evaluationStage(){
 
-    public void dealStage(){
-        this.dealer.shuffleDeck();
-        this.player.setHand(this.dealer.dealFullHand());
-    }
+    Evaluator.updateEvaluator(this.player.getHand());
+    HandRank playerRank = this.dealer.getHandRank();
+    this.player.updateBalance(this.dealer.payout(this.betOnTheTable));
+    this.player.updateScoreboard(playerRank);
+    this.dealer.receiveCards(this.player.releaseHand());
 
-    public void holdStage() {
-        int[] decision;
-        int[] holdIndexes = {};
+    if(this.roundCounter == this.nbDeals)
+    this.player.statistics();
 
-        player.showHand();
-        this.dealer.updateEvaluator(this.player.getHand());
-        this.dealer.getHandRank(); //set Evaluator's static variable @handRank
-        if ((decision = this.dealer.getAdvice()) != null){
-            holdIndexes = this.dealer.indexOrderedToUnordered(decision, this.player.getHand());
-            for(int i = 0; i < holdIndexes.length; i++)
-                holdIndexes[i]++; //increment indexes because this.player.hold() uses indexes starting at 1
-        }
+  }
 
-        Card[] ret = this.player.hold(holdIndexes, this.dealer.dealSecondCards(5 - holdIndexes.length));
-        this.dealer.receiveCards(ret);
-        player.showHand();
-    }
-
-    public void evaluationStage(){
-
-        Evaluator.updateEvaluator(this.player.getHand());
-        HandRank playerRank = this.dealer.getHandRank();
-        this.player.updateBalance(this.dealer.payout(this.betOnTheTable));
-        this.player.updateScoreboard(playerRank);
-        this.dealer.receiveCards(this.player.releaseHand());
-
-        if(this.roundCounter == this.nbDeals)
-            this.player.statistics();
-
-    }
-      
 }

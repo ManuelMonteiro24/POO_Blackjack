@@ -15,7 +15,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 
 public class VideopokerGui extends JFrame implements ActionListener {
-	
+
 	private JLabel titleLabel, creditLabel;
 	private JTextField creditText;
 	private JButton startButton;
@@ -42,7 +42,7 @@ public class VideopokerGui extends JFrame implements ActionListener {
 	public static final int W_B = 117;
 	public static final int H_B = 40;
 
-	
+
 
 	public VideopokerGui() {
 
@@ -84,11 +84,11 @@ public class VideopokerGui extends JFrame implements ActionListener {
 
 			try {
 				credit = Integer.parseInt(creditText.getText());
-				
+
 				if (credit > 0) {
 					EventQueue.invokeLater(new GraphicGame(credit));
 					dispose();
-					
+
 				} else {
 					JOptionPane.showMessageDialog(null, "Invalid credit");
 				}

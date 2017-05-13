@@ -32,7 +32,7 @@ import java.awt.Dialog.ModalityType;
 //import java.awt.Point;
 
 public class GraphicGame extends JFrame implements Runnable, ActionListener {
-	
+
 	public static final int W_G = 1200;
 	public static final int H_G = W_G * 3 / 4;
 	public static final int W_STATS = W_G / 2;
@@ -72,7 +72,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 
 
 	public GraphicGame(int iniBalance) {
-		
+
 		player = new Player(iniBalance);
 		dealer = new Dealer();
 
@@ -106,7 +106,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 		rightPanel.add(creditLabel);
 		rightPanel.add(betLabel);
 		rightPanel.setOpaque(false);
-		
+
 
 		centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(1, 5));
@@ -164,7 +164,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 		betSlider.setEnabled(false);
 		downPanel.add(betSlider);
 		downPanel.setOpaque(false);
-		
+
 
 
 		c.setLayout(new BorderLayout());
@@ -215,31 +215,31 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 		textArea.setText("Choose cards to hold and press Hold button (Use check boxes)");
 
 		for (int i = 0; i < 5; i++)
-			cardsCB[i].setEnabled(true);
+		cardsCB[i].setEnabled(true);
 
 		holdBtnFlag = true;
 		adviceBtnFlag = true;
-			
+
 	}
 
 	private void evaluationStage() {
-		
-		this.dealer.updateEvaluator(this.player.getHand());
-        HandRank playerRank = this.dealer.getHandRank();
-        this.player.updateBalance(this.dealer.payout(this.betOnTheTable));
-        this.player.updateScoreboard(playerRank);
-        this.dealer.receiveCards(this.player.releaseHand()); //return players cards to deck
 
-        betLabel.setText("Bet: ");
+		this.dealer.updateEvaluator(this.player.getHand());
+		HandRank playerRank = this.dealer.getHandRank();
+		this.player.updateBalance(this.dealer.payout(this.betOnTheTable));
+		this.player.updateScoreboard(playerRank);
+		this.dealer.receiveCards(this.player.releaseHand()); //return players cards to deck
+
+		betLabel.setText("Bet: ");
 		creditLabel.setText("Credit: " + this.player.getBalance());
 
-        if(playerRank != HandRank.NON && playerRank != HandRank.PAIR) {
-            textArea.setText("WON");
-            JOptionPane.showMessageDialog(null, "Player wins with a " + playerRank + "\nHis credit is " + this.player.getBalance());
-        } else {
-        	textArea.setText("LOST");
-        	JOptionPane.showMessageDialog(null, "Player loses\nHis credit is " + this.player.getBalance());
-        }
+		if(playerRank != HandRank.NON && playerRank != HandRank.PAIR) {
+			textArea.setText("WON");
+			JOptionPane.showMessageDialog(null, "Player wins with a " + playerRank + "\nHis credit is " + this.player.getBalance());
+		} else {
+			textArea.setText("LOST");
+			JOptionPane.showMessageDialog(null, "Player loses\nHis credit is " + this.player.getBalance());
+		}
 
 		for (int i = 0; i < 5; i++) {
 			cards[i].setVisible(false);
@@ -250,7 +250,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 
 		betStage();
 
-    }
+	}
 
 
 	public void actionPerformed(ActionEvent e) {
@@ -262,7 +262,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 				dispose();
 				System.exit(0);
 			} else
-				JOptionPane.showMessageDialog(null, "Invalid! Player can only quit in the beggining of each round!");
+			JOptionPane.showMessageDialog(null, "Invalid! Player can only quit in the beggining of each round!");
 
 		} else if (e.getSource() == buttons[BETBTN]) {
 
@@ -280,7 +280,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 						betChose = 5;
 					}
 					else
-						betChose = this.betOnTheTable;
+					betChose = this.betOnTheTable;
 				}
 
 				this.betOnTheTable = this.player.bet(betChose);
@@ -290,7 +290,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 					System.exit(0);
 				}
 				if (betChose > this.betOnTheTable)
-					JOptionPane.showMessageDialog(null, "Player only has " + this.betOnTheTable + " credits\nBetted all!");
+				JOptionPane.showMessageDialog(null, "Player only has " + this.betOnTheTable + " credits\nBetted all!");
 
 				betLabel.setText("Bet: " + this.betOnTheTable);
 				creditLabel.setText("Credit: " + this.player.getBalance());
@@ -298,14 +298,14 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 				dealStage();
 
 			} else
-				JOptionPane.showMessageDialog(null, "Invalid! Player can only bet in the beggining of a round!");
-		
+			JOptionPane.showMessageDialog(null, "Invalid! Player can only bet in the beggining of a round!");
+
 		} else if (e.getSource() == buttons[DEALBTN]) {
 
 			if (dealBtnFlag) {
 
 				dealBtnFlag = false;
-				
+
 				this.dealer.shuffleDeck();
 				this.player.setHand(this.dealer.dealFullHand());
 
@@ -320,7 +320,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 				holdStage();
 
 			} else
-				JOptionPane.showMessageDialog(null, "Invalid! Player can only deal after a bet");
+			JOptionPane.showMessageDialog(null, "Invalid! Player can only deal after a bet");
 
 
 		} else if (e.getSource() == buttons[HOLDBTN]) {
@@ -339,7 +339,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 						nToHold++;
 						indexes[i] = true;
 					} else
-						indexes[i] = false;
+					indexes[i] = false;
 				}
 
 				int[] holdIndexes = new int[nToHold];
@@ -358,14 +358,14 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 				Card[] hand = this.player.getHand().toCardArray();
 
 				for (int i = 0; i < 5; i++)
-					cards[i].setIcon(new ImageIcon(imagesPath + hand[i].toString() + imagesExtension));
+				cards[i].setIcon(new ImageIcon(imagesPath + hand[i].toString() + imagesExtension));
 
-				
+
 
 				evaluationStage();
 
 			} else
-				JOptionPane.showMessageDialog(null, "Invalid! Player can only hold after a deal");
+			JOptionPane.showMessageDialog(null, "Invalid! Player can only hold after a deal");
 
 		} else if (e.getSource() == buttons[STATSBTN]) {
 
@@ -406,13 +406,13 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 			statsDialog.getContentPane().setLayout(new GridLayout(1, 2));
 			statsDialog.getContentPane().add(statsTitlesPanel);
 			statsDialog.getContentPane().add(statsNumPanel);
-			
+
 			statsDialog.setVisible(true);
-		
+
 		} else if (e.getSource() == buttons[ADVICEBTN]) {
 
 			if (adviceBtnFlag) {
-			
+
 				int[] decision;
 				int[] holdIndexes = {};
 
@@ -426,18 +426,18 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 							cardsCB[i].setSelected(true);
 							k++;
 						} else
-							cardsCB[i].setSelected(false);
+						cardsCB[i].setSelected(false);
 					}
-					
+
 					JOptionPane.showMessageDialog(null, "Player should hold checked cards");
 				} else {
 					for (int i = 0; i < 5; i++)
-						cardsCB[i].setSelected(false);
+					cardsCB[i].setSelected(false);
 					JOptionPane.showMessageDialog(null, "Player should hold no cards");
 				}
 
 			} else
-				JOptionPane.showMessageDialog(null, "Invalid! Player can only get advice after a deal");
+			JOptionPane.showMessageDialog(null, "Invalid! Player can only get advice after a deal");
 
 		}
 	}
