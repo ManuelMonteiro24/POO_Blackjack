@@ -13,7 +13,6 @@ class HighPair extends Evaluator{
             for(int i = 0; i < 4; i++){
                 if(hand[i].getValue() == hand[i+1].getValue()){
                     int[] ret = {i, i+1};
-                    System.out.println("HP");
                     return ret;
                 }
             }

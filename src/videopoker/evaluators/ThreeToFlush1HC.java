@@ -19,7 +19,6 @@ class ThreeToFlush1HC extends Evaluator{
                 highCards++;
 
         if(highCards == 1){
-            System.out.println("3toF1HC");
             return indexes;
         }else
             return null;

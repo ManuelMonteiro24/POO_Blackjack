@@ -9,7 +9,6 @@ class JackQueenKing extends Evaluator{
         int[] check = new int[1];
         for(int i = 0; i < hand.length; i++)
             if(hand[i].getValue() == 13 || hand[i].getValue() == 12 || hand[i].getValue() == 11) {
-                System.out.println("JorQorK");
                 check[0] = i;
                 return check;
             }

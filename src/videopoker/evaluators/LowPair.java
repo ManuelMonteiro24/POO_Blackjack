@@ -12,7 +12,6 @@ class LowPair extends Evaluator{
             //find where the pair is
             for(int i = 0; i < hand.length - 1; i++){
                 if(hand[i].getValue() == hand[i+1].getValue()){
-                    System.out.println("lowPair");
                     int[] ret = {i, i+1};
                     return ret;
                 }

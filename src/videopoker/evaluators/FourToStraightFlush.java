@@ -23,11 +23,10 @@ class FourToStraightFlush extends Evaluator{
         }
 
         if(straight1 == 3){
-            System.out.println("4toSF");
             return indexes;}
         if(straight2 == 3){
-            System.out.println("4toSF");
-            return indexes;}
+            return indexes;
+        }
 
         return null;
     }

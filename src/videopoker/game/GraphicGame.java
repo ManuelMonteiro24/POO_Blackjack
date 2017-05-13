@@ -420,11 +420,6 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 				this.dealer.getHandRank();
 				if ((decision = this.dealer.getAdvice()) != null) {
 					holdIndexes = this.dealer.indexOrderedToUnordered(decision, this.player.getHand());
-					
-					System.out.print("holdIndexes: ");
-	                for (int i = 0; i < holdIndexes.length; i++)
-	                    System.out.print(holdIndexes[i] + " ");
-	                System.out.println();
 
 					for (int i = 0, k = 0; (i < 5) && (k < holdIndexes.length); i++) {
 						if (holdIndexes[k] == i) {

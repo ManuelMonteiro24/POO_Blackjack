@@ -31,7 +31,6 @@ public class Deck{
    */
   public Deck(ArrayList<Card> customDeck){
     deck = customDeck;
-    System.out.println(Arrays.toString(deck.toArray()));
   }
 
   /**

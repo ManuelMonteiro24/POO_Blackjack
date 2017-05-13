@@ -62,7 +62,6 @@ public abstract class Evaluator{
             }
         }
 
-        System.out.println("3toFlush ");
         if(j1 == 3)
             return indexes1;
         if(j2 == 3)
@@ -70,7 +69,6 @@ public abstract class Evaluator{
         if(j3 == 3)
             return indexes3;
 
-        System.out.println("not 3toFlush");
         return null;
     }
 

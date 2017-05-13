@@ -63,12 +63,10 @@ class FourToRoyalFlush extends Evaluator{
         Arrays.sort(indexes2);
 
         if(indexes1[1] != -1){
-            System.out.println("4ToRoyalFlush1");
             return Arrays.copyOfRange(indexes1, 1, indexes1.length);
         }
 
         if(indexes2[1] != -1) {
-            System.out.println("4ToRoyalFlush2");
             return Arrays.copyOfRange(indexes2, 1, indexes2.length);
         }
 

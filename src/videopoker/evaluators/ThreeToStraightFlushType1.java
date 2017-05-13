@@ -34,10 +34,6 @@ class ThreeToStraightFlushType1 extends Evaluator{
         if((hand[indexes[1]].getValue() + 1) != hand[indexes[2]].getValue())
             jumps += (hand[indexes[2]].getValue() - hand[indexes[1]].getValue() - 1);
 
-        //Check type 1 condition
-        if(highCards >= jumps)
-            System.out.println("3toSF1 jumps "+jumps+" highCards "+highCards);
-
         return highCards >= jumps ? indexes : null;
     }
 

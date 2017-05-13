@@ -21,13 +21,11 @@ class FourToFlush extends Evaluator{
                         }
                 }
 
-                System.out.println("4toFlush");
                 if(j1 == 4)
                         return indexes1;
                 if(j2 == 4)
                         return indexes2;
 
-                System.out.println("not 4toFlush");
                 return null;
         }
 

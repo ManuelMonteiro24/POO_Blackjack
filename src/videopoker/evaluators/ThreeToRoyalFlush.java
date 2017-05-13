@@ -18,7 +18,6 @@ class ThreeToRoyalFlush extends Evaluator{
 
         //check if those 3 cards with same suit can make RF
         if(hand[indexes[0]].getValue() == 11 || ((hand[indexes[0]].getValue() == 1 || hand[indexes[0]].getValue() == 10) && hand[indexes[1]].getValue() >= 10)){
-            System.out.println("3ToRoyalFlush");
             return indexes;
         }
 

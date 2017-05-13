@@ -25,8 +25,6 @@ class ThreeToStraightFlushType2 extends Evaluator{
 
         //ace low or 234 suited, its for the 3 to SF (type 2)
         if(hand[indexes[0]].getValue() == 1 || (hand[indexes[0]].getValue() == 2 && hand[indexes[2]].getValue() == 4)){
-            //TO DO cases for ace low or the threeToFlush comtemplates those cases????
-            System.out.println("3toSF2 234 suited");
             return indexes;
         }
 

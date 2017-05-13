@@ -14,7 +14,6 @@ class FourToOutStraight extends Evaluator{
                     break; //if streak is broken, break
 
             if(straight1 == 3){
-                System.out.println("4toOutStraight 0 1 2 3");
                 int[] ret = {0, 1, 2, 3};
                 return ret;
             }
@@ -26,7 +25,6 @@ class FourToOutStraight extends Evaluator{
                     break;
 
             if(straight2 == 3){
-                System.out.println("4toOutStraight 1 2 3 4");
                 int[] ret = {1, 2, 3, 4};
                 return ret;
             }

@@ -14,7 +14,6 @@ class Toak extends Evaluator{
                 if(hand[i].getValue() == hand[i+1].getValue()
                         && hand[i+1].getValue() == hand[i+2].getValue()){
                     int[] ret = {i, i+1, i+2};
-                    System.out.println("TOAK");
                     return ret;
                 }
             }

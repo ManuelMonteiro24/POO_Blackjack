@@ -7,7 +7,6 @@ class KQKJUnsuited extends Evaluator{
     @Override
     public int[] evaluate(){
         if(hand[hand.length - 1].getValue() == 13 && (hand[hand.length - 2].getValue() == 12 || hand[hand.length - 2].getValue() == 11)){
-            System.out.println("unsuitedKQKJ");
             int[] ret = {hand.length - 2, hand.length - 1};
             return ret;
         }

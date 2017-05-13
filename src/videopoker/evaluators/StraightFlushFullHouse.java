@@ -9,7 +9,6 @@ class StraightFlushFullHouse extends Evaluator{
     @Override
     public int[] evaluate(){
         if(handRank == HandRank.STRAIGHT || handRank == HandRank.FLUSH || handRank == HandRank.FULLHOUSE){
-            System.out.println("SFFH");
             int[] indexes = { 0, 1, 2, 3, 4};
             return indexes;
         } else
