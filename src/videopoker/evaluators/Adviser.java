@@ -2,10 +2,24 @@ package videopoker.evaluators;
 
 import java.util.ArrayList;
 
+/**
+ * Class meant for advising the player on which is play
+ * given a certain hand.
+ *
+ * This class has an ArrayList @evaluators that contain all the
+ * different Evaluator subclasses that will be used for evaluation
+ * of the players hand.
+ *
+ */
 public class Adviser{
 
     private ArrayList<Evaluator> evaluators;
 
+    /**
+     * Adviser constructor initializes the @evaluators list with all the different evaluators.
+     * The order in which they're added to list is important for it will be same order that the
+     * the static variable @hand shared by all Evaluator instances will be evaluated.
+     */
     public Adviser(){
         this.evaluators = new ArrayList<Evaluator>();
 
@@ -48,7 +62,10 @@ public class Adviser{
 
     /**
      * Verifies current value @hand and checks for the best cards to hold according to a perfect strategy
-     * for maximazing the earnings in videopoker double bonus 10/7-
+     * for maximazing the earnings in videopoker double bonus 10/7.
+     * Runs through all the evaluators from @evaluators and returns the first non-null value it receives
+     * from them.
+     *
      * @return indexes advised to hold
      */
     public int[] getAdvice(){

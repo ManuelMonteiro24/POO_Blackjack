@@ -1,22 +1,29 @@
 package videopoker.game;
 
 import videopoker.utils.HandRank;
-//implement on player??? need to rcv actual balance for N13
+
+/**
+ * Class used for maintaining track of the players statistics.
+ * It registers the amount of different ranks a player has had
+ * during the game of videopoker and calculates it's gains accordingly.
+ */
 public class Scoreboard{
 
-  //pass to final or static??
     private double initialBalance;
     private double currentBalance;
     private int dealsNb;
     private final static String[] handType = {"Jacks or Better","Two Pair","Three of a Kind","Straight","Flush","Full House", "Four of a Kind", "Straight Flush", "Royal Flush", "Others"}; //Others = Pairs ??
     private final static String[] padding = {"      ", "             ", "      ", "             ", "                ", "           ",  "       ", "       ", "          ", "               "};
     private int[] playsNb = new int[10];
-    private static HandRank[] plays;
 
-    static{
-        plays = HandRank.values();
-    }
 
+    /**
+     * Scoreboard constructor receives initial player balance for posterior
+     * comparison and gain calculation. Initializes all other attributes of
+     * interest.
+     *
+     * @param initialBalance players initial balance.
+     */
     public Scoreboard(int initialBalance){
 
         this.initialBalance = initialBalance;
@@ -26,7 +33,14 @@ public class Scoreboard{
             this.playsNb[i] = 0;
     }
 
-    //recv other type hand? String?
+    /**
+     * Updates this scoreboard with the results obtained from the last videopoker round.
+     * Increments the @playsNb array  according to the player's hand rank. Saves the player's
+     * current balance.
+     *
+     * @param rank final rank of the player's hand.
+     * @param playerBalance player's balance after payout.
+     */
     public void receiveRoundInfo(HandRank rank, double playerBalance) {
         HandRank[] plays = HandRank.values();
         for (int i = 0; i < plays.length; i++) {
@@ -49,6 +63,11 @@ public class Scoreboard{
 
     }
 
+    /**
+     * Produces a formated string with the scoraboar table and calculates
+     * the player's gains accoring to it's initial balance.
+     * @return string representation of the scoreboard.
+     */
     @Override
     public String toString(){
 

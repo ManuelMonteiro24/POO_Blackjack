@@ -16,6 +16,18 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+/**
+ * This abstract class implements the Game interface built as
+ * state machine for videopoker rounds.
+ *
+ * It implements the interface in such a way that it will work with
+ * any game mode that receives external commands regarding the actions
+ * to take in each round stage.
+ *
+ * It must be extended by a subclass that implements a less generic game mode.
+ *
+ * The actions taken at each stage are described in the Game interface class file.
+ */
 public abstract class AbstractGame implements Game{
 
     protected CommandHandler cmdHandler;

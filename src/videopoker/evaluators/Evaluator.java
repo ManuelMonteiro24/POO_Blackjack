@@ -6,6 +6,14 @@ import videopoker.utils.HandRank;
 
 import java.util.Arrays;
 
+/**
+ * Abstract class for hand evaluation. Contains two static attributes that
+ * will be shared among all instances of this class.
+ *
+ * Classes that extend this class must all implement the method evaluate().
+ * The implementation of this method is specific to the functionality of the subclass
+ * extending this one.
+ */
 public abstract class Evaluator{
 
     protected static Card[] hand; /*This array will be common to all evaluators that extend this class*/
