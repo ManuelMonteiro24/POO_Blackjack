@@ -73,8 +73,8 @@ public class Dealer extends HandEvaluator{
       return this.deck.isEmpty();
     }
 
-    public String printDeck() {
+    /*public String printDeck() {
         return this.deck.toString();
-    }
+    }*/
 
 }

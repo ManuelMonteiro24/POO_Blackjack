@@ -19,9 +19,10 @@ class ThreeToStraightFlushType1 extends Evaluator{
 
     /*now we know it's a 3 to a straight flush*/
         //check if it is type 1
-        for(i = 0; i < indexes.length; i++)
+        for(i = 0; i < indexes.length; i++) {
             if (hand[indexes[i]].isHighCard()) // J,Q,K,A
                 highCards++;
+        }
 
         //ace low or 234 suited, its for the 3 to SF (type 2)
         if(hand[indexes[0]].getValue() == 1 || (hand[indexes[0]].getValue() == 2 && hand[indexes[2]].getValue() == 4))
@@ -29,9 +30,9 @@ class ThreeToStraightFlushType1 extends Evaluator{
 
         //Count Jumps
         if((hand[indexes[0]].getValue() + 1) != hand[indexes[1]].getValue())
-            jumps++;
+            jumps += (hand[indexes[1]].getValue() - hand[indexes[0]].getValue() - 1);
         if((hand[indexes[1]].getValue() + 1) != hand[indexes[2]].getValue())
-            jumps++;
+            jumps += (hand[indexes[2]].getValue() - hand[indexes[1]].getValue() - 1);
 
         //Check type 1 condition
         if(highCards >= jumps)

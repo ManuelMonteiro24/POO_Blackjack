@@ -32,9 +32,9 @@ class ThreeToStraightFlushType2 extends Evaluator{
 
         //Count Jumps
         if((hand[indexes[0]].getValue() + 1) != hand[indexes[1]].getValue())
-            jumps++;
+            jumps += (hand[indexes[1]].getValue() - hand[indexes[0]].getValue() - 1);
         if((hand[indexes[1]].getValue() + 1) != hand[indexes[2]].getValue())
-            jumps++;
+            jumps += (hand[indexes[2]].getValue() - hand[indexes[1]].getValue() - 1);
 
         //Check type 2 conditions
         if(jumps ==2 && highCards == 1){
