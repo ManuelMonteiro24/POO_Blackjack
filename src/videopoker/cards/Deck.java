@@ -16,6 +16,7 @@ public class Deck{
   /**
    * This Deck constructor initializes a deck with 52 distinct cards
    * represented by a unique value/suit combination.
+   * @return instance of class Deck created
    */
   public Deck(){
     this.deck = new ArrayList<Card>(52);
@@ -28,6 +29,7 @@ public class Deck{
    * This deck constructor instanciates a new Deck object initialized
    * with and external set of cards from @customDeck.
    * @param customDeck deck to be used in this Deck instance.
+   * @return instance of class Deck created
    */
   public Deck(ArrayList<Card> customDeck){
     deck = customDeck;
@@ -43,7 +45,6 @@ public class Deck{
 
     /**
      * Draws a card from the top of the @deck.
-     *
      * @return the first card currently at the top of the deck.
      */
     public Card draw(){
@@ -61,8 +62,10 @@ public class Deck{
             this.deck.add(cards[i]);
     }
 
-  //check if deck is empty (debug mode termination),
-  //or less that 5 cards -> error in cards.txt format
+  /**
+   * Check's if the deck has enough cards to play the next hand
+   * @return a boolean that represents if this condition is true or false
+   */
     public boolean isEmpty(){
         if(deck.size() < 5)
             return true;

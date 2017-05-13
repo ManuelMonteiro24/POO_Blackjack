@@ -22,6 +22,7 @@ public abstract class Evaluator{
     /**
      * Updates this class static variable @hand with the hand received from @playersHand.
      * @param playersHand new hand value to update to
+     * @return instance of class Evaluator created
      */
     /*This method should be called once before the evaluation of the hand to set the hand for the evaluators*/
     public static void updateEvaluator(Hand playersHand){
