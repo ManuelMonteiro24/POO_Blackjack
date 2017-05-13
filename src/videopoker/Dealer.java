@@ -67,4 +67,12 @@ public class Dealer extends HandEvaluator{
         return 0;
     }
 
+    //check if deck is empty (DebugGame termination)
+    public boolean checkEmptyDeck(){
+      if(this.deck.isEmpty())
+        return true;
+      else
+        return false;
+    }
+
 }

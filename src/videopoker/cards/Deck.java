@@ -27,17 +27,26 @@ public class Deck{
   }
 
   //remove card from top of deck
-    public Card draw(){
-        Card aux = this.deck.get(0);
-        this.deck.remove(0);
-        return aux;
-    }
+  public Card draw(){
+    Card aux = this.deck.get(0);
+    this.deck.remove(0);
+    return aux;
+  }
 
   //return played cards to the deck
   public void receiveCards(Card[] cards){
     for(int i = 0; i < cards.length; i++)
       this.deck.add(cards[i]);
     System.out.printf("");
+  }
+
+  //check if deck is empty (debug mode termination),
+  //or less that 5 cards -> error in cards.txt format
+  public boolean isEmpty(){
+    if(deck.size() < 5)
+      return false;
+    else
+      return true;
   }
 
 }

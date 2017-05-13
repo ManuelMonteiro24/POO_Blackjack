@@ -150,12 +150,18 @@ public abstract class AbstractGame implements Game{
         HandRank playerRank = this.dealer.getHandRank();
         this.player.updateBalance(this.dealer.payout(this.betOnTheTable));
         this.player.updateScoreboard(playerRank);
-        this.dealer.receiveCards(this.player.releaseHand()); //return players cards to deck
+
+        if(this instanceof InteractiveGame) //Debug mode doesnt return cards played to deck
+          this.dealer.receiveCards(this.player.releaseHand()); //return players cards to deck
 
         if(playerRank != HandRank.NON && playerRank != HandRank.PAIR)
             System.out.println("player wins with a " + playerRank + " and his credit is " + this.player.getBalance());
         else
             System.out.println("player loses and his credit is " + this.player.getBalance());
+
+        if(this instanceof DebugGame) //check if there are more cards in deck in debug mode
+          if(this.dealer.checkEmptyDeck())  //if so terminate program
+            System.exit(0); //Correct??
 
     }
 
