@@ -4,8 +4,15 @@ import videopoker.utils.HandRank;
 
 class Foak extends Evaluator{
 
+  /**
+  * Creates an instance of class Foak
+  * @return instance of class Foak created
+  */
     Foak(){}
 
+    /**
+     * Checks if theres is 4 cards with the same value on the hand
+     */
     @Override
     public int[] evaluate(){
         if(handRank == HandRank.FOAK_5K || handRank == HandRank.FOAK_24 || handRank == HandRank.FOAK_A) {

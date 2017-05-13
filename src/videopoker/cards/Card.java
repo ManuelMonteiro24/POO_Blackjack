@@ -9,6 +9,12 @@ public class Card implements Comparable<Card>{
   private int value; //1 ... 14, A=1
   private char suite; //H S J D
 
+/**
+ * Create an instance of the class Card
+ * @param  int  value         value of the card
+ * @param  char suite         suite of the card
+ * @return      the instance of class Card created
+ */
   public Card(int value, char suite){
     this.value = value;
     this.suite = suite;
@@ -36,6 +42,11 @@ public class Card implements Comparable<Card>{
      */
   public boolean isHighCard(){ return (this.value == 1 || this.value > 10) ? true : false; }
 
+  /**
+   * Method to compare the values between two cards
+   * @param  Card other         Card to compare this card
+   * @return the result of the comparison 0 same value, 1 other smaller, -1 other greater
+   */
   @Override
   public int compareTo(Card other){
     if (this.getValue() > other.getValue())
@@ -47,6 +58,10 @@ public class Card implements Comparable<Card>{
 
   }
 
+  /**
+   * Method to put the description of the Card to a String
+   * @return a String with the description of the card
+   */
   @Override
   public String toString(){
 

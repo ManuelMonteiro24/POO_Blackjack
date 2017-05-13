@@ -22,6 +22,7 @@ public abstract class Evaluator{
     /**
      * Updates this class static variable @hand with the hand received from @playersHand.
      * @param playersHand new hand value to update to
+     * @return instance of class Evaluator created
      */
     /*This method should be called once before the evaluation of the hand to set the hand for the evaluators*/
     public static void updateEvaluator(Hand playersHand){
@@ -43,8 +44,6 @@ public abstract class Evaluator{
         int j1 = 1, j2 = 0, j3 = 0;
         int[] indexes2 = new int[3], indexes3 = new int[3], indexes1 = {0, -1, -1};
         char suit2 = '\0', suit3 = '\0', suit1 = hand[0].getSuit();
-
-        //MANEL REMOVI UM IF AQUI QUE ACHO QUE NAO ERA NECESSARIO, mas fazer check
 
         for(int i = 1; i < hand.length; i++) {
             if(hand[i].getSuit() == suit1) {

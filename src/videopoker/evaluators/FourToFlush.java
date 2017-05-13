@@ -2,8 +2,15 @@ package videopoker.evaluators;
 
 class FourToFlush extends Evaluator{
 
+  /**
+  * Creates an instance of class FourToFlush
+  * @return instance of class FourToFlush created
+  */
         FourToFlush(){}
 
+          /**
+           * Check if there are 4 cards in hand that could make a Flush
+           */
         @Override
         public int[] evaluate(){
                 int j1 = 1, j2 = 0;

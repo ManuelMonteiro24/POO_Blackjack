@@ -2,8 +2,16 @@ package videopoker.evaluators;
 
 class Ace extends Evaluator{
 
+    /**
+     * Creates an instance of class Ace
+     * @return instance of class Ace created
+     */
     Ace(){}
 
+
+    /**
+     * Checks if there is an Ace in the Hand
+     */
     @Override
     public int[] evaluate(){
         int[] ret = new int[1];

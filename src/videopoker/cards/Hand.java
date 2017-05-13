@@ -15,6 +15,7 @@ public class Hand{
 
     /**
      * Empty Hand object constructor.
+     * @return instance of class Hand created
      */
     public Hand(){}
 
@@ -22,6 +23,7 @@ public class Hand{
      * Returns an instance of this class with the corresponding @hand
      * instance variable initialized with the argument @hand Card array.
      * @param hand card to array to attribute to instance variable @hand.
+     * @return instance of class Hand created
      */
     public Hand(Card[] hand){
         this.hand = hand;
@@ -32,7 +34,7 @@ public class Hand{
      * cards which indexes are not present at @indexes, by the cards held at @newcards.
      * @param indexes array containig the indexes of the cards not to replace
      * @param newcards Card array with cards to replace
-     * @return
+     * @return the cards that the player replaced
      */
     public Card[] renewHand(int[] indexes, Card[] newcards){
         int aux = 0;
@@ -58,12 +60,16 @@ public class Hand{
 
     /**
      * Returns the card array at @hand.
-     * @return Card array @hand
+     * @return Card array @Hand
      */
     public Card[] toCardArray(){
         return this.hand;
     }
 
+    /**
+     * Method to put the description of the Hand to a String
+     * @return a String with the description of the hand
+     */
     @Override
     public String toString(){
         String ret = "";
