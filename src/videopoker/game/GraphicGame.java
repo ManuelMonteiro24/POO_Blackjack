@@ -175,10 +175,6 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 
 		c.setBackground(backgroundColor);
 
-		//validate();
-		//pack(); //NAO FAZ NADA??
-
-
 		buttons[STATSBTN].addActionListener(this);
 		buttons[BETBTN].addActionListener(this);
 		buttons[QUITBTN].addActionListener(this);
@@ -200,14 +196,12 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 	}
 
 	private void betStage() {
-		textArea.setText("Make a bet to start the round");
+		textArea.setText("Make a bet to start the round or deal if bet is setted");
 
 		betSlider.setEnabled(true);
 
 		betBtnFlag = true;
 		quitBtnFlag = true;
-		//buttons[BETBTN].addActionListener(this);
-		//buttons[QUITBTN].addActionListener(this);
 
 	}
 
@@ -215,7 +209,6 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 		textArea.setText("Press deal to receive hand");
 
 		dealBtnFlag = true;
-		//buttons[DEALBTN].addActionListener(this);
 	}
 
 	private void holdStage() {
@@ -226,8 +219,6 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 
 		holdBtnFlag = true;
 		adviceBtnFlag = true;
-		//buttons[HOLDBTN].addActionListener(this);
-		//buttons[ADVICEBTN].addActionListener(this);
 			
 	}
 
@@ -278,9 +269,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 			if (betBtnFlag) {
 
 				quitBtnFlag = false;
-				//buttons[QUITBTN].removeActionListener(this);
 				betBtnFlag = false;
-				//buttons[BETBTN].removeActionListener(this);
 
 				betSlider.setEnabled(false);
 
@@ -316,7 +305,6 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 			if (dealBtnFlag) {
 
 				dealBtnFlag = false;
-				//buttons[DEALBTN].removeActionListener(this);
 				
 				this.dealer.shuffleDeck();
 				this.player.setHand(this.dealer.dealFullHand());
@@ -340,9 +328,7 @@ public class GraphicGame extends JFrame implements Runnable, ActionListener {
 			if (holdBtnFlag) {
 
 				adviceBtnFlag = false;
-				//buttons[ADVICEBTN].removeActionListener(this);
 				holdBtnFlag = false;
-				//buttons[HOLDBTN].removeActionListener(this);
 
 				boolean[] indexes = new boolean[5];
 				int nToHold = 0;

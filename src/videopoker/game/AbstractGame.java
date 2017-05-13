@@ -34,6 +34,7 @@ public abstract class AbstractGame implements Game{
     protected Player player;
     protected Dealer dealer;
     protected int betOnTheTable;
+    protected boolean noBetDeal = false;
 
     public void betStage(){
         String input;
@@ -46,6 +47,25 @@ public abstract class AbstractGame implements Game{
             if((command = this.cmdHandler.validateCommand(input)) == 8) {
                 System.out.println("player quit the game with credit " + this.player.getBalance());
                 System.exit(0);
+            } else if ((command == 4) && (this.betOnTheTable > 0)) {
+                int bet;
+                if(this.betOnTheTable == 0)
+                    bet = 5;
+                else
+                    bet = this.betOnTheTable;
+
+                this.betOnTheTable = this.player.bet(bet);
+
+                if(this.betOnTheTable == 0) {
+                    System.out.println("player has no more funds");
+                    System.exit(0);
+                }
+                if (bet > this.betOnTheTable)
+                    System.out.println("player only has " + this.betOnTheTable + " credits, betted all");
+
+                this.noBetDeal = true;
+                break;
+                
             } else if(command == 2){ //empty bet b; bet same as previous bet, or 5 if no bet was placed before
                 int bet;
                 if(this.betOnTheTable == 0)
@@ -92,21 +112,27 @@ public abstract class AbstractGame implements Game{
         if(this instanceof InteractiveGame)
             this.dealer.shuffleDeck();
 
-        do {
-            if ((input = this.cmdHandler.getCommand(this.getClass())) == null)
-                System.exit(0);
-            valid = false;
-            if ((command = this.cmdHandler.validateCommand(input)) == 4) {
-                this.player.setHand(this.dealer.dealFullHand());
-                System.out.printf("player's hand "); this.player.showHand();
-                valid = true;
-            } else if(command == 7){
-                this.player.statistics();
-            } else if(command != 1)
-                System.out.println(input + ": illegal command");
-            else
-                System.out.println(this.player.getBalance());
-        } while(!valid);
+        if (noBetDeal) {
+            this.player.setHand(this.dealer.dealFullHand());
+            System.out.printf("player's hand "); this.player.showHand();
+            noBetDeal = false;
+        } else {
+            do {
+                if ((input = this.cmdHandler.getCommand(this.getClass())) == null)
+                    System.exit(0);
+                valid = false;
+                if ((command = this.cmdHandler.validateCommand(input)) == 4) {
+                    this.player.setHand(this.dealer.dealFullHand());
+                    System.out.printf("player's hand "); this.player.showHand();
+                    valid = true;
+                } else if(command == 7){
+                    this.player.statistics();
+                } else if(command != 1)
+                    System.out.println(input + ": illegal command");
+                else
+                    System.out.println(this.player.getBalance());
+            } while(!valid);
+        }
     }
 
     public void holdStage(){
