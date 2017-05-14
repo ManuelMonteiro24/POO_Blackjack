@@ -4,7 +4,6 @@ class QJSuited extends Evaluator{
 
   /**
   * Creates an instance of class QJSuited
-  * @return instance of class QJSuited created
   */
   QJSuited(){}
 

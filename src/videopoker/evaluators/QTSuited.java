@@ -5,7 +5,6 @@ class QTSuited extends Evaluator{
 
   /**
   * Creates an instance of class QTSuited
-  * @return instance of class QTSuited created
   */
   QTSuited(){}
 

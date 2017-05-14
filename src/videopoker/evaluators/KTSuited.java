@@ -4,7 +4,6 @@ class KTSuited extends Evaluator{
 
   /**
   * Creates an instance of class KTSuited
-  * @return instance of class KTSuited created
   */
   KTSuited(){}
 

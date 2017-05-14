@@ -15,7 +15,6 @@ public class Hand{
 
   /**
   * Empty Hand object constructor.
-  * @return instance of class Hand created
   */
   public Hand(){}
 
@@ -23,7 +22,6 @@ public class Hand{
     * Returns an instance of this class with the corresponding @hand
     * instance variable initialized with the argument @hand Card array.
     * @param hand card to array to attribute to instance variable @hand.
-    * @return instance of class Hand created
     */
     public Hand(Card[] hand){
       this.hand = hand;

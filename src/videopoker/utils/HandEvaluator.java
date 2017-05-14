@@ -116,7 +116,7 @@ public class HandEvaluator extends Evaluator {
      *
      * @param orderedIndexes indexes referencing the cards in an ordered array.
      * @param unorderedHand the player's original ordered cards.
-     * @return
+     * @return the indexes of the players unordered Hand cards to hold
      */
     public int[] indexOrderedToUnordered(int[] orderedIndexes, Hand unorderedHand) {
         Card[] unorderedCards = unorderedHand.toCardArray();

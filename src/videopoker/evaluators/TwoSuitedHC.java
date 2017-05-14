@@ -4,7 +4,6 @@ class TwoSuitedHC extends Evaluator{
 
   /**
   * Creates an instance of class TwoSuitedHC
-  * @return instance of class TwoSuitedHC created
   */
   TwoSuitedHC(){}
 

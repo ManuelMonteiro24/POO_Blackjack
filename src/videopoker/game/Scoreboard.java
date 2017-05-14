@@ -21,7 +21,6 @@ public class Scoreboard{
   * Scoreboard constructor receives initial player balance for posterior
   * comparison and gain calculation. Initializes all other attributes of
   * interest.
-  *
   * @param initialBalance players initial balance.
   */
   public Scoreboard(int initialBalance){

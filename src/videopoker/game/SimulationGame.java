@@ -21,10 +21,9 @@ public class SimulationGame implements Game{
   /**
   * SimulationGame constructor that instanciates an automatic Player that
   * in order to make bests play will follow a pre-defined strategy
-  * @param  int initialBalance player inicial balance
-  * @param  int bet            player bet constant bet
-  * @param  int nbDeals        number of deals that the game will have
-  * @return the instance of the class SimulationGame created
+  * @param  initialBalance player inicial balance
+  * @param  bet            player bet constant bet
+  * @param  nbDeals        number of deals that the game will have
   */
   public SimulationGame(int initialBalance, int bet, int nbDeals ){
     this.player = new Player(initialBalance);

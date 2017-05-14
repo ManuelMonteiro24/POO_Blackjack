@@ -6,7 +6,6 @@ class StraightFlushRoyalFlush extends Evaluator{
 
   /**
   * Creates an instance of class StraightFlushRoyalFlush
-  * @return instance of class StraightFlushRoyalFlush created
   */
   StraightFlushRoyalFlush(){}
 

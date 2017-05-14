@@ -6,7 +6,6 @@ class TwoPair extends Evaluator{
 
   /**
   * Creates an instance of class TwoPair
-  * @return instance of class TwoPair created
   */
   TwoPair(){}
 

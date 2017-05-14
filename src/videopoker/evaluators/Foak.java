@@ -6,7 +6,6 @@ class Foak extends Evaluator{
 
   /**
   * Creates an instance of class Foak
-  * @return instance of class Foak created
   */
   Foak(){}
 

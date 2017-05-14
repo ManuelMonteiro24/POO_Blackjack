@@ -19,8 +19,7 @@ public class InteractiveGame extends AbstractGame {
   * InteractiveGame constructor that instanciates a Player, a Dealer with a
   * complete 52 card deck and a CommandHandler that will read and validate
   * commmands read from the standard input.
-  * @param  int iniBalance    player initial balance
-  * @return the instance of class InteractiveGame created
+  * @param  iniBalance    player initial balance
   */
   public InteractiveGame(int iniBalance) {
     this.player = new Player(iniBalance);

@@ -22,7 +22,6 @@ public class Player{
   /**
   * Class constructor that initializes all instance variables.
   * @param balance initial player balance.
-  * @return the instance of the class Player created
   */
   public Player(int balance){
     this.hand = new Hand();
@@ -74,7 +73,7 @@ public class Player{
 
   /**
   * Sets a new value for the @hand instance variable.
-  * @param hand
+  * @param hand receives the player current hand
   */
   public void setHand(Hand hand){
     this.hand = hand;

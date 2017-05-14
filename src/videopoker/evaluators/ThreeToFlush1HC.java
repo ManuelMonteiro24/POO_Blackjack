@@ -4,7 +4,6 @@ class ThreeToFlush1HC extends Evaluator{
 
   /**
   * Creates an instance of class ThreeToFlush1HC
-  * @return instance of class ThreeToFlush1HC created
   */
   ThreeToFlush1HC(){}
 

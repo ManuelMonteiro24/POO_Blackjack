@@ -6,7 +6,6 @@ class HighPair extends Evaluator{
 
   /**
   * Creates an instance of class HighPair
-  * @return instance of class HighPair created
   */
   HighPair(){}
 

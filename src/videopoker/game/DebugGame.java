@@ -28,10 +28,9 @@ public class DebugGame extends AbstractGame{
   * DebugGame constructor that instanciates a Player, a Dealer with a specific set
   * of cards to use in the deck and a CommandHandler that will read and validates
   * commmands read from a file.
-  * @param  int    iniBalance    player inicial balance
-  * @param  String cmdFile       name of the file to read the commmands
-  * @param  String cardsFile     name of  the file to read the cards
-  * @return the instance of class DebugGame created
+  * @param  iniBalance    player inicial balance
+  * @param  cmdFile       name of the file to read the commmands
+  * @param  cardsFile     name of  the file to read the cards
   */
   public DebugGame(int iniBalance, String cmdFile, String cardsFile){
     this.player = new Player(iniBalance);
@@ -56,10 +55,10 @@ public class DebugGame extends AbstractGame{
       Scanner scan = new Scanner(cards);
       while (scan.hasNext()) {
         buf = scan.next().toCharArray();
-        if(buf.length !=2 || !(buf[1] == 'C' || buf[1] == 'D' || buf[1] == 'H' || buf[1] == 'S')){
+        /*if(buf.length !=2 || !(buf[1] == 'C' || buf[1] == 'D' || buf[1] == 'H' || buf[1] == 'S')){
           System.out.println("Invalid Card file");
-          System.out.exit();
-        }
+          System.exit(1);
+        }*/
 
         switch(buf[0]){
           case 'A':
@@ -79,10 +78,10 @@ public class DebugGame extends AbstractGame{
           break;
           default:
           cardNum = (int) buf[0] - 48;
-          if(cardNum < 2 || cardNum > 9){
+          /*if(cardNum < 2 || cardNum > 9){
             System.out.println("Invalid Card file");
-            System.out.exit();
-          }
+            System.exit(1);
+          }*/
           break;
         }
 

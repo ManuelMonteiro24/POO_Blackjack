@@ -4,7 +4,6 @@ class KQJUnsuited extends Evaluator{
 
   /**
   * Creates an instance of class KQJUnsuited
-  * @return instance of class KQJUnsuited created
   */
   KQJUnsuited(){}
 

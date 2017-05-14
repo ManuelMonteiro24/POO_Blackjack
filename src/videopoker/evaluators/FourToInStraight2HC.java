@@ -4,7 +4,6 @@ class FourToInStraight2HC extends Evaluator{
 
   /**
   * Creates an instance of class FourToInStraight2HC
-  * @return instance of class FourToInStraight2HC created
   */
   FourToInStraight2HC(){}
 

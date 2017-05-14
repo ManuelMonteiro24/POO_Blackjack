@@ -4,7 +4,6 @@ class JackQueenKing extends Evaluator{
 
   /**
   * Creates an instance of class JackQueenKing
-  * @return instance of class JackQueenKing created
   */
   JackQueenKing(){}
 

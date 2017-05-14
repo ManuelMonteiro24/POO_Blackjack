@@ -6,7 +6,6 @@ class LowPair extends Evaluator{
 
   /**
   * Creates an instance of class LowPair
-  * @return instance of class LowPair created
   */
   LowPair(){}
 

@@ -6,7 +6,6 @@ class StraightFlushFullHouse extends Evaluator{
 
   /**
   * Creates an instance of class StraightFlushFullHouse
-  * @return instance of class StraightFlushFullHouse created
   */
   StraightFlushFullHouse(){}
 

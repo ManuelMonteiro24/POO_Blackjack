@@ -19,7 +19,6 @@ public class Adviser{
   * Adviser constructor initializes the @evaluators list with all the different evaluators.
   * The order in which they're added to list is important for it will be same order that the
   * the static variable @hand shared by all Evaluator instances will be evaluated.
-  * @return instance of class Adviser created
   */
   public Adviser(){
     this.evaluators = new ArrayList<Evaluator>();

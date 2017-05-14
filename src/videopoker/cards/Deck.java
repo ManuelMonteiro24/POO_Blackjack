@@ -16,7 +16,6 @@ public class Deck{
   /**
   * This Deck constructor initializes a deck with 52 distinct cards
   * represented by a unique value/suit combination.
-  * @return instance of class Deck created
   */
   public Deck(){
     this.deck = new ArrayList<Card>(52);
@@ -29,7 +28,6 @@ public class Deck{
   * This deck constructor instanciates a new Deck object initialized
   * with and external set of cards from @customDeck.
   * @param customDeck deck to be used in this Deck instance.
-  * @return instance of class Deck created
   */
   public Deck(ArrayList<Card> customDeck){
     deck = customDeck;

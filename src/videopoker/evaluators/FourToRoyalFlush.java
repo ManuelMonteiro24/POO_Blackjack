@@ -6,7 +6,6 @@ class FourToRoyalFlush extends Evaluator{
 
   /**
   * Creates an instance of class FourToRoyalFlush
-  * @return instance of class FourToRoyalFlush created
   */
   FourToRoyalFlush(){}
 

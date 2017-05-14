@@ -4,10 +4,9 @@ class FourToStraightFlush extends Evaluator{
 
   /**
   * Creates an instance of class FourToStraightFlush
-  * @return instance of class FourToStraightFlush created
   */
   FourToStraightFlush(){}
-    
+
     /**
     * Check if there are 4 cards that could make a Straight Flush
     */
@@ -15,7 +14,6 @@ class FourToStraightFlush extends Evaluator{
     public int[] evaluate(){
       int[] indexes;
       int i, straight1, straight2;
-      t
       FourToFlush ftf = new FourToFlush();
       if ((indexes = ftf.evaluate()) == null)
       return null;

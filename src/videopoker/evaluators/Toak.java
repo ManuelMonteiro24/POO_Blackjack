@@ -6,7 +6,6 @@ class Toak extends Evaluator{
 
   /**
   * Creates an instance of class Toak
-  * @return instance of class Toak created
   */
   Toak(){}
 

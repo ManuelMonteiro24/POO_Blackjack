@@ -4,7 +4,6 @@ class JTSuited extends Evaluator{
 
   /**
   * Creates an instance of class JTSuited
-  * @return instance of class JTSuited created
   */
   JTSuited(){}
 

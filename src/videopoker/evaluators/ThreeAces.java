@@ -6,7 +6,6 @@ class ThreeAces extends Evaluator{
 
   /**
   * Creates an instance of class ThreeAces
-  * @return instance of class ThreeAces created
   */
   ThreeAces(){}
 

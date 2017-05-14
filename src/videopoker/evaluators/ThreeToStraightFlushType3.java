@@ -4,7 +4,6 @@ class ThreeToStraightFlushType3 extends Evaluator{
 
   /**
   * Creates an instance of class ThreeToStraightFlushType3
-  * @return instance of class ThreeToStraightFlushType3 created
   */
   ThreeToStraightFlushType3(){}
 

@@ -4,7 +4,6 @@ class FourToOutStraight extends Evaluator{
 
   /**
   * Creates an instance of class FourToOutStraight
-  * @return instance of class FourToOutStraight created
   */
   FourToOutStraight(){}
 

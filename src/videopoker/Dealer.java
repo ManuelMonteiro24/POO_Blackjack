@@ -25,7 +25,6 @@ public class Dealer extends HandEvaluator {
   /**
   * Empty Dealer constructor. Initializes the instance attributes and calls its
   * super class constructor. Returns a Dealer instance with a full 52 card deck.
-  * @return the instance of the class Dealer created
   */
   public Dealer() {
     super();
@@ -38,7 +37,6 @@ public class Dealer extends HandEvaluator {
   * that it instanciates a Dealer object with a custom Deck containing only the cards @customDeck.
   *
   * @param customDeck ArrayList of Card objects to initialize the deck @deck with.
-  * @return the instance of the class Dealer created
   */
   public Dealer(ArrayList<Card> customDeck) {
     super();

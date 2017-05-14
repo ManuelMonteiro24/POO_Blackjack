@@ -4,7 +4,6 @@ class Ace extends Evaluator{
 
   /**
   * Creates an instance of class Ace
-  * @return instance of class Ace created
   */
   Ace(){}
 

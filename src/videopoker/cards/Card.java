@@ -11,9 +11,8 @@ public class Card implements Comparable<Card>{
 
   /**
   * Create an instance of the class Card
-  * @param  int  value         value of the card
-  * @param  char suite         suite of the card
-  * @return      the instance of class Card created
+  * @param  value         value of the card
+  * @param  suite         suite of the card
   */
   public Card(int value, char suite){
     this.value = value;
@@ -44,7 +43,7 @@ public class Card implements Comparable<Card>{
 
   /**
   * Method to compare the values between two cards
-  * @param  Card other         Card to compare this card
+  * @param  other         Card to compare this card
   * @return the result of the comparison 0 same value, 1 other smaller, -1 other greater
   */
   @Override
