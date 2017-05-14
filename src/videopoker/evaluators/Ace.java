@@ -1,5 +1,11 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if there is an Ace in the Hand
+ */
+
 class Ace extends Evaluator{
 
   /**
@@ -9,7 +15,7 @@ class Ace extends Evaluator{
 
 
     /**
-    * Checks if there is an Ace in the Hand
+    * Method that checks if there is an Ace in the Hand
     */
     @Override
     public int[] evaluate(){

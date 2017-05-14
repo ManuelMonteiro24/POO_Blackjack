@@ -1,5 +1,11 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if exists three cards that could make a Royal Flush, with one gap,
+ * or with two gaps and one High Card (A,J,Q,K), or any ace-low, or 234 suited
+ */
 class ThreeToStraightFlushType2 extends Evaluator{
 
   /**
@@ -8,7 +14,7 @@ class ThreeToStraightFlushType2 extends Evaluator{
   ThreeToStraightFlushType2(){}
 
     /**
-    * Checks if exists three cards that could make a Royal Flush, with one gap,
+    * Method that checks if exists three cards that could make a Royal Flush, with one gap,
     * or with two gaps and one High Card (A,J,Q,K), or any ace-low, or 234 suited
     */
     @Override

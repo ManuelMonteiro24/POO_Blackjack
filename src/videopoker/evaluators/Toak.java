@@ -2,6 +2,11 @@ package videopoker.evaluators;
 
 import videopoker.utils.HandRank;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if exists three cards with the same value in the hand
+ */
 class Toak extends Evaluator{
 
   /**
@@ -10,7 +15,7 @@ class Toak extends Evaluator{
   Toak(){}
 
     /**
-    * Checks if exists three cards with the same value in the hand
+    * Method that checks if exists three cards with the same value in the hand
     */
     @Override
     public int[] evaluate(){

@@ -1,5 +1,10 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if there are 4 cards that could make a Straight Flush
+ */
 class FourToStraightFlush extends Evaluator{
 
   /**
@@ -8,7 +13,7 @@ class FourToStraightFlush extends Evaluator{
   FourToStraightFlush(){}
 
     /**
-    * Check if there are 4 cards that could make a Straight Flush
+    * Method that checks if there are 4 cards that could make a Straight Flush
     */
     @Override
     public int[] evaluate(){

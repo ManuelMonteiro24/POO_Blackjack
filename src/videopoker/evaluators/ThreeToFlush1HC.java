@@ -1,5 +1,11 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if exists three cards in the hand that could make a Flush where
+ * one of them is a high Card (J,Q,K,A)
+ */
 class ThreeToFlush1HC extends Evaluator{
 
   /**
@@ -8,7 +14,7 @@ class ThreeToFlush1HC extends Evaluator{
   ThreeToFlush1HC(){}
 
     /**
-    * Checks if exists three cards in the hand that could make a Flush where
+    * Method that checks if exists three cards in the hand that could make a Flush where
     * one of them is a high Card (J,Q,K,A)
     */
     @Override

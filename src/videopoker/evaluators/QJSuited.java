@@ -1,5 +1,10 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if exists a Queen and a Jack from the same suit in the hand
+ */
 class QJSuited extends Evaluator{
 
   /**
@@ -8,7 +13,7 @@ class QJSuited extends Evaluator{
   QJSuited(){}
 
     /**
-    * Checks if exists a Queen and a Jack from the same suit in the hand
+    * Method that checks if exists a Queen and a Jack from the same suit in the hand
     */
     @Override
     public int[] evaluate(){

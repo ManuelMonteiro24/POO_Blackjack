@@ -2,6 +2,11 @@ package videopoker.evaluators;
 
 import videopoker.utils.HandRank;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if exists a pair (without highcards J,Q,K,A) in the hand
+ */
 class LowPair extends Evaluator{
 
   /**
@@ -10,7 +15,7 @@ class LowPair extends Evaluator{
   LowPair(){}
 
     /**
-    * Checks if exists a pair (without highcards J,Q,K,A) in the hand
+    * Method that checks if exists a pair (without highcards J,Q,K,A) in the hand
     */
     @Override
     public int[] evaluate(){

@@ -1,5 +1,10 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if exists a Jack and Queen of the same suit in the hand
+ */
 class JTSuited extends Evaluator{
 
   /**
@@ -8,7 +13,7 @@ class JTSuited extends Evaluator{
   JTSuited(){}
 
     /**
-    * Checks if exists a Jack and Queen of the same suit in the hand
+    * Method that checks if exists a Jack and Queen of the same suit in the hand
     */
     @Override
     public int[] evaluate(){

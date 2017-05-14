@@ -1,5 +1,10 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if exists two High Cards (J,Q,K,A) from the same suit in the hands
+ */
 class TwoSuitedHC extends Evaluator{
 
   /**
@@ -8,7 +13,7 @@ class TwoSuitedHC extends Evaluator{
   TwoSuitedHC(){}
 
     /**
-    * Checks if exists two High Cards (J,Q,K,A) from the same suit in the hand
+    * Method that checks if exists two High Cards (J,Q,K,A) from the same suit in the hand
     */
     @Override
     public int[] evaluate(){

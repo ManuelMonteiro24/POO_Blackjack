@@ -1,5 +1,11 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if there in an A,K,Q and J in the hand
+ */
+
 class AKQJUnsuited extends Evaluator{
 
   /**
@@ -8,7 +14,7 @@ class AKQJUnsuited extends Evaluator{
   AKQJUnsuited(){}
 
     /**
-    * Checks if there in an A,K,Q and J in the hand
+    * Method that checks if there in an A,K,Q and J in the hand
     */
     @Override
     public int[] evaluate(){

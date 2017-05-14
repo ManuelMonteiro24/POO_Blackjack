@@ -1,5 +1,10 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ * Checks if the are 4 cards in hand that could make a Straight
+ * in which one of them are an High card (J,Q,K,A)
+ */
 class FourToInStraight1HC extends Evaluator{
 
   /**
@@ -8,7 +13,7 @@ class FourToInStraight1HC extends Evaluator{
   FourToInStraight1HC(){}
 
     /**
-    * Checks if the are 4 cards in hand that could make a Straight
+    * Method that checks if the are 4 cards in hand that could make a Straight
     * in which one of them are an High card (J,Q,K,A)
     */
     @Override

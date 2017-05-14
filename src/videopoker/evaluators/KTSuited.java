@@ -1,5 +1,10 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if exists a King and a Ten of the same suit in hand
+ */
 class KTSuited extends Evaluator{
 
   /**
@@ -8,7 +13,7 @@ class KTSuited extends Evaluator{
   KTSuited(){}
 
     /**
-    * Checks if exists a King and a Ten of the same suit in hand
+    * Method that checks if exists a King and a Ten of the same suit in hand
     */
     @Override
     public int[] evaluate(){

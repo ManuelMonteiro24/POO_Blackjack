@@ -1,5 +1,9 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ * Check if there are 4 cards in hand that could make a Flush
+ */
 class FourToFlush extends Evaluator{
 
   /**
@@ -8,7 +12,7 @@ class FourToFlush extends Evaluator{
   FourToFlush(){}
 
     /**
-    * Check if there are 4 cards in hand that could make a Flush
+    * Method that checks if there are 4 cards in hand that could make a Flush
     */
     @Override
     public int[] evaluate(){

@@ -1,5 +1,10 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if exists three cards that could make a Royal Flush
+ */
 class ThreeToRoyalFlush extends Evaluator{
 
   /**
@@ -8,7 +13,7 @@ class ThreeToRoyalFlush extends Evaluator{
   ThreeToRoyalFlush(){}
 
     /**
-    * Checks if exists three cards that could make a Royal Flush
+    * Method that checks if exists three cards that could make a Royal Flush
     */
     @Override
     public int[] evaluate(){

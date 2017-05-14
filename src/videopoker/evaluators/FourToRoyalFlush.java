@@ -2,6 +2,11 @@ package videopoker.evaluators;
 
 import java.util.Arrays;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if there are 4 cards that could make a Royal flush
+ */
 class FourToRoyalFlush extends Evaluator{
 
   /**
@@ -10,7 +15,7 @@ class FourToRoyalFlush extends Evaluator{
   FourToRoyalFlush(){}
 
     /**
-    * Checks if there are 4 cards that could make a Royal flush
+    * Method that checks if there are 4 cards that could make a Royal flush
     */
 
     @Override

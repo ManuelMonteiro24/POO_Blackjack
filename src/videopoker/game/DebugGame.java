@@ -55,10 +55,6 @@ public class DebugGame extends AbstractGame{
       Scanner scan = new Scanner(cards);
       while (scan.hasNext()) {
         buf = scan.next().toCharArray();
-        /*if(buf.length !=2 || !(buf[1] == 'C' || buf[1] == 'D' || buf[1] == 'H' || buf[1] == 'S')){
-          System.out.println("Invalid Card file");
-          System.exit(1);
-        }*/
 
         switch(buf[0]){
           case 'A':
@@ -78,10 +74,6 @@ public class DebugGame extends AbstractGame{
           break;
           default:
           cardNum = (int) buf[0] - 48;
-          /*if(cardNum < 2 || cardNum > 9){
-            System.out.println("Invalid Card file");
-            System.exit(1);
-          }*/
           break;
         }
 

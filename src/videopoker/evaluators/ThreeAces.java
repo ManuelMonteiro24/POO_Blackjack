@@ -2,6 +2,11 @@ package videopoker.evaluators;
 
 import videopoker.utils.HandRank;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if exists three Aces in the hand
+ */
 class ThreeAces extends Evaluator{
 
   /**
@@ -10,7 +15,7 @@ class ThreeAces extends Evaluator{
   ThreeAces(){}
 
     /**
-    * Checks if exists three Aces in the hand
+    * Method that checks if exists three Aces in the hand
     */
     @Override
     public int[] evaluate(){

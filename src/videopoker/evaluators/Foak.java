@@ -2,6 +2,10 @@ package videopoker.evaluators;
 
 import videopoker.utils.HandRank;
 
+/**
+ * Subclass of Evaluator
+ * checks if theres is 4 cards with the same value on the hand
+ */
 class Foak extends Evaluator{
 
   /**
@@ -10,7 +14,7 @@ class Foak extends Evaluator{
   Foak(){}
 
     /**
-    * Checks if theres is 4 cards with the same value on the hand
+    * Method that checks if theres is 4 cards with the same value on the hand
     */
     @Override
     public int[] evaluate(){

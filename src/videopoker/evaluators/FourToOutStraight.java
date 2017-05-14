@@ -1,5 +1,11 @@
 package videopoker.evaluators;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if there are 4 cards that could make a Straight
+ *
+ */
 class FourToOutStraight extends Evaluator{
 
   /**
@@ -8,7 +14,7 @@ class FourToOutStraight extends Evaluator{
   FourToOutStraight(){}
 
     /**
-    * Checks if there are 4 cards that could make a Straight
+    * Method that hecks if there are 4 cards that could make a Straight
     */
 
     @Override

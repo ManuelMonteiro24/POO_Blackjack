@@ -2,6 +2,11 @@ package videopoker.evaluators;
 
 import videopoker.utils.HandRank;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if there is a pair of Jacks, Queens , King or Aces in hand
+ */
 class HighPair extends Evaluator{
 
   /**
@@ -10,7 +15,7 @@ class HighPair extends Evaluator{
   HighPair(){}
 
     /**
-    * Check if there is a pair of Jacks, Queens , King or Aces in hand
+    * Method that checks if there is a pair of Jacks, Queens , King or Aces in hand
     */
     @Override
     public int[] evaluate(){

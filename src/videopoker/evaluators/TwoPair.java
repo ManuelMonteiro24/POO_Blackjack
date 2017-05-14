@@ -2,6 +2,11 @@ package videopoker.evaluators;
 
 import videopoker.utils.HandRank;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if exists two pairs in the hand
+ */
 class TwoPair extends Evaluator{
 
   /**
@@ -10,7 +15,7 @@ class TwoPair extends Evaluator{
   TwoPair(){}
 
     /**
-    * Checks if exists two pairs in the hand
+    * Method that checks if exists two pairs in the hand
     */
     @Override
     public int[] evaluate(){

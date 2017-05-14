@@ -2,6 +2,11 @@ package videopoker.evaluators;
 
 import videopoker.utils.HandRank;
 
+/**
+ * Subclass of Evaluator
+ *
+ * Checks if exists a Straight Flush or a Royal Flush in the hand
+ */
 class StraightFlushRoyalFlush extends Evaluator{
 
   /**
@@ -10,7 +15,7 @@ class StraightFlushRoyalFlush extends Evaluator{
   StraightFlushRoyalFlush(){}
 
     /**
-    * Checks if exists a Straight Flush or a Royal Flush in the hand
+    * Method that checks if exists a Straight Flush or a Royal Flush in the hand
     */
     @Override
     public int[] evaluate(){
